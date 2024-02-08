@@ -1,0 +1,7 @@
+.img-container{
+    background-image: url('portada.jpg');
+      /* Ajustar la imagen de fondo */
+
+      min-height: 40em;
+      max-width: none;
+}

@@ -1,86 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-
-    <link href="Perfil.css" rel="stylesheet">
+    <link href="Perfil.css" rel="stylesheet" />
     <title>Inicio</title>
-   
-</head>
+  </head>
 
-<body>
+  <body>
     <!--NAVBAR-->
     <div class="pos-f-t">
-        <nav class="navbar navbar-dark bg-dark p-1 align-items-center align-text-center">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <h1 class="text-white text-center">LOGOTIPO</h1>
-            <a href="./presentacion.html">
-                <button class="btn btn-dark">Cerrar Sesión</button>
-            </a>
-        </nav>
+      <nav
+        class="navbar navbar-dark bg-dark p-1 align-items-center align-text-center"
+      >
+        <button
+          class="navbar-toggler navbar-toggler-right"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <h1 class="text-white text-center">LOGOTIPO</h1>
+        <a href="./presentacion.html">
+          <button class="btn btn-dark">Cerrar Sesión</button>
+        </a>
+      </nav>
     </div>
 
     <div class="collapse" id="navbarToggleExternalContent">
-        <ul class="d-flex align-items-end navbar-nav ml-lg-auto">
-            <li class="nav-item text-right"><a class="nav-link" href="busqueda.html">Busqueda</a></li>
-            <li class="nav-item text-right"><a class="nav-link" href="home.html">Home</a></li>
-            <li class="nav-item text-right"><a class="nav-link" href="login.html">Login</a></li>
-            <li class="nav-item text-right"><a class="nav-link" href="admin.html">Admin</a></li>
-            <li class="nav-item text-right"><a class="nav-link" href="contenido.html">Contenido</a></li>
-        </ul>
+      <ul class="d-flex align-items-end navbar-nav ml-lg-auto">
+        <li class="nav-item text-right">
+          <a class="nav-link" href="busqueda.html">Busqueda</a>
+        </li>
+        <li class="nav-item text-right">
+          <a class="nav-link" href="home.html">Home</a>
+        </li>
+        <li class="nav-item text-right">
+          <a class="nav-link" href="login.html">Login</a>
+        </li>
+        <li class="nav-item text-right">
+          <a class="nav-link" href="admin.html">Admin</a>
+        </li>
+        <li class="nav-item text-right">
+          <a class="nav-link" href="contenido.html">Contenido</a>
+        </li>
+      </ul>
     </div>
 
     <div class="container contenidoPerfil">
-        <h1 class="mb-4">NOMBRE DE USUARIO</h1>
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="img/portada.jpg" alt="portada">
-                    <div class="card-body text-center">
-                        <h6 class="card-title">Stranger Things</h6>
-                    </div>
-                </div>
+      <h1 class="mb-4">NOMBRE DE USUARIO</h1>
+      <h2>Lista de Reproducción</h2>
+      <p>Tus peliculas, series y libros</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">Stranger Things</h6>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="img/portada.jpg" alt="portada">
-                    <div class="card-body text-center">
-                        <h6 class="card-title">Juego de Tronos</h6>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">Juego de Tronos</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">El Mentalista</h6>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <hr>
+      <hr />
 
-        <h2>Ya visto</h2>
-        <p>Ve más series, películas o libros para rellenar este espacio.</p>
+      <h2>Ya visto</h2>
+      <p>Ve más series, películas o libros para rellenar este espacio.</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">Breaking bad</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">Arcane</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+            <div class="card-body text-center">
+              <h6 class="card-title">Drag Race</h6>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <hr>
+      <hr />
 
-        <h2>Mis Comentarios</h2>
-        <p>Aquí van tus Comentarios.</p>
+      <h2>Mis Comentarios</h2>
+      <p>Aquí van tus Comentarios.</p>
 
-        <hr>
+      <hr />
 
-        <h2>Mis Reseñas</h2>
-        <p>Todavía no hay reseñas, ¡Animate y publica una!</p>
+      <h2>Mis Reseñas</h2>
+      <p>Todavía no hay reseñas, ¡Animate y publica una!</p>
     </div>
 
     <footer>
-        <p>Copyright 2024 ©️</p>
+      <p>Copyright 2024 ©️</p>
     </footer>
-</body>
-
+  </body>
 </html>

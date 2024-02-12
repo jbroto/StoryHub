@@ -33,3 +33,24 @@ footer {
   background-color: #343a40;
   color: white;
 }
+.navbar {
+  background-color: transparent;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.navbar:hover {
+  background-color: rgba(58, 48, 67, 0.2);
+}
+
+.navbar-brand,
+.navbar-nav a {
+  color: rgb(126, 124, 124);
+  position: center;
+}
+
+
+.navbar-toggler {
+  border: none;
+}
+

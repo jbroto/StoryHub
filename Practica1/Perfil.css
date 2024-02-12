@@ -1,24 +1,7 @@
-.img-container{
-    background-image: url('img/portada.jpg');
-    background-size: cover;
-      /* Ajustar la imagen de fondo */
-
-      min-height: 40em;
-      max-width: none;
-}
-
-a, .card, .card-body{
-  text-decoration: none;
-}
-
-footer{
-  background-color: rgb(22, 22, 22);
-  padding: 1em;
-  color: #fff;
-}
 body {
   background-color: #f8f9fa;
   font-family: 'Arial', sans-serif;
+  margin: 0;
 }
 
 .navbar {
@@ -26,7 +9,13 @@ body {
 }
 
 .contenidoPerfil {
+  max-width: 600px;
+  text-align: center;
   padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: auto; /* Añadido para centrar horizontalmente */
+  margin-top: 10vh; /* Ajusta según tus preferencias para centrar verticalmente */
 }
 
 .card {

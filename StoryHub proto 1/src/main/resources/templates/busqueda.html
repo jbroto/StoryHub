@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Búsqueda</title>
+    <link href="busqueda.css" rel="stylesheet">
+</head>
+<body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <section class="container justify-content-center" id="mi-lista">
+        <div class="container barraBusqueda mt-3">
+            <input type="text" placeholder="Buscar">
+        </div>
+        <h2>Resultados: </h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex">
+                <a th:href="@{/contenido}" > 
+                <div class="card">
+                  <img class="card-img" src="img/portada.jpg" alt="portada">
+                    <a class="card-body">
+                        <h6>Stranger Things</h6>
+                        <p>Stranger Things es una serie de televisión web estadounidense de suspenso y ciencia ficción coproducida y distribuida por Netflix
+                        </p>
+                    </a>
+                </a>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

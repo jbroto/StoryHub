@@ -1,5 +1,5 @@
 .img-container{
-    background-image: url('../img/portada.jpg');
+    background-image: url('img/portada.jpg');
     background-size: cover;
       /* Ajustar la imagen de fondo */
 
@@ -38,12 +38,20 @@ body {
   transform: scale(1.05);
 }
 
-.c-footer {
+footer {
   text-align: center;
   padding: 20px 0;
   background-color: #343a40;
   color: white;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+}
+
+.barraBusqueda {
+    display: flex;
+    justify-content: center;
+}
+
+input{
+    box-sizing: border-box;
+    width: 500px;
+    border-radius: 50px;
 }

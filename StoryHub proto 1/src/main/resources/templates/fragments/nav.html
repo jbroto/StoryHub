@@ -12,62 +12,65 @@
         <!--NAVBAR-->
     <div class="pos-f-t">
 
-        <nav class="navbar navbar-dark bg-dark p-1 align-items-center align-text-center">
-            <ul>
+        <!-- <nav class="navbar navbar-dark bg-dark p-1 align-items-center align-text-center"> -->
+        
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
-                
-            </ul>
-
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
+            <!-- LOGOTIPO -->
             <a class="navbar-logo" href=#>
-                <img src = "../../static/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="70">
+                <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="50">
             </a>
 
-            <a th:href="@{/home}">
-                <button class="btn btn-dark">Inicia Sesión</button>
-            </a>
-            <th:block th:unless="${session.u}">
-                            <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/login}" href="/login">Login</a>
-                            </li>
-                            <!--/*
-                                Esto es un comentario "thymeleaf" - no se verá en el HTML
-                                El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
-                                    (ver StartupConfig.java para ver cómo se lee de la configuración
-                                    y luego se escribe a ${application.debug})
-                            */-->
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="a">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
-                                </form>
-                            </li>
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="b">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
-                                </form>
-                            </li>
-                        </th:block>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item "><a class="nav-link" th:href="@{/home}">Home</a></li>
+                    <li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li>
+                    <li class="nav-item "><a class="nav-link" th:href="@{/admin}">Admin</a></li>
+                    <li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>
+                     <!--/*
+                        Esto es un comentario "thymeleaf" - no se verá en el HTML
+                        El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
+                            (ver StartupConfig.java para ver cómo se lee de la configuración
+                            y luego se escribe a ${application.debug})
+                    */-->
+
+                </ul>
+              </div>
+
+              <th:block th:if="${session.u}">
+              <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </th:block>
+
+
+              <th:block th:unless="${session.u}">
+
+                   
+                    <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                        <form class="d-flex" th:action="@{/login}" method="post">
+                            <input type="hidden" name="username" value="a">
+                            <input type="hidden" name="password" value="aa">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
+                        </form>
+                    </li>
+                    <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                        <form class="d-flex" th:action="@{/login}" method="post">
+                            <input type="hidden" name="username" value="b">
+                            <input type="hidden" name="password" value="aa">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
+                        </form>
+                    </li>
+                </th:block>
+
+    
         </nav>
     </div>
 
-    <div class="collapse" id="navbarToggleExternalContent">
-        <ul class="d-flex align-items-right navbar-nav ml-lg-auto">
-            <li class="nav-item text-right"><a class="nav-link" th:href="@{/busqueda}">Busqueda</a></li>
-                <li class="nav-item text-right"><a class="nav-link" th:href="@{/home}">Home</a></li>
-                <li class="nav-item text-right"><a class="nav-link" th:href="@{/login}">Login</a></li>
-                <li class="nav-item text-right"><a class="nav-link" th:href="@{/admin}">Admin</a></li>
-                <li class="nav-item text-right"><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>
-        </ul>
-    </div>
     </header>
 </body>
 

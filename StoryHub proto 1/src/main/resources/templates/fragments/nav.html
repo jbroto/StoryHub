@@ -24,37 +24,37 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
             <!-- LOGOTIPO -->
-            <a class="navbar-logo" th:href="@{/home}">
-                <img src="/img/StoryHubLogoW.png" alt="LOGO" display:block width:100% height="50">
+            <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/home}" href="/home">
+                <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
+                <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
             </a>
 
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item "><a class="nav-link" th:href="@{/home}">Home</a></li>
-                    <li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li>
-                    <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">Admin</a></li>
-                    <li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>
-                    <!--/*
-                        Esto es un comentario "thymeleaf" - no se verá en el HTML
-                        El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
-                            (ver StartupConfig.java para ver cómo se lee de la configuración
-                            y luego se escribe a ${application.debug})
-                    */-->
-
-                </ul>
-            </div>
-
             <th:block th:if="${session.u}">
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </th:block>
+                   <!-- menu hamburguesa si no cabe todo -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
 
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item "><a class="nav-link" th:href="@{/home}">Home</a></li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">Admin</a></li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>
+                        <!--/*
+                            Esto es un comentario "thymeleaf" - no se verá en el HTML
+                            El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
+                                (ver StartupConfig.java para ver cómo se lee de la configuración
+                                y luego se escribe a ${application.debug})
+                        */-->   
+    
+                    </ul>
+                    <form class="d-flex ms-auto me-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>   
+                </div>
+            </th:block>
 
             <th:block th:unless="${session.u}">
 

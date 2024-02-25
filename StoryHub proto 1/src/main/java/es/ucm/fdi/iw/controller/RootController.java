@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Non-authenticated requests only.
@@ -32,7 +32,7 @@ public class RootController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        return "home";
+        return "user";
     }
 
     @GetMapping("/contenido")
@@ -40,9 +40,11 @@ public class RootController {
         return "contenido";
     }
 
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        return "admin";
+    @GetMapping("/adminreport")
+    public String adminreport(Model model) {
+        return "adminreport";
     }
+
+    
 
 }

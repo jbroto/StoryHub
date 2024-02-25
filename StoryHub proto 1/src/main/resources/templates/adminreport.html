@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Reportar</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="css/admin.css" type="text/css" />
+</head>
+
+<body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <div class="container">
+        <h1 class="mt-5 mb-4">Deja tu comentario para los administradores</h1>
+        <form action="enviar_comentario.php" method="post">
+            <div class="mb-3">
+                <label for="asunto" class="form-label">Asunto:</label>
+                <input type="text" class="form-control" id="asunto" name="asunto" required>
+            </div>
+            <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje:</label>
+                <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+        </form>
+    </div>
+
+    <footer>
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </footer>
+</body>
+
+</html>

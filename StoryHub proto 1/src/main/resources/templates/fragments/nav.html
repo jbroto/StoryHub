@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
             <!-- LOGOTIPO -->
-            <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/home}" href="/home">
+            <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/home}">
                 <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
                 <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
             </a>
@@ -37,7 +37,26 @@
 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item "><a class="nav-link" th:href="@{/home}">Home</a></li>
+                        <!-- DROPDOWN DEL PERFIL" -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+                                <span th:text="${session.u.username}">Pepe</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/home">Home</a>
+                                <a class="dropdown-item" href="/contenido">Peliculas</a>
+                                <a class="dropdown-item" href="/contenido">Series</a>
+                                <a class="dropdown-item" href="/contenido">Libros</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ">logout</button>
+                                    </form>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li>
                         <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">Admin</a></li>
                         <li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>

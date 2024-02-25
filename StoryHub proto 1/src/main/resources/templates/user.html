@@ -8,7 +8,7 @@
   <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container contenidoPerfil">
-      <h1 class="mb-4">Bienvenido:</h1>
+      <h1 class="mb-4">Bienvenido: <span th:text="${User.username}"></span></h1>
       <h2>Estás viendo</h2>
       <p>Tus peliculas, series y libros</p>
       <div class="row">

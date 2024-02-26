@@ -14,3 +14,24 @@ También permitirá poner comentarios y reseñar series en general, capítulos o
  - **`Búsqueda`**: aquí permitiremos al usuario hacer una búsqueda de contenido (series, películas, libros) además de buscar usuarios para poder ver su perfil. 
  - **`Home/Lista de Contenido`**: esta vista será básicamente una lista de contenido (series, películas, libros) sin mostrar información detallada de cada uno, simplemente nos dejará acceder a un elemento en concreto de la lista haciendo click sobre su elemento correspondiente. 
  - **`Admin`**: esta vista sólo será accesible para el usuario que se identifique como administrador, aquí se mostrarán los comentarios reportados y se podrá tomar una decisión sobre los mismos y el usuario responsable de cada uno. Al resto de usuarios se les permitirá enviar mensajes al administrador.
+# Story Hub Proto 1:
+
+> **cambios realizados**:
+
+ - **Página de inicio** (`index`) con un enlace al `home` del `user`
+ -  Login ajustado a la plantilla dada
+ -  Navbar con el siguiente contenido:
+	 - Logo de Story Hub
+	 - **Icono** y **nombre de usuario** en forma de **Dropdown** que contiene:
+		 - **`Home`**: para volver a la pagina principal del usuario
+		 - 	 **`Peliculas`**: para ir al contenido de películas del usuario
+		 - 	 **`Series`**: para ir al contenido de series del usuario
+		 - 	 **`Libros`**: para ir al contenido de Libros del usuario
+	- Provisionalmente un **`nav-item`** Home (se puede quitar)
+	- Provisionalmente un **`nav-item`** Login (se puede quitar)
+	- Un **`nav-item`** **Admin** que redirecciona a la pagina para reportar al adminsitrador
+	- Provisionalmente un **`nav-item`** Contenido que redirecciona al apartado del contenido (se puede quitar)
+	- Un icono con las **notificaciones** que le pueden llegar al usuario
+	- Una **Barra de Búsqueda** para encontrar contenido de todo tipo (no funcional)
+ -  Pequeños ajustes en los `HTML` para que la redirección sea correcta
+ -   Pequeños ajustes en los `CSS` para que los estilos se apliquen correctamente

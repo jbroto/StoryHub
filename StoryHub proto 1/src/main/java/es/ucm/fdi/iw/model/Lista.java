@@ -55,4 +55,8 @@ public class Lista implements Transferable<Lista.Transfer> {
         return new Transfer(author.getUsername(), name, isPublic, categories, medias, id);
     }
     
+    @Override
+    public String toString(){
+        return toTransfer().toString();
+    }
 }

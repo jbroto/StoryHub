@@ -24,7 +24,7 @@ CREATE TABLE  StoryHub.Media (
   id VARCHAR(45) NOT NULL,
   Padre_id VARCHAR(45) NOT NULL,
   acabado TINYINT NOT NULL,
-  index VARCHAR(45) NOT NULL,
+  `index` VARCHAR(45) NOT NULL,
   valoracion DOUBLE NOT NULL,
   PRIMARY KEY (id, Padre_id),
   UNIQUE (id),

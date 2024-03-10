@@ -57,7 +57,7 @@ function fetchBookData(isbn, targetImg) {
 // requieren API key, pero se puede conseguir de forma gratuita
 // (no uses mucho la que hay ahí abajo, por favor!)
 function fetchMovieData(imdb, targetImg) {
-    go(`http://www.omdbapi.com/?i=${imdb}&apikey=174a19fd`, "GET", {}, {}).then(movieInfo => {
+    go(`http://www.omdbapi.com/?i=${imdb}&apikey=48ec715`, "GET", {}, {}).then(movieInfo => {
         console.log(`title: ${movieInfo.Title}`);
         // targetImg.src = movieInfo.Poster;
         readImageUrlData(movieInfo.Poster, targetImg)

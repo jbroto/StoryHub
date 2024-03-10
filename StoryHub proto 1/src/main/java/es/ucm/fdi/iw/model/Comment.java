@@ -29,6 +29,7 @@ public class Comment implements Transferable<Comment.Transfer> {
     private Media media;
     @OneToOne
     private Comment father;
+    
     private String text;
     private int puntuacion;
     private LocalDateTime dateSent;
@@ -36,9 +37,9 @@ public class Comment implements Transferable<Comment.Transfer> {
     @Getter
     @AllArgsConstructor
     public static class Transfer {
-        private String author;
-        private String sent;
+        private String author;        
         private String media;
+        private String sent;
         private String text;
         private int puntuacion;
         long id;
@@ -46,7 +47,7 @@ public class Comment implements Transferable<Comment.Transfer> {
 
         public Transfer(Comment c) {
             this.author = c.getAuthor().getUsername();
-            this.media = c.getMedia().getId();
+            this.media = c.getMedia().getApi();
             this.sent = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(c.getDateSent());
             this.text = c.getText();
             this.id = c.getId();
@@ -57,8 +58,8 @@ public class Comment implements Transferable<Comment.Transfer> {
 
     @Override
     public Transfer toTransfer() {
-        return new Transfer(author.getUsername(), media.getId(),
+        return new Transfer(author.getUsername(), media.getApi(),
                 DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dateSent),
-                text, id, puntuacion);
+                text,puntuacion, id, father.getText());
     }
 }

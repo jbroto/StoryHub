@@ -18,14 +18,13 @@ public class Lista implements Transferable<Lista.Transfer> {
 	private long id;
 
     @ManyToOne(targetEntity = User.class)
-    @Column(nullable = false)
     private User author;
 
     @Column(nullable = false)
     private String name;
 
     @ManyToOne(targetEntity = Media.class)
-    List<Media> medias;
+    private List<Media> medias;
 
     private Boolean isPublic;
     private String categories;

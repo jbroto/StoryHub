@@ -57,6 +57,9 @@ public class User implements Transferable<User.Transfer> {
 	@JoinColumn(name = "recipient_id")	
 	private List<Message> received = new ArrayList<>();		
 
+    @ManyToOne(targetEntity = Media.class)
+    private List<Media> medias;
+
     /**
      * Checks whether this user has a given role.
      * @param role to check

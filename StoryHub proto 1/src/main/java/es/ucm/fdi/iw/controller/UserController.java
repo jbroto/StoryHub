@@ -5,6 +5,9 @@ import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
+import es.ucm.fdi.iw.model.Lista;
+import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.Media;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

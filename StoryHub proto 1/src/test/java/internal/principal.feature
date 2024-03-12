@@ -17,7 +17,7 @@ Feature: Añadir un elemento a una lista
         * method post
         * status 200
     
-    Scenario: Crear lista
+    Scenario: Crear lista de favoritos
         # Hemos creado esta url en el controller del usuario
         * path '/user/2/crear-lista'
         * form field listName = 'Favoritos'
@@ -26,6 +26,6 @@ Feature: Añadir un elemento a una lista
         * status 200
         And match response == 'Favoritos'
 
-    Scenario: Añadir media
+    Scenario: Añadir media a favoritos
         #Esto no hemos sabido como hacerlo
 

@@ -57,8 +57,11 @@ public class User implements Transferable<User.Transfer> {
 	@JoinColumn(name = "recipient_id")	
 	private List<Message> received = new ArrayList<>();		
 
-    @ManyToOne(targetEntity = Media.class)
-    private List<Media> medias;
+    @OneToMany(mappedBy = "user")
+    private List<MediaUserRelation> MediaVistaporUser;
+
+    @OneToMany(mappedBy = "author")
+    private List<Lista> listas;
 
     /**
      * Checks whether this user has a given role.
@@ -77,6 +80,7 @@ public class User implements Transferable<User.Transfer> {
         private String username;
 		private int totalReceived;
 		private int totalSent;
+
     }
 
 	@Override

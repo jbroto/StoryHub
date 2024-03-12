@@ -44,6 +44,9 @@ public class Media implements Transferable<Media.Transfer>{
 	@OneToMany
 	private List<Comment> comments = new ArrayList<>();		
 
+    @OneToMany(mappedBy = "media")
+    private List<MediaUserRelation> UserViendoMedia;
+
 
     @Getter
     @AllArgsConstructor

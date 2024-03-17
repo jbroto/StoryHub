@@ -198,22 +198,18 @@ public class UserController {
 
 	@PostMapping("{id}/crear-lista")
 	@Transactional
-	public String getMethodName(@PathVariable long id, @RequestParam String listName, @RequestParam Boolean isPublic,
-						HttpSession session, Model model) {
+	public void getMethodName(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session, Model model) {
 		User usuario = entityManager.find(User.class, id);
 		Lista l = new Lista();
 		l.setAuthor(usuario);
-		l.setIsPublic(isPublic);
-		l.setName(listName);
+		l.setIsPublic(lista.getIsPublic());
+		l.setName(lista.getName());
 
 		entityManager.persist(l);
 		entityManager.flush();
 
 		model.addAttribute("newList", l);
-
-		return listName;
 	}
-	
 
 	/**
 	 * Uploads a profile pic for a user id

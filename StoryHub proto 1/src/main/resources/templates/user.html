@@ -9,6 +9,41 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container contenidoPerfil">
       <h1 class="mb-4">Bienvenido: <span th:text="${user.username}">default</span></h1>
+      <!--Boton para crear una nueva lista-->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevaListaModal">
+        Nueva Lista
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="nuevaListaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nueva Lista</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulario -->
+              <form th:action="@{/guardar-lista}" th:object="${lista}" method="post">
+                <div class="form-group">
+                  <label for="nombreLista">Nombre de la Lista</label>
+                  <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista" th:field="*{nombre}">
+                </div>
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{publica}">
+                  <label class="form-check-label" for="listaPublica">Lista Pública</label>
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{boton.guardar}">Guardar</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h2>Estás viendo</h2>
       <p>Tus peliculas, series y libros</p>
 

@@ -199,27 +199,27 @@ public class UserController {
 		return os -> FileCopyUtils.copy(in, os);
 	}
 
-	@PostMapping("{id}/crearLista")
+	@PostMapping("/{id}/crearLista")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<String> crearLista(@PathVariable long id, Lista lista, HttpSession session) {
-    try {
-        User usuario = entityManager.find(User.class, id);
-        Lista nuevaLista = new Lista();
-        nuevaLista.setAuthor(usuario);
-        nuevaLista.setIsPublic(lista.getIsPublic());
-        nuevaLista.setName(lista.getName());
+	public ResponseEntity<String> crearLista(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session) {
+		try {
+			User usuario = entityManager.find(User.class, id);
+			Lista nuevaLista = new Lista();
+			nuevaLista.setAuthor(usuario);
+			nuevaLista.setIsPublic(lista.getIsPublic());
+			nuevaLista.setName(lista.getName());
 
-        entityManager.persist(nuevaLista);
-        entityManager.flush();
+			entityManager.persist(nuevaLista);
+			entityManager.flush();
 
-        log.info("Lista creada para el usuario {}", id);
-        
-        return ResponseEntity.ok("Lista creada exitosamente");
-    } catch (Exception e) {
-        log.error("Error al crear la lista para el usuario " + id, e);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
-    }
+			log.info("Lista creada para el usuario ", id);
+
+			return ResponseEntity.ok("Lista creada exitosamente");
+		} catch (Exception e) {
+			log.error("Error al crear la lista para el usuario " + id, e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
+		}
 	}
 
 	/**

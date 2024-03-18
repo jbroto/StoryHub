@@ -1,1 +1,0 @@
-//js para cargar las portadas

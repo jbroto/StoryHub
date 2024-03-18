@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -198,19 +199,27 @@ public class UserController {
 		return os -> FileCopyUtils.copy(in, os);
 	}
 
-	@PostMapping("{id}/crear-lista")
+	@PostMapping("{id}/crearLista")
+	@ResponseBody
 	@Transactional
-	public void getMethodName(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session, Model model) {
-		User usuario = entityManager.find(User.class, id);
-		Lista l = new Lista();
-		l.setAuthor(usuario);
-		l.setIsPublic(lista.getIsPublic());
-		l.setName(lista.getName());
+	public ResponseEntity<String> crearLista(@PathVariable long id, Lista lista, HttpSession session) {
+    try {
+        User usuario = entityManager.find(User.class, id);
+        Lista nuevaLista = new Lista();
+        nuevaLista.setAuthor(usuario);
+        nuevaLista.setIsPublic(lista.getIsPublic());
+        nuevaLista.setName(lista.getName());
 
-		entityManager.persist(l);
-		entityManager.flush();
+        entityManager.persist(nuevaLista);
+        entityManager.flush();
 
-		model.addAttribute("newList", l);
+        log.info("Lista creada para el usuario {}", id);
+        
+        return ResponseEntity.ok("Lista creada exitosamente");
+    } catch (Exception e) {
+        log.error("Error al crear la lista para el usuario " + id, e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
+    }
 	}
 
 	/**

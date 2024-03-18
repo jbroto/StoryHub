@@ -10,11 +10,7 @@ import lombok.AllArgsConstructor;
 
 @Entity
 @Data
-@NamedQueries({
-    @NamedQuery(name="Media.byRatimg",
-            query="SELECT m FROM Media m "
-                    + "WHERE m.rating = :rating ")
-})
+
 public class Lista implements Transferable<Lista.Transfer> {
 
     @Id

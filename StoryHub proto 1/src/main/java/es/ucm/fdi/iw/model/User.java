@@ -63,6 +63,9 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "author")
     private List<Lista> listas;
 
+    @OneToMany
+    private List<User> followUsers;
+
     /**
      * Checks whether this user has a given role.
      * @param role to check

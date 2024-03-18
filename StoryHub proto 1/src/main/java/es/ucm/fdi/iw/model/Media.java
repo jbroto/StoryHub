@@ -38,9 +38,6 @@ public class Media implements Transferable<Media.Transfer>{
     @ManyToMany(targetEntity=Lista.class,mappedBy="medias")
 	private List<Lista> listas = new ArrayList<>();
 
-    @ManyToMany(targetEntity=User.class,mappedBy="medias")
-	private List<Comment> users = new ArrayList<>();
-
 	@OneToMany
 	private List<Comment> comments = new ArrayList<>();		
 

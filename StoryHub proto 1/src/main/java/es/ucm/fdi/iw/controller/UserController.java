@@ -115,6 +115,8 @@ public class UserController {
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 		model.addAttribute("user", target);
+		Lista lista = new Lista(); // Crear una nueva instancia de Lista
+		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		return "user";
 	}
 

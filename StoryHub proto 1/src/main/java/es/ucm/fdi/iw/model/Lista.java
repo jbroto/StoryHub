@@ -16,7 +16,7 @@ public class Lista implements Transferable<Lista.Transfer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
-	private long id;
+    private long id;
 
     @ManyToOne(targetEntity = User.class)
     private User author;
@@ -40,7 +40,7 @@ public class Lista implements Transferable<Lista.Transfer> {
         private List<Media> medias;
         private long id;
 
-        public Transfer(Lista l){
+        public Transfer(Lista l) {
             this.author = l.getAuthor().getUsername();
             this.listName = l.getName();
             this.isPublic = l.getIsPublic();
@@ -54,9 +54,10 @@ public class Lista implements Transferable<Lista.Transfer> {
     public Transfer toTransfer() {
         return new Transfer(author.getUsername(), name, isPublic, categories, medias, id);
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return toTransfer().toString();
     }
+
 }

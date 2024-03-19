@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.ucm.fdi.iw.model.TMDBService;
+
 
 /**
  * Non-authenticated requests only.
@@ -28,7 +30,13 @@ public class RootController {
     }
 
     @GetMapping("/busqueda")
-    public String busqueda(Model model) {
+    public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model) {
+        System.out.println(paramBusqueda+'\n'+'\n');
+        TMDBService s = new TMDBService();
+        String result = s.searchTerm(paramBusqueda);
+        if(result != null){
+            System.out.println(result);
+        }
         return "busqueda";
     }
 

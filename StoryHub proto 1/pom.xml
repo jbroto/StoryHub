@@ -77,6 +77,13 @@
 			<version>${karate.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!--DEPENDENCIA CONEXION API-->
+		<dependency>
+        	<groupId>com.squareup.okhttp3</groupId>
+        	<artifactId>okhttp</artifactId>
+        	<version>4.9.1</version> <!-- usa la última versión disponible -->
+    	</dependency>
 	</dependencies>
 
 	<build>

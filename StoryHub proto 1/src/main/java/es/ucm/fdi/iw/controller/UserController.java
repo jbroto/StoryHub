@@ -12,6 +12,7 @@ import es.ucm.fdi.iw.model.Media;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -215,7 +216,7 @@ public class UserController {
 
 			log.info("Lista creada para el usuario ", id);
 
-			return ResponseEntity.ok("Lista creada exitosamente");
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + id).build();
 		} catch (Exception e) {
 			log.error("Error al crear la lista para el usuario " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");

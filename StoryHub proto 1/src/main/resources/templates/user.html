@@ -28,7 +28,7 @@
             </div>
             <div class="modal-body">
               <!-- Formulario -->
-              <form th:action="@{/{id}/crearLista(id=${session.u.id})}" th:object="${Lista}" method="post">
+              <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${Lista}" method="post">
                 <div class="form-group">
                   <label for="nombreLista">Nombre de la Lista</label>
                   <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista" th:field="*{name}">

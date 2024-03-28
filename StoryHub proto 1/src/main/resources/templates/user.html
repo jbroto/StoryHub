@@ -16,6 +16,18 @@
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
         Nueva Lista
       </button>
+      <div class="container">
+        <div class="row">
+            <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+            <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h6 class="card-title" th:text="${item.listName}">Nombre: </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div>
        <!-- Modal -->
        <div class="modal fade" id="nuevaListaModal" role="dialog" >
         <div class="modal-dialog">

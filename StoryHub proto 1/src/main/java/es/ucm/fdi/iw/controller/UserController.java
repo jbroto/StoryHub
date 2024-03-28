@@ -119,6 +119,8 @@ public class UserController {
 		model.addAttribute("user", target);
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
+		List<Lista> listasUs = target.getListas();
+		model.addAttribute("Listas", listasUs);
 		return "user";
 	}
 
@@ -203,16 +205,24 @@ public class UserController {
 	@PostMapping("/{id}/crearLista")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<String> crearLista(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session) {
+	public ResponseEntity<String> crearLista(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session,
+			Model model) {
 		try {
 			User usuario = entityManager.find(User.class, id);
+			model.addAttribute("user", usuario);
 			Lista nuevaLista = new Lista();
+			model.addAttribute("Lista", nuevaLista);
 			nuevaLista.setAuthor(usuario);
 			nuevaLista.setIsPublic(lista.getIsPublic());
 			nuevaLista.setName(lista.getName());
+			usuario.addList(nuevaLista);
 
 			entityManager.persist(nuevaLista);
+			entityManager.merge(usuario);
 			entityManager.flush();
+
+			List<Lista> listasUs = usuario.getListas();
+			model.addAttribute("Listas", listasUs);
 
 			log.info("Lista creada para el usuario ", id);
 

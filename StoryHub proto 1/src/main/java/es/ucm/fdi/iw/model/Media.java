@@ -26,7 +26,7 @@ public class Media implements Transferable<Media.Transfer>{
 
     @Column(nullable = false)
     private String tipo;
-
+    private String nombre;
     private String api;
     private String coverImageUrl;
     @OneToOne
@@ -51,7 +51,7 @@ public class Media implements Transferable<Media.Transfer>{
         private long id;
 		private String api;
         private String cover;
-
+        private String nombre;
         private String tipo;
         private Media padre;
         private Double rating;
@@ -61,6 +61,7 @@ public class Media implements Transferable<Media.Transfer>{
             this.id = m.id;
             this.api = m.api;
             this.cover = m.coverImageUrl;
+            nombre=m.nombre;
             tipo = m.tipo;
             padre = m.father;
             rating = m.rating;
@@ -69,7 +70,7 @@ public class Media implements Transferable<Media.Transfer>{
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,api,coverImageUrl ,tipo, father,rating);
+		return new Transfer(id,api,coverImageUrl, nombre, tipo, father,rating);
 	}
 	
 	@Override

@@ -18,7 +18,7 @@ public class TMDBService {
     public String searchTerm(String term) {
 
         OkHttpClient client = new OkHttpClient();
-        String url = URL + MULTI_SEARCH + API_KEY + "?query=" + term + LANGUAGE;
+        String url = URL + MULTI_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
         Request request = new Request.Builder()
             .url(url)
             .build();

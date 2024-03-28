@@ -66,7 +66,16 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
             Media m = new Media();
             m.setApi(result);
             m.setId(resultNode.get("id").asLong());
-            //m.setNombre(resultNode.get("title").asText());
+             // Verificamos si el campo "title" esta
+             if (resultNode.has("title")) {
+                m.setNombre(resultNode.get("title").asText());
+            } else if (resultNode.has("name")) { // Verificamos si el campo "name" esta
+                m.setNombre(resultNode.get("name").asText());
+            } else {
+                // Si ninguno de los campos está, podemos poner que no tiene nombre
+                m.setNombre("Nombre no disponible");
+            }
+
             m.setCoverImageUrl(resultNode.get("poster_path").asText());
             m.setRating(resultNode.get("vote_average").asDouble());
             m.setTipo(resultNode.get("media_type").asText());

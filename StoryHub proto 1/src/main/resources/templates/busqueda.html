@@ -14,18 +14,19 @@
         <!--<div class="container barraBusqueda mt-3">
             <input type="text" placeholder="Buscar">
         </div>-->
-        <h2 class="mt-5">Resultados: </h2>
+        <h2 class="mt-5">Resultados: <span th:text="${paramBusqueda}"></span> </h2>
         <div class="row">
-            <body th:each="item : ${resultado}">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
 
                 <div class="card">
-                    <img class="card-img h-50 w-50" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}"
+                    <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}"
                         alt="Cover">
                     <a class="card-body">
+                        <h6 class> <span th:text="${item.nombre}"></span></h6>
                         <h6 class> <span th:text="${item.tipo}"></span></h6>
                     </a>
                 </div>
-            </body>
+            </div>
 
 
 

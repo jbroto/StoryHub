@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" th:href="@{/css/busqueda.css}" href="css/busqueda.css" type="text/css" />
     <title>Búsqueda</title>
 </head>
+
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
 
@@ -13,19 +15,21 @@
             <input type="text" placeholder="Buscar">
         </div>-->
         <h2 class="mt-5">Resultados: </h2>
-        <span th:text="${resultado}"></span>
-        <span th:text="${result}"></span>
         <div class="row">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex">
+            <body th:each="item : ${resultado}">
 
-               
-                    <li th:each="item : ${resultado}">
-                        <span th:text="${item.nombre}"></span> - <span th:text="${item.tipo}"></span>
-                    </li>
-               
-                
+                <div class="card">
+                    <img class="card-img h-50 w-50" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}"
+                        alt="Cover">
+                    <a class="card-body">
+                        <h6 class> <span th:text="${item.tipo}"></span></h6>
+                    </a>
+                </div>
+            </body>
 
-                <!--
+
+
+            <!--
                 <a th:href="@{/contenido}" >
                 <div class="card">
                   <img class="card-img" src="img/portada.jpg" alt="portada">
@@ -35,9 +39,8 @@
                         </p>
                     </a>
                 </a>-->
-                </div>
-            </div>
+        </div>
         </div>
 </body>
-<script>console.log("${resultado}")</script>
+
 </html>

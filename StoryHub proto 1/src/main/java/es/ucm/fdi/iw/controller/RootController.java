@@ -43,6 +43,8 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
     TMDBService s = new TMDBService();
     String result = s.searchTerm(paramBusqueda);
 
+    System.out.println("ESTOY ENTRANDO AQUÍ");
+
     try {
         // lo parseamos tipo JSON
         ObjectMapper objectMapper = new ObjectMapper();
@@ -54,12 +56,17 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
         JsonNode resultsNode = rootNode.get("results");
 
         ArrayList<Media> lista = new ArrayList<>();
+
+        System.out.println("AQUI TAMBIEN LLEGO");
+        
         // Iterar sobre los elementos de la matriz "results"
         for (JsonNode resultNode : resultsNode) {
+            System.out.println("APAAAAAA");
+            System.out.println(resultNode.get("id").asLong());
             Media m = new Media();
             m.setApi(result);
             m.setId(resultNode.get("id").asLong());
-            m.setNombre(resultNode.get("name").asText());
+            //m.setNombre(resultNode.get("title").asText());
             m.setCoverImageUrl(resultNode.get("poster_path").asText());
             m.setRating(resultNode.get("vote_average").asDouble());
             m.setTipo(resultNode.get("media_type").asText());
@@ -67,6 +74,7 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
             lista.add(m);
         }
 
+        System.out.println(lista);
         model.addAttribute("resultado", lista);
         model.addAttribute("result", result);
         return "busqueda";
@@ -75,7 +83,6 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
         e.printStackTrace();
     }
 
-        model.addAttribute("result", result);
     return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return anterior
 }
 

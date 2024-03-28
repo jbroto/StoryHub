@@ -31,4 +31,20 @@ public class TMDBService {
             return null;
         }
     }
+
+    public String obtenerContenido(String tipo , long id){
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + "/" + tipo + "/" + id + API_KEY + LANGUAGE;
+    
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+    
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

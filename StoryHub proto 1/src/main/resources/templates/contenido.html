@@ -11,9 +11,10 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <div class="container mt-4">
-        <h1 class="text-center">Stranger Things</h1>
+        <h1 class="text-center" th:text="${media.nombre}">Nombre del Contenido</h1>
         <div class="text-center">
-            <img class="img-fluid rounded" src="/img/portada.jpg" alt="Stranger Things">
+            <img class="img-fluid rounded" th:src="@{'https://image.tmdb.org/t/p/w500/' + ${media.coverImageUrl}}" 
+            th:alt="${media.nombre}">
         </div>
         <hr>
         <h2>Capítulos</h2>

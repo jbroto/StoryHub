@@ -102,8 +102,44 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
     }
 
     @GetMapping("/contenido")
-    public String contenido(Model model) {
-        return "contenido";
+    public String contenido(@RequestParam("tipo") String tipo, @RequestParam("id") Long id, Model model) {
+        System.out.println(tipo + '\n' + id + '\n'); //quitar, solo para comprobar en debug
+        TMDBService s = new TMDBService();
+
+        // Llamar al servicio para obtener los detalles del contenido
+        String resultado = s.obtenerContenido(tipo,id);
+
+        try{
+            // lo parseamos tipo JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode resultNode = objectMapper.readTree(resultado);
+
+            Media m = new Media();
+            m.setApi(resultado);
+            m.setId(id);
+             // Verificamos si el campo "title" esta
+             if (resultNode.has("title")) {
+                m.setNombre(resultNode.get("title").asText());
+            } else if (resultNode.has("name")) { // Verificamos si el campo "name" esta
+                m.setNombre(resultNode.get("name").asText());
+            } else {
+                // Si ninguno de los campos está, podemos poner que no tiene nombre
+                m.setNombre("Nombre no disponible");
+            }
+            m.setCoverImageUrl(resultNode.get("poster_path").asText());
+            m.setRating(resultNode.get("vote_average").asDouble());
+            m.setTipo(tipo);
+    
+            // Agregamos los detalles del contenido al modelo
+            model.addAttribute("media", m);
+    
+            // Devolvemos el nombre de la vista a la que se redirigirá
+            return "contenido";
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+       return "contenido";//en caso de que no llegue al otro return
     }
 
     @GetMapping("/adminreport")

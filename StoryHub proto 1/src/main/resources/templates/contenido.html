@@ -3,6 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/contenido.css}" href="css/contenido.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
     <title>Inicio</title>
 </head>
@@ -10,15 +11,30 @@
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
 
-    <div class="container mt-4">
-        <h1 class="text-center" th:text="${media.nombre}">Nombre del Contenido</h1>
-        <div class="text-center">
-            <img class="img-fluid rounded" th:src="@{'https://image.tmdb.org/t/p/w500/' + ${media.coverImageUrl}}"
-                th:alt="${media.nombre}">
+    <section class="container contenido-section">
+        <div class="contenido-background" th:style="'background-image: url(' + ${fondo} + ')'"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="poster">
+                    <img class="poster-img" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" alt="Poster">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contenido-info">
+                    <h1 class="titulo" th:text="${media.nombre}"></h1>
+                    <p class="descripcion" th:text="${descripcion}">No hay descripcion</p>
+                    <div class="acciones">
+                        <button class="btn btn-primary">Favorito</button>
+                        <button class="btn btn-primary">Estoy viendo</button>
+                        <button class="btn btn-primary">Terminado</button>
+                        <div class="rating">
+                            <!-- aqui irian las estrellas para las valoraciones -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <hr>
-
-        <!-- Tu HTML existente -->
+    </section>
 
         <!-- Verifica si media.type no es igual a "movie" -->
         <th:block th:if="${media.tipo != 'movie'}">

@@ -108,6 +108,9 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
 
         // Llamar al servicio para obtener los detalles del contenido
         String resultado = s.obtenerContenido(tipo,id);
+        String descripcion = "";
+        String backdropImageUrl ="https://image.tmdb.org/t/p/original";
+
 
         try{
             // lo parseamos tipo JSON
@@ -129,10 +132,17 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
             m.setCoverImageUrl(resultNode.get("poster_path").asText());
             m.setRating(resultNode.get("vote_average").asDouble());
             m.setTipo(tipo);
+
+            descripcion = resultNode.get("overview").asText();
+            backdropImageUrl += resultNode.get("backdrop_path").asText();
+
     
             // Agregamos los detalles del contenido al modelo
             model.addAttribute("media", m);
-    
+            model.addAttribute("descripcion", descripcion);
+            model.addAttribute("fondo", backdropImageUrl);
+
+
             // Devolvemos el nombre de la vista a la que se redirigirá
             return "contenido";
 

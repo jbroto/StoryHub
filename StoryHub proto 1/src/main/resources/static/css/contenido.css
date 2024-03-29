@@ -1,0 +1,50 @@
+.contenido-section {
+    position: relative;
+    padding: 50px 0;
+    margin: 0; /* Eliminar el margen predeterminado */
+
+}
+
+
+.contenido-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ancho del 100% del viewport */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5; /* Ajusta la opacidad según sea necesario */
+    z-index: -1; /* Colocar el fondo detrás del contenido */
+
+}
+
+.poster {
+    margin-left: 35px; /* Ajusta este valor según sea necesario */
+    margin-right: auto; /* Alinea el poster a la derecha */
+    max-width: 100%; /* Asegura que el poster no se extienda más allá del contenedor */
+}
+
+.poster-img {
+    max-width: 100%;
+}
+
+.titulo {
+    /* font-family: "Arial", sans-serif; */
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.descripcion {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.acciones button {
+    margin-right: 10px;
+}
+
+.rating .fa {
+    color: orange;
+}

@@ -13,58 +13,65 @@
     <div class="container mt-4">
         <h1 class="text-center" th:text="${media.nombre}">Nombre del Contenido</h1>
         <div class="text-center">
-            <img class="img-fluid rounded" th:src="@{'https://image.tmdb.org/t/p/w500/' + ${media.coverImageUrl}}" 
-            th:alt="${media.nombre}">
+            <img class="img-fluid rounded" th:src="@{'https://image.tmdb.org/t/p/w500/' + ${media.coverImageUrl}}"
+                th:alt="${media.nombre}">
         </div>
         <hr>
-        <h2>Capítulos</h2>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-3 mb-4">
-                <!--<a href="miPerfil.html">-->
+        <!-- Tu HTML existente -->
+
+        <!-- Verifica si media.type no es igual a "movie" -->
+        <th:block th:if="${media.tipo != 'movie'}">
+            <h2>Capítulos</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 mb-4">
+                    <!--<a href="miPerfil.html">-->
                     <div class="card">
                         <img class="card-img-top" src="img/portada.jpg" alt="portada">
                         <div class="card-body text-center">
                             <h6 class="card-title">S1E1</h6>
                         </div>
                     </div>
-                <!--</a>-->
-            </div>
-            <div class="col-lg-3 col-md-3 mb-4">
-                <!--<a href="miPerfil.html">-->
+                    <!--</a>-->
+                </div>
+                <div class="col-lg-3 col-md-3 mb-4">
+                    <!--<a href="miPerfil.html">-->
                     <div class="card">
                         <img class="card-img-top" src="img/portada.jpg" alt="portada">
                         <div class="card-body text-center">
                             <h6 class="card-title">S1E2</h6>
                         </div>
                     </div>
-                <!--</a>-->
-            </div>
-            <div class="col-lg-3 col-md-3 mb-4">
-                <!--<a href="miPerfil.html">-->
+                    <!--</a>-->
+                </div>
+                <div class="col-lg-3 col-md-3 mb-4">
+                    <!--<a href="miPerfil.html">-->
                     <div class="card">
                         <img class="card-img-top" src="img/portada.jpg" alt="portada">
                         <div class="card-body text-center">
                             <h6 class="card-title">S1E3</h6>
                         </div>
                     </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 mb-4">
-                <!--<a href="miPerfil.html">-->
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 mb-4">
+                    <!--<a href="miPerfil.html">-->
                     <div class="card">
                         <img class="card-img-top" src="img/portada.jpg" alt="portada">
                         <div class="card-body text-center">
                             <h6 class="card-title">S1E4</h6>
                         </div>
                     </div>
-                <!--</a>-->
+                    <!--</a>-->
+                </div>
             </div>
-        </div>
+            <hr>
+        </th:block>
+
 
     </div>
     </div>
-    <hr>
+    
     <div class="container mb-2">
         <h2>Comentarios</h2>
         <div class="comment">

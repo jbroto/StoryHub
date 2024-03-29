@@ -7,7 +7,7 @@
       max-width: none;
 }
 
-a, .card, .card-body{
+a, .card, .card-body, span{
   text-decoration: none;
 }
 

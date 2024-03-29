@@ -7,8 +7,12 @@
       max-width: none;
 }
 
-a, .card, .card-body{
+a, .card, .card-body, span, h6{
   text-decoration: none;
+}
+
+.card-body{
+  color: black;
 }
 
 footer{

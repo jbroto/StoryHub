@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" th:href="@{/css/busqueda.css}" href="css/busqueda.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
     <title>Búsqueda</title>
 </head>
 
@@ -24,7 +25,7 @@
                         <div class="card">
                             <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
                             <div class="card-body">
-                                <h6><span th:text="${item.nombre}"></span></h6>
+                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
                                 <h6><span th:text="${item.tipo}"></span></h6>
                             </div>
                         </div>

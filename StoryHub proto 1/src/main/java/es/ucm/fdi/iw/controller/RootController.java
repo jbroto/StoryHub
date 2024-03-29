@@ -73,7 +73,7 @@ public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Mode
                 m.setNombre(resultNode.get("name").asText());
             } else {
                 // Si ninguno de los campos está, podemos poner que no tiene nombre
-                m.setNombre("Nombre no disponible");
+                m.setNombre(paramBusqueda);
             }
 
             m.setCoverImageUrl(resultNode.get("poster_path").asText());

@@ -47,4 +47,15 @@ public class TMDBService {
             return null;
         }
     }
+
+    public String obtenerCapitulos(String id){
+
+        //https://api.themoviedb.org/3/tv/66732?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES&append_to_response=episode_groups
+        //ejemplo para obtener todos los capitulos de srtanger things que tiene id 66732
+
+
+
+
+        return null;
+    }
 }

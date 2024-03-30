@@ -16,7 +16,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="poster">
-                    <img class="poster-img" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" alt="Poster">
+                    <img class="poster-img" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                        alt="Poster">
                 </div>
             </div>
             <div class="col-md-6">
@@ -36,9 +37,10 @@
         </div>
     </section>
 
-        <!-- Verifica si media.type no es igual a "movie" -->
-        <th:block th:if="${media.tipo != 'movie'}">
-            <h2>Capítulos</h2>
+    <!-- Verifica si media.type no es igual a "movie" -->
+    <th:block th:if="${media.tipo != 'movie'}">
+        <h2>Capítulos</h2>
+        <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-3 mb-4">
                     <!--<a href="miPerfil.html">-->
@@ -82,12 +84,13 @@
                 </div>
             </div>
             <hr>
-        </th:block>
+        </div>
+    </th:block>
 
 
     </div>
     </div>
-    
+
     <div class="container mb-2">
         <h2>Comentarios</h2>
         <div class="comment">

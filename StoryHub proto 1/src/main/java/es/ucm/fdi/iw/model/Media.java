@@ -34,7 +34,6 @@ public class Media implements Transferable<Media.Transfer>{
     private Double rating;
 
 
-
     @ManyToMany(targetEntity=Lista.class,mappedBy="medias")
 	private List<Lista> listas = new ArrayList<>();
 

@@ -116,12 +116,40 @@ public class UserController {
 	@GetMapping("{id}")
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
-		model.addAttribute("user", target);
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
-		model.addAttribute("Lista", lista); // Agregar la lista al modelo
+		//obtenemos la lista de favoritos, viendo y terminado
+
 		List<Lista> listasUs = target.getListas();
+
+		// Obtenemos la lista de favoritos
+		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
+		.setParameter("name", "favoritos").getSingleResult();
+		//obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> favMedias = favoritos.getMedias(); //creamos la lista de Medias contenidas en la lista
+
+		// Obtenemos la lista de estoy viendo
+		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
+		.setParameter("name", "viendo").getSingleResult();
+		List<Media> viendoMedias = viendo.getMedias(); //creamos la lista de Medias contenidas en la lista
+
+
+	    // Obtenemos la lista de terminado
+		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
+		.setParameter("name", "terminado").getSingleResult();
+		List<Media> terminadoMedias = terminado.getMedias(); //creamos la lista de Medias contenidas en la lista
+
+
+		
+
+
+
+		model.addAttribute("user", target);
+		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", listasUs);
-		return "user";
+		model.addAttribute("favoritos", favMedias);
+		model.addAttribute("viendo", viendoMedias);
+		model.addAttribute("terminado", terminadoMedias);
+		return "user";		
 	}
 
 	/**

@@ -28,14 +28,14 @@
 
             <!-- LOGOTIPO -->
             <th:block th:if="${session.u}">
-                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/user/{id}(id=${session.u.id})}">
+                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/user/{id}(id=${session.u.id})}" style="margin-left: 10px;">
                     <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
                     <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
                 </a>
             </th:block>
 
             <th:block th:unless="${session.u}">
-                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/}">
+                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/}" style="margin-left: 10px;">
                     <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
                     <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
                 </a>

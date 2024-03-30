@@ -58,78 +58,81 @@
           </div>
         </div>
       </div>
+
       <hr />
+      <!-- LISTA DE ESTAS VIENDO -->
       <h2>Estás viendo</h2>
       <p>Tus peliculas, series y libros</p>
-
-      <section id="portada"></section>
       <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4">
-          <a th:href="@{/contenido}" > 
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" /> </a>
-            <div class="card-body text-center">
-              <h6 class="card-title">Stranger Things</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-             <!--<a href="miPerfil.html">-->
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" />
-            <div class="card-body text-center">
-              <h6 class="card-title">Juego de Tronos</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-             <!--<a href="miPerfil.html">-->
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" />
-            <div class="card-body text-center">
-              <h6 class="card-title">El Mentalista</h6>
-            </div>
-          </div>
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
+              </div>
+            </button>
+          </form>
         </div>
       </div>
 
       <hr />
-
+      <!-- LISTA DE TERMINADO -->
       <h2>Ya visto</h2>
       <p>Ve más series, películas o libros para rellenar este espacio.</p>
       <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4">
-             <!--<a href="miPerfil.html">-->
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" />
-            <div class="card-body text-center">
-              <h6 class="card-title">Breaking bad</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-             <!--<a href="miPerfil.html">-->
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" />
-            <div class="card-body text-center">
-              <h6 class="card-title">Arcane</h6>
-            </div>
-        
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-            <!--<a href="miPerfil.html">-->
-          <div class="card">
-            <img class="card-img-top" src="/img/portada.jpg" alt="portada" />
-            <div class="card-body text-center">
-              <h6 class="card-title">Drag Race</h6>
-            </div>
-          </div>
-       
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
+              </div>
+            </button>
+          </form>
         </div>
       </div>
 
       <hr />
+      <!-- LISTA DE FAVORITOS -->
+      <h2>Ya visto</h2>
+      <p>Ve más series, películas o libros para rellenar este espacio.</p>
+      <div class="row">
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
+              </div>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <hr />
+
 
       <h2>Mis Comentarios</h2>
       <p>Aquí van tus Comentarios.</p>

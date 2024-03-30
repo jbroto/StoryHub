@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -10,7 +11,10 @@ import lombok.AllArgsConstructor;
 
 @Entity
 @Data
-
+@NamedQueries({
+    @NamedQuery(name = "Lista.byName", query = "SELECT l FROM Lista l "
+            + "WHERE l.name = :name") 
+})
 public class Lista implements Transferable<Lista.Transfer> {
 
     @Id
@@ -24,8 +28,12 @@ public class Lista implements Transferable<Lista.Transfer> {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(targetEntity = Media.class)
-    private List<Media> medias;
+    @ManyToMany
+    @JoinTable(name = "lista_media", //nombre de la tabla de union
+    joinColumns = @JoinColumn(name = "lista_id"), 
+    inverseJoinColumns = @JoinColumn(name = "media_id"))
+    private List<Media> medias = new ArrayList<>();
+
 
     private Boolean isPublic;
     private String categories;

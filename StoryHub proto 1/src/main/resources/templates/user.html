@@ -1,155 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Inicio</title>
+  </head>
 
-<head>
-  <th:block th:replace="fragments/head :: header" />
-  <title>Inicio</title>
-</head>
+  <body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <div class="container contenidoPerfil">
+      <h1 class="mb-4">Bienvenido: <span th:text="${user.username}">default</span></h1>
 
-<body>
-  <header th:replace="fragments/nav.html :: nav"></header>
-  <div class="container contenidoPerfil">
-    <h1 class="mb-4">Bienvenido: <span th:text="${user.username}">default</span></h1>
+      <h2>Mis Listas</h2>
+      <p>Mis listas personalizadas</p>
+      <!--Boton para crear una nueva lista-->
+      <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
+        Nueva Lista
+      </button>
+      <div class="container">
+        <div class="row">
+          <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+          <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
+            <a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">
+              <!-- Redireccion al contenido de la lista seleccionada -->
+              <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
+            </a>
+          </div>
+        </div>
+      </div>
+       <!-- Modal -->
+       <div class="modal fade" id="nuevaListaModal" role="dialog" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nueva Lista</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulario -->
+              <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${Lista}" method="post">
+                <div class="form-group">
+                  <label for="nombreLista">Nombre de la Lista</label>
+                  <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista" th:field="*{name}">
+                </div>
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{isPublic}">
+                  <label class="form-check-label" for="listaPublica">Lista Pública</label>
+                </div>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <h2>Mis Listas</h2>
-    <p>Mis listas personalizadas</p>
-    <!--Boton para crear una nueva lista-->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
-      Nueva Lista
-    </button>
-    <div class="container">
+      <hr />
+      <!-- LISTA DE ESTAS VIENDO -->
+      <h2>Estás viendo</h2>
+      <p>Tus peliculas, series y libros</p>
       <div class="row">
-        <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
-        <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-4">
-          <div class="card">
-            <div class="card-body text-center">
-              <h6 class="card-title" th:text="${item.name}">Nombre: </h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Aquí termina el div container contenidoPerfil -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="nuevaListaModal" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nueva Lista</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
+              </div>
             </button>
-          </div>
-          <div class="modal-body">
-            <!-- Formulario -->
-            <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${Lista}" method="post">
-              <div class="form-group">
-                <label for="nombreLista">Nombre de la Lista</label>
-                <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista"
-                  th:field="*{name}">
-              </div>
-              <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{isPublic}">
-                <label class="form-check-label" for="listaPublica">Lista Pública</label>
-              </div>
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
+          </form>
         </div>
       </div>
-    </div>
 
-    <hr />
-    <!-- LISTA DE ESTAS VIENDO -->
-    <h2>Estás viendo</h2>
-    <p>Tus peliculas, series y libros</p>
-    <div class="row">
-      <!-- Iterar sobre los medios y mostrarlos -->
-      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
-        <form th:action="@{/contenido}" method="get">
-          <input type="hidden" name="tipo" th:value="${media.tipo}" />
-          <input type="hidden" name="id" th:value="${media.id}" />
-          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-            <div class="card">
-              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-              <div class="card-body text-center">
-                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+      <hr />
+      <!-- LISTA DE TERMINADO -->
+      <h2>Ya visto</h2>
+      <p>Ve más series, películas o libros para rellenar este espacio.</p>
+      <div class="row">
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
               </div>
-            </div>
-          </button>
-        </form>
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
 
-    <hr />
-    <!-- LISTA DE TERMINADO -->
-    <h2>Ya visto</h2>
-    <p>Ve más series, películas o libros para rellenar este espacio.</p>
-    <div class="row">
-      <!-- Iterar sobre los medios y mostrarlos -->
-      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
-        <form th:action="@{/contenido}" method="get">
-          <input type="hidden" name="tipo" th:value="${media.tipo}" />
-          <input type="hidden" name="id" th:value="${media.id}" />
-          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-            <div class="card">
-              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-              <div class="card-body text-center">
-                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+      <hr />
+      <!-- LISTA DE FAVORITOS -->
+      <h2>Tus favoritos</h2>
+      <p>Ve más series, películas o libros para rellenar este espacio.</p>
+      <div class="row">
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+          <form th:action="@{/contenido}" method="get">
+            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <input type="hidden" name="id" th:value="${media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+              <div class="card">
+                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
+                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
+                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                <div class="card-body text-center">
+                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                </div>
               </div>
-            </div>
-          </button>
-        </form>
+            </button>
+          </form>
+        </div>
       </div>
+
+      <hr />
+
+
+      <h2>Mis Comentarios</h2>
+      <p>Aquí van tus Comentarios.</p>
+
+      <hr />
+
+      <h2>Mis Reseñas</h2>
+      <h5>Stranger Things - Adoramos</h5>
     </div>
 
-    <hr />
-    <!-- LISTA DE FAVORITOS -->
-    <h2>Ya visto</h2>
-    <p>Ve más series, películas o libros para rellenar este espacio.</p>
-    <div class="row">
-      <!-- Iterar sobre los medios y mostrarlos -->
-      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
-        <form th:action="@{/contenido}" method="get">
-          <input type="hidden" name="tipo" th:value="${media.tipo}" />
-          <input type="hidden" name="id" th:value="${media.id}" />
-          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-            <div class="card">
-              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-              <div class="card-body text-center">
-                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-              </div>
-            </div>
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <hr />
-
-    <h2>Mis Comentarios</h2>
-    <p>Aquí van tus Comentarios.</p>
-
-    <hr />
-
-    <h2>Mis Reseñas</h2>
-    <h5>Stranger Things - Adoramos</h5>
-  </div>
-  <!-- Aquí termina el div container contenidoPerfil -->
-
-  <footer>
-    <th:block th:replace="fragments/footer.html :: footer" />
-  </footer>
-</body>
-
+    <footer>
+        <th:block th:replace="fragments/footer.html :: footer" />
+    </footer>
+  </body>
 </html>

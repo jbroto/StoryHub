@@ -205,6 +205,27 @@ public class UserController {
 		return "user";
 	}
 
+
+	@GetMapping("/{id}/{nombreLista}")
+	public String getLista(@PathVariable long id, @PathVariable String  nombreLista, Model model, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+
+		// Obtenemos la lista de favoritos
+		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
+		.setParameter("name", nombreLista).getSingleResult();
+		//obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> medias = l.getMedias(); //creamos la lista de Medias contenidas en la lista
+
+		model.addAttribute("user", target);
+		model.addAttribute("lista", l); // Agregar la lista al modelo
+		model.addAttribute("contenidos", medias);
+
+		return "lista";		
+	}
+
+
+
+
 	/**
 	 * Returns the default profile pic
 	 * 

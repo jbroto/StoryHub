@@ -119,31 +119,25 @@ public class UserController {
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
-		//obtenemos la lista de favoritos, viendo y terminado
+		// obtenemos la lista de favoritos, viendo y terminado
 
 		List<Lista> listasUs = target.getListas();
 
 		// Obtenemos la lista de favoritos
 		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-		.setParameter("name", "favoritos").getSingleResult();
-		//obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
-		List<Media> favMedias = favoritos.getMedias(); //creamos la lista de Medias contenidas en la lista
+				.setParameter("name", "favoritos").getSingleResult();
+		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de estoy viendo
 		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-		.setParameter("name", "viendo").getSingleResult();
-		List<Media> viendoMedias = viendo.getMedias(); //creamos la lista de Medias contenidas en la lista
+				.setParameter("name", "viendo").getSingleResult();
+		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-
-	    // Obtenemos la lista de terminado
+		// Obtenemos la lista de terminado
 		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-		.setParameter("name", "terminado").getSingleResult();
-		List<Media> terminadoMedias = terminado.getMedias(); //creamos la lista de Medias contenidas en la lista
-
-
-		
-
-
+				.setParameter("name", "terminado").getSingleResult();
+		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
@@ -151,7 +145,7 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
-		return "user";		
+		return "user";
 	}
 
 	/**
@@ -208,38 +202,37 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/busqueda")
-    public String busqueda(@PathVariable long id, @RequestParam("paramBusqueda") String paramBusqueda, Model model) {
-    System.out.println(paramBusqueda + '\n' + '\n');
+	public String busqueda(@PathVariable long id, @RequestParam("paramBusqueda") String paramBusqueda, Model model) {
+		System.out.println(paramBusqueda + '\n' + '\n');
 
-	User target = entityManager.find(User.class, id);
+		User target = entityManager.find(User.class, id);
 
-    TMDBService s = new TMDBService();
-    String result = s.searchTerm(paramBusqueda);
+		TMDBService s = new TMDBService();
+		String result = s.searchTerm(paramBusqueda);
 
-    System.out.println("ESTOY ENTRANDO AQUÍ");
+		System.out.println("ESTOY ENTRANDO AQUÍ");
 
-    try {
-        // lo parseamos tipo JSON
-        ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			// lo parseamos tipo JSON
+			ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode rootNode = objectMapper.readTree(result);
+			JsonNode rootNode = objectMapper.readTree(result);
 
+			// Obtener la matriz "results"
+			JsonNode resultsNode = rootNode.get("results");
 
-        // Obtener la matriz "results"
-        JsonNode resultsNode = rootNode.get("results");
+			ArrayList<Media> lista = new ArrayList<>();
 
-        ArrayList<Media> lista = new ArrayList<>();
+			System.out.println("AQUI TAMBIEN LLEGO");
 
-        System.out.println("AQUI TAMBIEN LLEGO");
-        
-        // Iterar sobre los elementos de la matriz "results"
-        for (JsonNode resultNode : resultsNode) {
-            System.out.println(resultNode.get("id").asLong());
-			//parseamos los datos de la API TMDB
-            Media m = s.parseTMDBtoMedia(resultNode);
+			// Iterar sobre los elementos de la matriz "results"
+			for (JsonNode resultNode : resultsNode) {
+				System.out.println(resultNode.get("id").asLong());
+				// parseamos los datos de la API TMDB
+				Media m = s.parseTMDBtoMedia(resultNode);
 
-            lista.add(m);
-        }
+				lista.add(m);
+			}
 
 			System.out.println(lista);
 			model.addAttribute("user", target);
@@ -251,92 +244,93 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-    	return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return anterior
+		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
+							// anterior
 	}
 
 	@GetMapping("/{id}/contenido")
-    public String contenido(@PathVariable long id,@RequestParam("tipo") String tipo, @RequestParam("idMedia") Long idMedia, Model model) {
-        System.out.println(tipo + '\n' + idMedia + '\n'); //quitar, solo para comprobar en debug
+	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,
+			@RequestParam("idMedia") Long idMedia, Model model) {
+		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
 		User target = entityManager.find(User.class, id);
 
-		//parseamos los datos de la API TMDB
-        TMDBService s = new TMDBService();
+		// parseamos los datos de la API TMDB
+		TMDBService s = new TMDBService();
 
-        // Llamar al servicio para obtener los detalles del contenido
-        String resultado = s.obtenerContenido(tipo,idMedia);
-        String descripcion = "";
-        String backdropImageUrl ="https://image.tmdb.org/t/p/original";
+		// Llamar al servicio para obtener los detalles del contenido
+		String resultado = s.obtenerContenido(tipo, idMedia);
+		String descripcion = "";
+		String backdropImageUrl = "https://image.tmdb.org/t/p/original";
 
+		User usuario = entityManager.find(User.class, id);
+		model.addAttribute("user", usuario);
+		model.addAttribute("Listas", usuario.getListas());
 
-        try{
-            // lo parseamos tipo JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode resultNode = objectMapper.readTree(resultado);
+		try {
+			// lo parseamos tipo JSON
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode resultNode = objectMapper.readTree(resultado);
 
-            Media m = s.parseTMDBtoMedia(resultNode);
+			Media m = s.parseTMDBtoMedia(resultNode);
 			m.setTipo(tipo);
 
-            descripcion = resultNode.get("overview").asText();
-            backdropImageUrl += resultNode.get("backdrop_path").asText();
+			descripcion = resultNode.get("overview").asText();
+			backdropImageUrl += resultNode.get("backdrop_path").asText();
 
-    
-            // Agregamos los detalles del contenido al modelo
+			// Agregamos los detalles del contenido al modelo
 			model.addAttribute("user", target);
-            model.addAttribute("media", m);
-            model.addAttribute("descripcion", descripcion);
-            model.addAttribute("fondo", backdropImageUrl);
+			model.addAttribute("media", m);
+			model.addAttribute("descripcion", descripcion);
+			model.addAttribute("fondo", backdropImageUrl);
 
+			// Devolvemos el nombre de la vista a la que se redirigirá
+			return "contenido";
 
-            // Devolvemos el nombre de la vista a la que se redirigirá
-            return "contenido";
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-       return "contenido";//en caso de que no llegue al otro return
-    }
-
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "contenido";// en caso de que no llegue al otro return
+	}
 
 	@GetMapping("/{id}/{nombreLista}")
-	public String getLista(@PathVariable long id, @PathVariable String  nombreLista, Model model, HttpSession session) {
+	public String getLista(@PathVariable long id, @PathVariable String nombreLista, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 
 		// Obtenemos la lista de favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
-		.setParameter("name", nombreLista).getSingleResult();
-		//obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
-		List<Media> medias = l.getMedias(); //creamos la lista de Medias contenidas en la lista
+				.setParameter("name", nombreLista).getSingleResult();
+		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		model.addAttribute("user", target);
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
 
-		return "lista";		
+		return "lista";
 	}
 
 	@PostMapping("/{id}/addTo/{nombreLista}")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<String> addMediaToLista(@PathVariable long id,@PathVariable String nombreLista,
-	@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
-	 HttpSession session, Model model) {
+	public ResponseEntity<String> addMediaToLista(@PathVariable long id, @PathVariable String nombreLista,
+			@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
+			HttpSession session, Model model) {
 		TMDBService s = new TMDBService();
 
 		try {
-			User usuario = entityManager.find(User.class, id);//buscamos al usuario
-		
-			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-			.setParameter("name", nombreLista).getSingleResult();//buscamos la lista
+			User usuario = entityManager.find(User.class, id);// buscamos al usuario
 
-			//buscamos el contenido en la API
-			String resultado = s.obtenerContenido(tipoMedia,idMedia);
+			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
+					.setParameter("name", nombreLista).getSingleResult();// buscamos la lista
+
+			// buscamos el contenido en la API
+			String resultado = s.obtenerContenido(tipoMedia, idMedia);
 
 			ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode resultNode = objectMapper.readTree(resultado);
+			JsonNode resultNode = objectMapper.readTree(resultado);
 
-            Media m = s.parseTMDBtoMedia(resultNode);
+			Media m = s.parseTMDBtoMedia(resultNode);
 			m.setTipo(tipoMedia);
 
 			List<Media> lMedias = lista.getMedias();
@@ -356,7 +350,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir a la lista");
 		}
 	}
-
 
 	/**
 	 * Returns the default profile pic

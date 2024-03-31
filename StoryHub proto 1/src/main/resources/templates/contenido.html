@@ -8,7 +8,7 @@
     <title>Inicio</title>
 </head>
 
-<body>
+<body data-userId="${user.id}" data-mediaId="${media.id}" data-mediaTipo="${media.tipo}">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container contenido-section">
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="poster">
-                    <img class="poster-img" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                    <img class="poster-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
                         alt="Poster">
                 </div>
             </div>
@@ -25,9 +25,9 @@
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
                     <p class="descripcion" th:text="${descripcion}">No hay descripcion</p>
                     <div class="acciones">
-                        <button class="btn btn-primary">Favorito</button>
-                        <button class="btn btn-primary">Estoy viendo</button>
-                        <button class="btn btn-primary">Terminado</button>
+                        <button class="btn btn-primary" id="favoritoBtn">Favorito</button>
+                        <button class="btn btn-primary" id="viendoBtn" >Estoy viendo</button>
+                        <button class="btn btn-primary" id="terminadoBtn">Terminado</button>
                         <div class="rating">
                             <!-- aqui irian las estrellas para las valoraciones -->
                         </div>
@@ -119,6 +119,7 @@
     <footer>
         <th:block th:replace="fragments/footer.html :: footer" />
     </footer>
+    <script th:src="@{/js/contenido.js}"></script>
 </body>
 
 </html>

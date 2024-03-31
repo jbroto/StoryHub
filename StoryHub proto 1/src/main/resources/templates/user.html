@@ -13,7 +13,7 @@
       <h2>Mis Listas</h2>
       <p>Mis listas personalizadas</p>
       <!--Boton para crear una nueva lista-->
-      <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
+      <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
         Nueva Lista
       </button>
       <div class="container">
@@ -65,9 +65,9 @@
       <div class="row">
         <!-- Iterar sobre los medios y mostrarlos -->
         <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
-          <form th:action="@{/contenido}" method="get">
+          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="id" th:value="${media.id}" />
+            <input type="hidden" name="idMedia" th:value="${media.id}" />
             <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
               <div class="card">
                 <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
@@ -89,9 +89,9 @@
       <div class="row">
         <!-- Iterar sobre los medios y mostrarlos -->
         <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
-          <form th:action="@{/contenido}" method="get">
+          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="id" th:value="${media.id}" />
+            <input type="hidden" name="idMedia" th:value="${media.id}" />
             <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
               <div class="card">
                 <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
@@ -113,9 +113,9 @@
       <div class="row">
         <!-- Iterar sobre los medios y mostrarlos -->
         <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
-          <form th:action="@{/contenido}" method="get">
+          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="id" th:value="${media.id}" />
+            <input type="hidden" name="idMedia" th:value="${media.id}" />
             <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
               <div class="card">
                 <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 

@@ -6,6 +6,8 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class TMDBService {
 
     private static final String API_KEY = "?api_key=cba3b5b1f6b343e9fc31c5b787b270bd";
@@ -46,6 +48,29 @@ public class TMDBService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Media parseTMDBtoMedia(JsonNode resultNode){
+        Media m = new Media();
+
+        m.setApi("TMDB");
+        m.setId(resultNode.get("id").asLong());
+         // Verificamos si el campo "title" esta
+         if (resultNode.has("title")) {
+            m.setNombre(resultNode.get("title").asText());
+        } else if (resultNode.has("name")) { // Verificamos si el campo "name" esta
+            m.setNombre(resultNode.get("name").asText());
+        } else {
+            // Si ninguno de los campos está, podemos poner que no tiene nombre
+            m.setNombre("Nombre no disponible");
+        }
+
+        m.setCoverImageUrl(resultNode.get("poster_path").asText());
+        m.setRating(resultNode.get("vote_average").asDouble());
+        m.setTipo(resultNode.has("media_type") ? resultNode.get("media_type").asText() : "Tipo no disponible");
+        //cuando hacemos la busqueda de un contenido en concreto, puede no cotener el campo de tipo
+
+        return m;
     }
 
     public String obtenerCapitulos(String id){

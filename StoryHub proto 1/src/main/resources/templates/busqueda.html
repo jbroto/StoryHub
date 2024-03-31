@@ -19,9 +19,11 @@
         <div class="row">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
             <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
-                 <form th:action="@{/{idUs}/contenido(idUs=${session.u.id})}" method="get">
+
+                 <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+
                     <input type="hidden" name="tipo" th:value="${item.tipo}" />
-                    <input type="hidden" name="id" th:value="${item.id}" />
+                    <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
                             <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
@@ -33,21 +35,8 @@
                     </button>
                 </form>
             </div>
-
-
-
-            <!--
-                <a th:href="@{/contenido}" >
-                <div class="card">
-                  <img class="card-img" src="img/portada.jpg" alt="portada">
-                    <a class="card-body">
-                        <h6>Stranger Things</h6>
-                        <p>Stranger Things es una serie de televisión web estadounidense de suspenso y ciencia ficción coproducida y distribuida por Netflix
-                        </p>
-                    </a>
-                </a>-->
         </div>
-        </div>
+    </div>
 </body>
 
 </html>

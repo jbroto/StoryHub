@@ -25,9 +25,18 @@
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
                     <p class="descripcion" th:text="${descripcion}">No hay descripcion</p>
                     <div class="acciones">
-                        <button class="btn btn-primary">Favorito</button>
-                        <button class="btn btn-primary">Estoy viendo</button>
-                        <button class="btn btn-primary">Terminado</button>
+                        <h2> Añadir a: </h2>
+                        <div class="container">
+                            <div class="row">
+                              <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+                              <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
+                                <a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">
+                                  <!-- Redireccion al contenido de la lista seleccionada -->
+                                  <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
                         <div class="rating">
                             <!-- aqui irian las estrellas para las valoraciones -->
                         </div>

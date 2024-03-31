@@ -19,7 +19,9 @@
         <div class="row">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
             <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
                  <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+
                     <input type="hidden" name="tipo" th:value="${item.tipo}" />
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">

@@ -4,9 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.mapping.List;
 import java.util.ArrayList;
+
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import es.ucm.fdi.iw.model.TMDBService;
+import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Media;
-
 
 /**
  * Non-authenticated requests only.
@@ -26,6 +31,9 @@ import es.ucm.fdi.iw.model.Media;
 public class RootController {
 
     private static final Logger log = LogManager.getLogger(RootController.class);
+
+    @Autowired
+    private EntityManager entityManager;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -37,15 +45,16 @@ public class RootController {
         return "index";
     }
 
+
     @GetMapping("/home")
     public String home(Model model) {
         return "user";
     }
 
+
     @GetMapping("/adminreport")
     public String adminreport(Model model) {
         return "adminreport";
     }
-    
 
 }

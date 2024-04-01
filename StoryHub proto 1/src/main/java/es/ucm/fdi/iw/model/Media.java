@@ -21,7 +21,6 @@ import java.util.List;
 })
 public class Media implements Transferable<Media.Transfer>{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id; 
 
     @Column(nullable = false)

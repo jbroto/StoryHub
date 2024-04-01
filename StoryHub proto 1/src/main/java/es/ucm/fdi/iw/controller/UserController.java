@@ -337,6 +337,7 @@ public class UserController {
 
 			Media m = s.parseTMDBtoMedia(resultNode);
 			m.setTipo(tipoMedia);
+			entityManager.persist(m); //añadimos el contenido a la base de datos (porque siempre usamos temporalmente la API)
 
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
@@ -349,7 +350,11 @@ public class UserController {
 			model.addAttribute("user", usuario);
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", id, m, nombreLista);
-			return ResponseEntity.ok().body("Elemento agregado correctamente a la lista");
+			
+			//"Elemento agregado correctamente a la lista"
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, 
+			"/user/" + id + "/contenido?tipo="+tipoMedia+"&idMedia="+idMedia
+			).build();
 		} catch (Exception e) {
 			log.error("Error al crear la lista para el usuario " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir a la lista");

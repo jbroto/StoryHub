@@ -318,11 +318,16 @@ public class UserController {
 			HttpSession session, Model model) {
 		TMDBService s = new TMDBService();
 
+		System.out.println(nombreLista);
 		try {
 			User usuario = entityManager.find(User.class, id);// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
 					.setParameter("name", nombreLista).getSingleResult();// buscamos la lista
+
+			
+			System.out.println("AAAAAAAAAA");
+			System.out.println(lista.getName());
 
 			// buscamos el contenido en la API
 			String resultado = s.obtenerContenido(tipoMedia, idMedia);

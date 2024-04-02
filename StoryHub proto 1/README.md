@@ -35,3 +35,24 @@ También permitirá poner comentarios y reseñar series en general, capítulos o
 	- Una **Barra de Búsqueda** para encontrar contenido de todo tipo (no funcional)
  -  Pequeños ajustes en los `HTML` para que la redirección sea correcta
  -   Pequeños ajustes en los `CSS` para que los estilos se apliquen correctamente
+
+# **cambios realizados (2/4/2024)**:
+
+ La mayoría de operaciones se realizan a partir del path : `/user/{id}/`
+- Hemos implementado una clase `TMDBService.java` para poder manejar y tratar los datos de la API a `Media`
+ - **La Página de inicio de usuario:**   Contiene un resumen de lo que será la aplicación, siendo el punto de inicio para cada usuario. Se muestra a través del archivo `user.html`, y en el podremos encontrar: 
+	- Un conjunto de botones con el nombre de todas las listas que redirecciona al archivo `lista.html`, que contiene todos los `Media`  de la lista seleccionada
+	- Vistazo general de contenido en la lista de `Estoy viendo` (porque no estará disponibles en la lista de botones anteriores)
+	- Vistazo general de contenido en la lista de `Terminado` (porque no estará disponibles en la lista de botones anteriores)
+	- Vistazo general de contenido en la lista de `Favoritos` (porque no estará disponibles en la lista de botones anteriores)
+
+ - Al hacer click sobre un contenido, a través del archivo `contenido.html` se muestra la información mas relevante de este, como la portada, titulo y descripción. Contiene botones con los nombres de las listas existentes para poder añadir el contenido en ellas (en un futuro serán iconos).
+> **FALTA IMPLEMENTAR**:
+
+- Pulir la interfaz de `User`
+ - Comentarios: vistas y lógica
+ - Notificaciones a través de Webshockets y lógica de follow para `User`
+ - Página para editar el usuario (datos, user_pic,...)
+ - API de libros o mas contenido
+ - Realizar tests
+ 

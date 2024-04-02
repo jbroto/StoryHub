@@ -125,18 +125,18 @@ public class UserController {
 
 		// Obtenemos la lista de favoritos
 		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "favoritos").getSingleResult();
+				.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de estoy viendo
 		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "viendo").getSingleResult();
+				.setParameter("name", "viendo").setParameter("author", id).getSingleResult();
 		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de terminado
 		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "terminado").getSingleResult();
+				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		model.addAttribute("user", target);
@@ -151,6 +151,8 @@ public class UserController {
 	/**
 	 * Alter or create a user
 	 */
+
+	 //FALTA TRATAR EXCEPCIONES
 	@PostMapping("/{id}")
 	@Transactional
 	public String postUser(
@@ -299,7 +301,7 @@ public class UserController {
 
 		// Obtenemos la lista de favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", nombreLista).getSingleResult();
+		.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
@@ -323,7 +325,7 @@ public class UserController {
 			User usuario = entityManager.find(User.class, id);// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-					.setParameter("name", nombreLista).getSingleResult();// buscamos la lista
+			.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
 			
 			Media m = entityManager.find(Media.class, idMedia);//obtenemos el contenido si esta en BD
 			

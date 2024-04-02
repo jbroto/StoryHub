@@ -13,7 +13,8 @@ import lombok.AllArgsConstructor;
 @Data
 @NamedQueries({
     @NamedQuery(name = "Lista.byName", query = "SELECT l FROM Lista l "
-            + "WHERE l.name = :name") 
+            + "WHERE l.name = :name "
+            +"AND l.author.id = :author") 
 })
 public class Lista implements Transferable<Lista.Transfer> {
 

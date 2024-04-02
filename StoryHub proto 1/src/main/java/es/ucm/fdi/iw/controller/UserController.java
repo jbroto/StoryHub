@@ -324,7 +324,8 @@ public class UserController {
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
 					.setParameter("name", nombreLista).getSingleResult();// buscamos la lista
-
+			
+			Media m = entityManager.find(Media.class, idMedia);//obtenemos el contenido si esta en BD
 			
 			System.out.println("AAAAAAAAAA");
 			System.out.println(lista.getName());
@@ -335,9 +336,11 @@ public class UserController {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode resultNode = objectMapper.readTree(resultado);
 
-			Media m = s.parseTMDBtoMedia(resultNode);
+			if(m==null){//si no tenemos ese contenido en la BD
+				m = s.parseTMDBtoMedia(resultNode);
 			m.setTipo(tipoMedia);
 			entityManager.persist(m); //añadimos el contenido a la base de datos (porque siempre usamos temporalmente la API)
+			}
 
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
@@ -399,9 +402,10 @@ public class UserController {
 			nuevaLista.setAuthor(usuario);
 			nuevaLista.setIsPublic(lista.getIsPublic());
 			nuevaLista.setName(lista.getName());
-			usuario.addList(nuevaLista);
 
 			entityManager.persist(nuevaLista);
+
+			usuario.addList(nuevaLista);
 			entityManager.merge(usuario);
 			entityManager.flush();
 

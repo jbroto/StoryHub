@@ -50,6 +50,8 @@ También permitirá poner comentarios y reseñar series en general, capítulos o
 > **FALTA IMPLEMENTAR**:
 
 - Pulir la interfaz de `User`
+- Añadir Búsqueda de `Users`
+- Pagina de Registro de `User` funcional
  - Comentarios: vistas y lógica
  - Notificaciones a través de Webshockets y lógica de follow para `User`
  - Página para editar el usuario (datos, user_pic,...)

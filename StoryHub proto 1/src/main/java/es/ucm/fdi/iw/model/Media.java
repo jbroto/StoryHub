@@ -17,7 +17,10 @@ import java.util.List;
 @NamedQueries({
     @NamedQuery(name="Media.byRatimg",
             query="SELECT m FROM Media m "
-                    + "WHERE m.rating = :rating ")
+                    + "WHERE m.rating = :rating "),
+    @NamedQuery(name="Media.byname",
+            query="SELECT m FROM Media m "
+                    + "WHERE m.nombre = :nombre ")                
 })
 public class Media implements Transferable<Media.Transfer>{
     @Id
@@ -28,6 +31,9 @@ public class Media implements Transferable<Media.Transfer>{
     private String nombre;
     private String api;
     private String coverImageUrl;
+    private String backdropImageUrl;
+    @Lob
+    private String descripcion;//la notacion lob es para datos largos
     @OneToOne
     private Media father;
     private Double rating;

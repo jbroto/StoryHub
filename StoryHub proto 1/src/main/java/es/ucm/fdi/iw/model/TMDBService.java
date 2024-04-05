@@ -67,8 +67,15 @@ public class TMDBService {
 
         m.setCoverImageUrl(resultNode.get("poster_path").asText());
         m.setRating(resultNode.get("vote_average").asDouble());
-        m.setTipo(resultNode.has("media_type") ? resultNode.get("media_type").asText() : "Tipo no disponible");
         //cuando hacemos la busqueda de un contenido en concreto, puede no cotener el campo de tipo
+        m.setTipo(resultNode.has("media_type") ? resultNode.get("media_type").asText() : "Tipo no disponible");
+        //si tiene descripción la insertamos
+        m.setDescripcion(resultNode.has("overview") ? resultNode.get("overview").asText(): "Sin descripción :(");
+        //si tiene imagen de fondo la insertamos
+        if(resultNode.has("backdrop_path")){
+            m.setBackdropImageUrl("https://image.tmdb.org/t/p/original" + resultNode.get("backdrop_path").asText());
+        }
+
 
         return m;
     }

@@ -257,34 +257,29 @@ public class UserController {
 
 		User target = entityManager.find(User.class, id);
 
-		// parseamos los datos de la API TMDB
-		TMDBService s = new TMDBService();
-
-		// Llamar al servicio para obtener los detalles del contenido
-		String resultado = s.obtenerContenido(tipo, idMedia);
-		String descripcion = "";
-		String backdropImageUrl = "https://image.tmdb.org/t/p/original";
-
 		User usuario = entityManager.find(User.class, id);
 		model.addAttribute("user", usuario);
 		model.addAttribute("Listas", usuario.getListas());
 
+		Media m = entityManager.find(Media.class, idMedia);
+
 		try {
-			// lo parseamos tipo JSON
-			ObjectMapper objectMapper = new ObjectMapper();
-			JsonNode resultNode = objectMapper.readTree(resultado);
 
-			Media m = s.parseTMDBtoMedia(resultNode);
-			m.setTipo(tipo);
+			if(m==null){ //si no tenemos el con o en la BD, lo sacamos de la API
+				// parseamos los datos de la API TMDB
+				TMDBService s = new TMDBService();
+				// Llamar al servicio para obtener los detalles del contenido
+				String resultado = s.obtenerContenido(tipo, idMedia);
+				// lo parseamos tipo JSON
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode resultNode = objectMapper.readTree(resultado);
 
-			descripcion = resultNode.get("overview").asText();
-			backdropImageUrl += resultNode.get("backdrop_path").asText();
-
+				m = s.parseTMDBtoMedia(resultNode);
+				m.setTipo(tipo);
+			}
 			// Agregamos los detalles del contenido al modelo
 			model.addAttribute("user", target);
 			model.addAttribute("media", m);
-			model.addAttribute("descripcion", descripcion);
-			model.addAttribute("fondo", backdropImageUrl);
 
 			// Devolvemos el nombre de la vista a la que se redirigirá
 			return "contenido";

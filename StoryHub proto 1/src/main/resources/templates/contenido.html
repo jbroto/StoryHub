@@ -12,7 +12,7 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container contenido-section">
-        <div class="contenido-background" th:style="'background-image: url(' + ${fondo} + ')'"></div>
+        <div class="contenido-background" th:style="'background-image: url(' + ${media.backdropImageUrl} + ')'"></div>
         <div class="row">
             <div class="col-md-6">
                 <div class="poster">
@@ -23,7 +23,7 @@
             <div class="col-md-6">
                 <div class="contenido-info">
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
-                    <p class="descripcion" th:text="${descripcion}">No hay descripcion</p>
+                    <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
                     <div class="acciones">
                         <h2> Añadir a: </h2>
                         <div class="container">

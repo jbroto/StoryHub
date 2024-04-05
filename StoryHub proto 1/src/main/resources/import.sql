@@ -15,11 +15,13 @@ VALUES (2,'', FALSE,'viendo', 2);
 INSERT INTO Lista (ID, CATEGORIES, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (3,'', FALSE,'terminado', 2);
 
-INSERT INTO Media (ID, API, COVER_IMAGE_URL, NOMBRE, RATING, TIPO, FATHER_ID)
-VALUES (66732,'TMDB','/wHhjZMlYGT9yUEyGpP9jmR6Jq3I.jpg', 'Stranger Things',8.613000 , 'tv',null);
+INSERT INTO Media (ID, API, COVER_IMAGE_URL, BACKDROP_IMAGE_URL, DESCRIPCION, NOMBRE, RATING, TIPO, FATHER_ID)
+VALUES (66732,'TMDB','/wHhjZMlYGT9yUEyGpP9jmR6Jq3I.jpg', 'https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
+'A raíz de la desaparición de un niño, un pueblo desvela un misterio relacionado con experimentos secretos, fuerzas sobrenaturales aterradoras y una niña muy extraña.'
+,'Stranger Things',8.613000 , 'tv',null);
 
 INSERT INTO Media_User_Relation(CALIFICACION, ENDED, FAVORITO, VIENDO, MEDIA_ID, USER_ID)
-VALUES(null, TRUE, TRUE, TRUE, 66732, 2);
+VALUES(7, TRUE, TRUE, TRUE, 66732, 2);
 
 INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID)
 VALUES (1, 66732);

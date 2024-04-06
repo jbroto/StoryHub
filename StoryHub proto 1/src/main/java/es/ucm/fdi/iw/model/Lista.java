@@ -39,6 +39,16 @@ public class Lista implements Transferable<Lista.Transfer> {
     private Boolean isPublic;
     private String categories;
 
+    public Lista(User user, String name, boolean isPublic, String categories ){
+        this.author = user;
+        this.name = name;
+        this.isPublic = isPublic;
+        this.categories = categories;
+    }
+
+    public Lista() {
+    }
+
     @Getter
     @AllArgsConstructor
     public class Transfer {

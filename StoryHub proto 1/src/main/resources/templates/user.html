@@ -69,7 +69,7 @@
       <p>Tus peliculas, series y libros</p>
       <div class="row">
         <!-- Iterar sobre los medios y mostrarlos -->
-        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${viendo}">
           <form th:action="@{/user/__${user.id}__/contenido}" method="get">
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
             <input type="hidden" name="idMedia" th:value="${media.id}" />

@@ -152,7 +152,7 @@ public class UserController {
 	 * Alter or create a user
 	 */
 
-	 //FALTA TRATAR EXCEPCIONES
+	// FALTA TRATAR EXCEPCIONES
 	@PostMapping("/{id}")
 	@Transactional
 	public String postUser(
@@ -265,7 +265,7 @@ public class UserController {
 
 		try {
 
-			if(m==null){ //si no tenemos el con o en la BD, lo sacamos de la API
+			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
 				// parseamos los datos de la API TMDB
 				TMDBService s = new TMDBService();
 				// Llamar al servicio para obtener los detalles del contenido
@@ -296,7 +296,7 @@ public class UserController {
 
 		// Obtenemos la lista de favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
-		.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
+				.setParameter("name", nombreLista).setParameter("author", id).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
@@ -320,10 +320,10 @@ public class UserController {
 			User usuario = entityManager.find(User.class, id);// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-			.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
-			
-			Media m = entityManager.find(Media.class, idMedia);//obtenemos el contenido si esta en BD
-			
+					.setParameter("name", nombreLista).setParameter("author", id).getSingleResult();
+
+			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
+
 			System.out.println("AAAAAAAAAA");
 			System.out.println(lista.getName());
 
@@ -333,10 +333,11 @@ public class UserController {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode resultNode = objectMapper.readTree(resultado);
 
-			if(m==null){//si no tenemos ese contenido en la BD
+			if (m == null) {// si no tenemos ese contenido en la BD
 				m = s.parseTMDBtoMedia(resultNode);
-			m.setTipo(tipoMedia);
-			entityManager.persist(m); //añadimos el contenido a la base de datos (porque siempre usamos temporalmente la API)
+				m.setTipo(tipoMedia);
+				entityManager.persist(m); // añadimos el contenido a la base de datos (porque siempre usamos
+											// temporalmente la API)
 			}
 
 			List<Media> lMedias = lista.getMedias();
@@ -350,11 +351,10 @@ public class UserController {
 			model.addAttribute("user", usuario);
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", id, m, nombreLista);
-			
-			//"Elemento agregado correctamente a la lista"
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, 
-			"/user/" + id + "/contenido?tipo="+tipoMedia+"&idMedia="+idMedia
-			).build();
+
+			// "Elemento agregado correctamente a la lista"
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
+					"/user/" + id + "/contenido?tipo=" + tipoMedia + "&idMedia=" + idMedia).build();
 		} catch (Exception e) {
 			log.error("Error al crear la lista para el usuario " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir a la lista");

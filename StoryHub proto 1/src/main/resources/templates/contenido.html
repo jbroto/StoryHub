@@ -31,12 +31,16 @@
                                 <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
                                 <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
                                     <!--<a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">-->
-                                        <!-- Redireccion al contenido de la lista seleccionada -->
+                                        <!-- Redireccion a añadir a lista -->
                                         <form th:action="@{/user/{id}/addTo/{list}(id=${user.id}, list=${item.name})}" method="post">
                                             <input type="hidden" name="mediaId" th:value="${media.id}" />
                                             <input type="hidden" name="mediaTipo" th:value="${media.tipo}" />
-                                            <button type="submit" class="btn btn-warning"
-                                                th:text="${item.name}">Nombre</button>
+                                            <button type="submit" class="btn btn-outline-info">
+                                                <span th:if="${item.name == 'favoritos'}">❤️</span>
+                                                <span th:if="${item.name == 'viendo'}">👀</span>
+                                                <span th:if="${item.name == 'terminado'}">🔚</span>
+                                                <span th:unless="${item.name == 'favoritos'||item.name == 'viendo'||item.name == 'terminado'}" th:text="${item.name}">Nombre</span>
+                                            </button>
                                         </form>
                                     <!--</a>-->
                                 </div>

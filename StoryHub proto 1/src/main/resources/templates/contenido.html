@@ -111,6 +111,49 @@
 
     <div class="container mb-2">
         <h2>Comentarios</h2>
+        <!--Boton para poner un comentario-->
+      <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#comentarioModal">
+        Nuevo Comentario
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="comentarioModal" role="dialog" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nuevo Comentario</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulario -->
+              <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${comentario}" method="post">
+                <div class="form-group">
+                  <label for="cont">Comentario</label>
+                  <input type="text" class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}">
+                </div>
+                <div class="form-group">
+                    <label for="calificacion">Calificación:</label><br>
+                    <input type="radio" id="estrella1" name="puntuacion" th:value="1">
+                    <label for="estrella1">⭐</label>
+                    <input type="radio" id="estrella2" name="puntuacion" th:value="2">
+                    <label for="estrella2">⭐</label>
+                    <input type="radio" id="estrella3" name="puntuacion" th:value="3">
+                    <label for="estrella3">⭐</label>
+                    <input type="radio" id="estrella4" name="puntuacion" th:value="4">
+                    <label for="estrella4">⭐</label>
+                    <input type="radio" id="estrella5" name="puntuacion" th:value="5">
+                    <label for="estrella5">⭐</label>
+                </div>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
         <div class="comment">
             <h5>Usuario1</h5>
             <p>Me encanta esta serie!!!!</p>

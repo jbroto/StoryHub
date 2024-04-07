@@ -258,6 +258,8 @@ public class UserController {
 		User target = entityManager.find(User.class, id);
 
 		User usuario = entityManager.find(User.class, id);
+		Comment comentario = new Comment();
+		model.addAttribute("comentario", comentario);
 		model.addAttribute("user", usuario);
 		model.addAttribute("Listas", usuario.getListas());
 

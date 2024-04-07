@@ -127,7 +127,7 @@
             </div>
             <div class="modal-body">
               <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${comentario}" method="post">
+              <form th:action="@{/user/__${user.id}__/__${media.id}__nuevoComentario}" th:object="${comentario}" method="post">
                 <div class="form-group">
                   <label for="cont">Comentario</label>
                   <input type="text" class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}">

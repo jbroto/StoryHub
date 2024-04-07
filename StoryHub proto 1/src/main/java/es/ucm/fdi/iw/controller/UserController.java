@@ -420,6 +420,45 @@ public class UserController {
 		}
 	}
 
+	@PostMapping("/{id}/{idMedia}/nuevoComentario")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<String> nuevoComentario(@PathVariable long id, @PathVariable long idMedia,
+			@ModelAttribute Comment comentario, HttpSession session,
+			Model model) {
+		try {
+			User usuario = entityManager.find(User.class, id);
+			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
+			model.addAttribute("user", usuario);
+			Comment coment = new Comment();
+			model.addAttribute("comentario", coment);
+			coment.setAuthor(usuario);
+			coment.setText(comentario.getText());
+			coment.setMedia(m);
+			coment.setPuntuacion(comentario.getPuntuacion());
+			coment.setDateSent(LocalDateTime.now());
+
+			entityManager.persist(coment);
+
+			m.addComment(coment);
+			entityManager.merge(m);
+			entityManager.flush();
+
+			List<Comment> comentsMedia = m.getComments();
+			model.addAttribute("comentarios", comentsMedia);
+
+			List<Lista> listasUs = usuario.getListas();
+			model.addAttribute("Listas", listasUs);
+
+			log.info("Comentario de ", id);
+
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + id).build();
+		} catch (Exception e) {
+			log.error("Error al comentar " + id, e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
+		}
+	}
+
 	/**
 	 * Uploads a profile pic for a user id
 	 * 

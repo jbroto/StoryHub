@@ -281,6 +281,8 @@ public class UserController {
 				m.setTipo(tipo);
 			}
 			// Agregamos los detalles del contenido al modelo
+			List<Comment> comentsMedia = m.getComments();
+			model.addAttribute("comentarios", comentsMedia);
 			model.addAttribute("user", target);
 			model.addAttribute("media", m);
 
@@ -293,7 +295,7 @@ public class UserController {
 		return "contenido";// en caso de que no llegue al otro return
 	}
 
-	//PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
+	// PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
 	@GetMapping("/{id}/check-nombreLista")
 	public ResponseEntity<Boolean> checkNombreLista(@PathVariable long id, @RequestParam String nombreLista) {
 		try {
@@ -442,11 +444,24 @@ public class UserController {
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<String> nuevoComentario(@PathVariable long id, @PathVariable long idMedia,
-			@ModelAttribute Comment comentario, HttpSession session,
+			@RequestParam("tipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
 		try {
 			User usuario = entityManager.find(User.class, id);
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
+			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
+				// parseamos los datos de la API TMDB
+				TMDBService s = new TMDBService();
+				// Llamar al servicio para obtener los detalles del contenido
+				String resultado = s.obtenerContenido(tipo, idMedia);
+				// lo parseamos tipo JSON
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode resultNode = objectMapper.readTree(resultado);
+
+				m = s.parseTMDBtoMedia(resultNode);
+				m.setTipo(tipo);
+				entityManager.persist(m);
+			}
 			model.addAttribute("user", usuario);
 			Comment coment = new Comment();
 			model.addAttribute("comentario", coment);
@@ -468,9 +483,12 @@ public class UserController {
 			List<Lista> listasUs = usuario.getListas();
 			model.addAttribute("Listas", listasUs);
 
+			model.addAttribute("media", m);
+
 			log.info("Comentario de ", id);
 
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + id).build();
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
+					"/user/" + id + "/contenido?tipo=" + m.getTipo() + "&idMedia=" + m.getId()).build();
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");

@@ -127,10 +127,11 @@
             </div>
             <div class="modal-body">
               <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/__${media.id}__nuevoComentario}" th:object="${comentario}" method="post">
+              <form th:action="@{/user/__${user.id}__/__${media.id}__/nuevoComentario}" th:object="${comentario}" method="post">
                 <div class="form-group">
                   <label for="cont">Comentario</label>
                   <input type="text" class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}">
+                  <input type="hidden" name="tipo" th:value="${media.tipo}" />
                 </div>
                 <div class="form-group">
                     <label for="calificacion">Calificación:</label><br>
@@ -154,27 +155,19 @@
           </div>
         </div>
       </div>
-        <div class="comment">
-            <h5>Usuario1</h5>
-            <p>Me encanta esta serie!!!!</p>
-            <button class="btn btn-danger">Flag</button>
-        </div>
-        <div class="comment">
-            <h5>Usuario2</h5>
-            <p>Personalmente creo que esta serie dentro de la capacidad que tenian para producirla es muy pobre
-                tanto por guion como por audiovisuales" - Usuario1.</p>
-            <button class="btn btn-danger"> Flag</button>
-        </div>
+            <ul>
+                <li th:each="comentario : ${comentarios}" th:text="${comentario.text}"></li>
+            </ul>
     </div>
     <hr>
-    <div class="container mb-2">
+    <!--<div class="container mb-2">
         <h2>Reseñas</h2>
         <div class="comment">
             <h5>Yo</h5>
             <p>Adoramos</p>
             <button class="btn btn-danger">Flag</button>
         </div>
-    </div>
+    </div>-->
 
 
     <footer>

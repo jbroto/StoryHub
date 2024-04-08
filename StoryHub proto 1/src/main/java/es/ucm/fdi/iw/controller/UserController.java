@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -290,6 +291,23 @@ public class UserController {
 			e.printStackTrace();
 		}
 		return "contenido";// en caso de que no llegue al otro return
+	}
+
+	//PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
+	@GetMapping("/{id}/check-nombreLista")
+	public ResponseEntity<Boolean> checkNombreLista(@PathVariable long id, @RequestParam String nombreLista) {
+		try {
+			// Verificar si la lista existe para el usuario dado su nombre
+			Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
+					.setParameter("name", nombreLista)
+					.setParameter("author", id)
+					.getSingleResult();
+			// Si la lista existe, devolver true
+			return ResponseEntity.ok(true);
+		} catch (NoResultException e) {
+			// Si la lista no existe, devolver false
+			return ResponseEntity.ok(false);
+		}
 	}
 
 	@GetMapping("/{id}/{nombreLista}")

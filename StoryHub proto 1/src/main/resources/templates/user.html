@@ -10,7 +10,7 @@
   </style>
   </head>
 
-  <body>
+  <body th:data-iduser="${user.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container contenidoPerfil">
       <h1 class="mb-4">Bienvenido: <span th:text="${user.username}">default</span></h1>
@@ -48,12 +48,13 @@
                 <div class="form-group">
                   <label for="nombreLista">Nombre de la Lista</label>
                   <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista" th:field="*{name}">
+                  <div id="nombreLista-error"></div>
                 </div>
                 <div class="form-group form-check">
                   <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{isPublic}">
                   <label class="form-check-label" for="listaPublica">Lista Pública</label>
                 </div>
-                <button type="submit" class="btn btn-primary" >Guardar</button>
+                <button type="submit" id="crearListaButton" class="btn btn-primary" disabled>Guardar</button>
               </form>
             </div>
             <div class="modal-footer">

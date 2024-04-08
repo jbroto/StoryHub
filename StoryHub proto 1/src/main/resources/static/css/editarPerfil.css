@@ -1,0 +1,46 @@
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture {
+    margin-right: 20px;
+}
+
+.change-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload:hover {
+    background-color: #0056b3;
+}
+
+.btn-primary {
+    margin-top: 10px;
+}
+
+.container {
+    border: 2px solid #ccc; /* Grosor del borde */
+    border-radius: 10px; /* Radio de redondeo de las esquinas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+    /* Añade un relleno para separar el contenido del borde */
+    padding-left: 50px; 
+    padding-right: 50px; 
+    padding-bottom: 20px; 
+
+  }

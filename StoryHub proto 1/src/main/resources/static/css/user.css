@@ -1,56 +1,54 @@
+
 body {
-  background-color: #f8f9fa;
-  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle, #fff, #eff6ff);
+  color: #333; /* Color de texto oscuro para contrastar */
+  font-family: Tahoma, Geneva, sans-serif;
+  
   margin: 0;
 }
 
-.navbar {
-  border-radius: 0;
+.container.overview {
+  /*background: radial-gradient(circle, #2a2a2a, #2c2c2c); /* Color de fondo oscuro */
+  /*color: #fff; /* Color de texto blanco para contrastar */
+  border: 2px solid #ccc; /* Grosor del borde */
+  border-radius: 10px; /* Radio de redondeo de las esquinas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+
+  padding: 20px; /* Añade un relleno para separar el contenido del borde */
+}
+
+.container.crearLista{
+  border: 2px solid #ccc; /* Grosor del borde */
+  border-radius: 10px; /* Radio de redondeo de las esquinas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+  padding: 20px;
+}
+
+.mostrarListas{
+  gap:20px;
+}
+
+.botonLista{
+  gap:20px;
 }
 
 .contenidoPerfil {
-  max-width: 600px;
-  text-align: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  margin: auto; /* Añadido para centrar horizontalmente */
-  margin-top: 10vh; /* Ajusta según tus preferencias para centrar verticalmente */
+  padding-top: 20px; /* Añade un relleno en la parte superior del div "contenidoPerfil" para compensar el espacio ocupado por el div "overview" */
 }
 
-.card {
-  border: none;
-  transition: transform 0.2s;
+.number p {
+  font-size: 20px; /* Tamaño de fuente deseado */
 }
 
-.card:hover {
-  transform: scale(1.05);
+.profile-info {
+  gap:25px;
 }
 
-footer {
-  text-align: center;
-  padding: 20px 0;
-  background-color: #343a40;
-  color: white;
-}
-.navbar {
-  background-color: transparent;
-  border: none;
-  transition: background-color 0.3s;
+.stats{
+  gap:25px;
 }
 
-.navbar:hover {
-  background-color: rgba(58, 48, 67, 0.2);
-}
-
-.navbar-brand,
-.navbar-nav a {
-  color: rgb(126, 124, 124);
-  position: center;
-}
-
-
-.navbar-toggler {
-  border: none;
+.row {
+  margin-bottom: 20px; /* Puedes ajustar el valor según la separación deseada */
 }
 

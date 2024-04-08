@@ -204,6 +204,15 @@ public class UserController {
 		return "user";
 	}
 
+	@GetMapping("/{id}/editarPerfil")
+	public String editarPerfil(@PathVariable long id, Model model) {
+		User user = entityManager.find(User.class, id);
+
+		model.addAttribute("user", user);
+		return "editarPerfil";
+	}
+	
+
 	@GetMapping("/{id}/busqueda")
 	public String busqueda(@PathVariable long id, @RequestParam("paramBusqueda") String paramBusqueda, Model model) {
 		System.out.println(paramBusqueda + '\n' + '\n');
@@ -247,8 +256,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
-							// anterior
+		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return anterior
 	}
 
 	@GetMapping("/{id}/contenido")
@@ -295,7 +303,7 @@ public class UserController {
 		return "contenido";// en caso de que no llegue al otro return
 	}
 
-	// PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
+	//PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
 	@GetMapping("/{id}/check-nombreLista")
 	public ResponseEntity<Boolean> checkNombreLista(@PathVariable long id, @RequestParam String nombreLista) {
 		try {

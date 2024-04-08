@@ -1,155 +1,235 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>Inicio</title>
-    <style>
-      body {
-          font-family: Tahoma, Geneva, sans-serif;
-      }
-  </style>
-  </head>
 
-  <body th:data-iduser="${user.id}">
-    <header th:replace="fragments/nav.html :: nav"></header>
-    <div class="container contenidoPerfil">
-      <h1 class="mb-4">Bienvenido: <span th:text="${user.username}">default</span></h1>
+<head>
+  <th:block th:replace="fragments/head :: header" />
+  <link rel="stylesheet" th:href="@{/css/user.css}" href="css/user.css" type="text/css" />
+  <title>Inicio</title>
 
-      <h2>Mis Listas</h2>
-      <p>Mis listas personalizadas</p>
-      <!--Boton para crear una nueva lista-->
-      <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
-        Nueva Lista
-      </button>
-      <div class="container">
-        <div class="row">
-          <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
-          <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
-            <a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">
-              <!-- Redireccion al contenido de la lista seleccionada -->
-              <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
+</head>
+
+<body th:data-iduser="${user.id}">
+  <header th:replace="fragments/nav.html :: nav"></header>
+  <main class="flex-shrink-0">
+    <div class="container overview">
+      <div class="row">
+        <!-- Columna izquierda: Foto de perfil, nombre de usuario y botón de editar perfil -->
+        <div class="col-md-6">
+          <div class="profile-info d-flex align-items-center">
+            <!-- Foto de usuario -->
+            <div class="profile-picture mr-3">
+              <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
+                class="rounded-circle" style="width: 100px; height: 100px;">
+            </div>
+            <!-- Nombre de usuario -->
+            <div class="username">
+              <h3><span th:text="${user.username}">Default</span></h3>
+            </div>
+            <!-- Botón para editar perfil -->
+            <div class="edit-profile ml-auto">
+              <a th:href="@{/user/__${user.id}__/editarPerfil}">
+                <button class="btn btn-primary">Editar Perfil</button>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <!-- Columna derecha: Contadores de contenido visto, seguidores y usuarios seguidos -->
+        <div class="col-md-6 mt-3">
+          <div class="stats d-flex flex-row justify-content-end">
+            <!-- Contador de contenido visto -->
+            <div class="content-viewed d-flex flex-column align-items-center">
+              <div class="text">
+                <h4>Contenido</h4>
+              </div>
+
+              <div class="number">
+                <p>100</p>
+              </div>
+            </div>
+            <!-- Contador de seguidores -->
+            <div class="followers d-flex flex-column align-items-center mr-2">
+              <div class="text">
+                <h4>Seguidores</h4>
+              </div>
+
+              <div class="number">
+                <p>500</p>
+              </div>
+            </div>
+            <!-- Contador de usuarios seguidos -->
+            <div class="following d-flex flex-column align-items-center">
+              <div class="text">
+                <h4>Siguiendo</h4>
+              </div>
+
+              <div class="number">
+                <p>300</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="container contenidoPerfil">
+
+    <!-- boton para abrir el collapse -->
+    <div class="container crearLista">
+
+      <div class="row">
+        <div class="col-md-6 mt-3">
+          <div class="mostrarListas d-flex">
+            <a class="btn btn-success mb-2 " data-bs-toggle="collapse" href="#collapseNombreListas" role="button"
+              aria-expanded="false" aria-controls="collapseNombreListas">
+              Mis Listas
             </a>
+            <!--Boton para crear una nueva lista-->
+            <button type="button" class="btn btn-primary mb-2 " data-bs-toggle="modal"
+              data-bs-target="#nuevaListaModal">
+              Añadir Lista
+            </button>
           </div>
         </div>
       </div>
-       <!-- Modal -->
-       <div class="modal fade" id="nuevaListaModal" role="dialog" >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nueva Lista</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${Lista}" method="post">
-                <div class="form-group">
-                  <label for="nombreLista">Nombre de la Lista</label>
-                  <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista" th:field="*{name}">
-                  <div id="nombreLista-error"></div>
-                </div>
-                <div class="form-group form-check">
-                  <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{isPublic}">
-                  <label class="form-check-label" for="listaPublica">Lista Pública</label>
-                </div>
-                <button type="submit" id="crearListaButton" class="btn btn-primary" disabled>Guardar</button>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+      <div class="collapse" id="collapseNombreListas">
+        <div class="row">
+          <div class="col-md-6 mt-3 d-flex flex-row justify-content-start botonLista">
+            <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+            <div th:each="item : ${Listas}" class="mr-2">
+              <a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">
+                <!-- Redireccion al contenido de la lista seleccionada -->
+                <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <hr />
-      <!-- LISTA DE ESTAS VIENDO -->
-      <h2>Estás viendo</h2>
-      <p>Tus peliculas, series y libros</p>
-      <div class="row">
-        <!-- Iterar sobre los medios y mostrarlos -->
-        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${viendo}">
-          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-            <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="idMedia" th:value="${media.id}" />
-            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card">
-                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
-                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
-                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                <div class="card-body text-center">
-                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                </div>
-              </div>
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <hr />
-      <!-- LISTA DE TERMINADO -->
-      <h2>Ya visto</h2>
-      <p>Ve más series, películas o libros para rellenar este espacio.</p>
-      <div class="row">
-        <!-- Iterar sobre los medios y mostrarlos -->
-        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
-          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-            <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="idMedia" th:value="${media.id}" />
-            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card">
-                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
-                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
-                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                <div class="card-body text-center">
-                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                </div>
-              </div>
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <hr />
-      <!-- LISTA DE FAVORITOS -->
-      <h2>Tus favoritos</h2>
-      <p>Ve más series, películas o libros para rellenar este espacio.</p>
-      <div class="row">
-        <!-- Iterar sobre los medios y mostrarlos -->
-        <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
-          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-            <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="idMedia" th:value="${media.id}" />
-            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card">
-                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" 
-                alt="portada" th:style="'height: 300px; object-fit: cover;'"/>
-                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                <div class="card-body text-center">
-                    <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                </div>
-              </div>
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <hr />
-
-
-      <h2>Mis Comentarios</h2>
-      <p>Aquí van tus Comentarios.</p>
-
-      <hr />
-
-      <h2>Mis Reseñas</h2>
-      <h5>Stranger Things - Adoramos</h5>
     </div>
 
-    <footer>
-        <th:block th:replace="fragments/footer.html :: footer" />
-    </footer>
-  </body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="nuevaListaModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nueva Lista</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulario -->
+            <form th:action="@{/user/__${user.id}__/crearLista}" th:object="${Lista}" method="post">
+              <div class="form-group">
+                <label for="nombreLista">Nombre de la Lista</label>
+                <input type="text" class="form-control" id="nombreLista" placeholder="Ingrese el nombre de la lista"
+                  th:field="*{name}">
+                <div id="nombreLista-error"></div>
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="listaPublica" th:field="*{isPublic}">
+                <label class="form-check-label" for="listaPublica">Lista Pública</label>
+              </div>
+              <button type="submit" id="crearListaButton" class="btn btn-primary" disabled>Guardar</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <!-- LISTA DE ESTAS VIENDO -->
+    <h2>Estás viendo</h2>
+    <p>Tus peliculas, series y libros</p>
+    <div class="row">
+      <!-- Iterar sobre los medios y mostrarlos -->
+      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${viendo}">
+        <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+          <input type="hidden" name="tipo" th:value="${media.tipo}" />
+          <input type="hidden" name="idMedia" th:value="${media.id}" />
+          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+            <div class="card">
+              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+              <div class="card-body text-center">
+                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+              </div>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <hr />
+    <!-- LISTA DE TERMINADO -->
+    <h2>Ya visto</h2>
+    <p>Ve más series, películas o libros para rellenar este espacio.</p>
+    <div class="row">
+      <!-- Iterar sobre los medios y mostrarlos -->
+      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${terminado}">
+        <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+          <input type="hidden" name="tipo" th:value="${media.tipo}" />
+          <input type="hidden" name="idMedia" th:value="${media.id}" />
+          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+            <div class="card">
+              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+              <div class="card-body text-center">
+                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+              </div>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <hr />
+    <!-- LISTA DE FAVORITOS -->
+    <h2>Tus favoritos</h2>
+    <p>Ve más series, películas o libros para rellenar este espacio.</p>
+    <div class="row">
+      <!-- Iterar sobre los medios y mostrarlos -->
+      <div class="col-lg-4 col-md-6 mb-4" th:each="media : ${favoritos}">
+        <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+          <input type="hidden" name="tipo" th:value="${media.tipo}" />
+          <input type="hidden" name="idMedia" th:value="${media.id}" />
+          <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+            <div class="card">
+              <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+              <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+              <div class="card-body text-center">
+                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+              </div>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <hr />
+
+
+    <h2>Mis Comentarios</h2>
+    <p>Aquí van tus Comentarios.</p>
+
+    <hr />
+
+    <h2>Mis Reseñas</h2>
+    <h5>Stranger Things - Adoramos</h5>
+  </div>
+
+  <footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
+  </footer>
+</body>
+
 </html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/editarPerfil.css}" href="css/editarPerfil.css" type="text/css" />
+    <title>Perfil de Usuario</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1>Perfil de  <span th:text="${user.username}">default</span></h1>
+            <div class="profile-info">
+                <div class="profile-picture">
+                    <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
+                    class="rounded-end" style="width: 200px; height: 200px;">
+                </div>
+                <div class="change-picture">
+                    <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post" enctype="multipart/form-data">
+                        <input type="file" id="newProfilePic" name="photo" accept="image/*">
+                        <button type="submit" class="btn btn-sm btn-secondary">Cambiar Foto</button>
+                    </form>
+                </div>
+            </div>
+            <form id="profileForm" th:object="${user}" method="post" th:action="@{/perfil}" enctype="multipart/form-data">
+                <p>
+                    <label for="firstName">Nombre</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}">
+                </p>
+                <p>
+                    <label for="lastName">Apellidos</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}">
+                </p>
+                <p>
+                    <label for="username">Nombre de Usuario</label>
+                    <input type="text" id="username" name="username" class="form-control" th:value="${user.username}" readonly>
+                </p>
+                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

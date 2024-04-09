@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,19 +30,17 @@ public class Comment implements Transferable<Comment.Transfer> {
     private Media media;
     @OneToOne
     private Comment father;
-    
+
     private String text;
-    private int puntuacion;
-    private LocalDateTime dateSent;
+    private LocalDate dateSent;
 
     @Getter
     @AllArgsConstructor
     public static class Transfer {
-        private String author;        
+        private String author;
         private String media;
         private String sent;
         private String text;
-        private int puntuacion;
         long id;
         private String father;
 
@@ -51,7 +50,6 @@ public class Comment implements Transferable<Comment.Transfer> {
             this.sent = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(c.getDateSent());
             this.text = c.getText();
             this.id = c.getId();
-            this.puntuacion = c.getPuntuacion();
             this.father = c.getFather().toString();
         }
     }
@@ -60,6 +58,6 @@ public class Comment implements Transferable<Comment.Transfer> {
     public Transfer toTransfer() {
         return new Transfer(author.getUsername(), media.getApi(),
                 DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dateSent),
-                text,puntuacion, id, father.getText());
+                text, id, father.getText());
     }
 }

@@ -48,3 +48,11 @@
 .rating .fa {
     color: orange;
 }
+
+.comentario-texto {
+    word-wrap: break-word;
+}
+
+.cabecera-comentario{
+    gap: 20px;
+}

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var username
     var password
+    var validPassword
 
     var validUsername
 
@@ -11,7 +12,7 @@ $(document).ready(function() {
         const confirmPassword = $('#confirmPassword').val().trim();
 
         // Verificar si todos los campos tienen datos válidos
-        const isValid = username !== '' && validUsername && password !== '' && confirmPassword !== '' && password === confirmPassword;
+        const isValid = username !== '' && validUsername && password !== '' && confirmPassword !== '' && password === confirmPassword && validPassword;
 
         // Habilitar o deshabilitar el botón de registro según el estado de los campos del formulario
         $('#registerButton').prop('disabled', !isValid);
@@ -54,30 +55,37 @@ $(document).ready(function() {
          if (!password) {
             // Si está vacío, establecer un mensaje predeterminado o realizar alguna acción necesaria
             $('#password-error').text('');
+            validPassword= false;
             return; 
         }
         // Verificar que la contraseña tenga al menos 6 caracteres
         if (password.length < 6) {
             $('#password-error').text('La contraseña es demasiado corta.').css('color', 'red');
+            validPassword= false;
             return;
         }
         //si contiene mayusculas dentro de los caracteres permitidos
         if (!uppercaseRegex.test(password)) {
             $('#password-error').text('La contraseña debe contener al menos una letra mayúscula. ').css('color', 'red');
+            validPassword= false;
             return;
         }
         //si contiene minusculas dentro de los caracteres permitidos
         if (!lowercaseRegex.test(password) ) {
             $('#password-error').text('La contraseña debe contener al menos una, una minúscula').css('color', 'red');
+            validPassword= false;
             return;
         }
         //si contiene numeros dentro de los caracteres permitidos
         if (!numberRegex.test(password)) {
             $('#password-error').text('La contraseña debe contener al menos un número.').css('color', 'red');
+            validPassword= false;
             return;
         }
         // Si todas las validaciones pasan, eliminar el mensaje de error
         $('#password-error').text('Contraseña correcta').css('color','green');
+        validPassword= true;
+
         validateForm();
     });
 

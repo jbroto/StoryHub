@@ -47,6 +47,7 @@ public class User implements Transferable<User.Transfer> {
 
     private boolean enabled;
     private String roles; // split by ',' to separate roles
+    
 
     @OneToMany
     @JoinColumn(name = "sender_id")

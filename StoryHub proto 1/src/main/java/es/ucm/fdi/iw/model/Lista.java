@@ -37,13 +37,15 @@ public class Lista implements Transferable<Lista.Transfer> {
 
 
     private Boolean isPublic;
+    private int contador;
     private String categories;
 
-    public Lista(User user, String name, boolean isPublic, String categories ){
+    public Lista(User user, String name, boolean isPublic, String categories, int contador ){
         this.author = user;
         this.name = name;
         this.isPublic = isPublic;
         this.categories = categories;
+        this.contador = contador;
     }
 
     public Lista() {

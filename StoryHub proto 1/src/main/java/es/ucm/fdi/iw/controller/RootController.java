@@ -84,9 +84,9 @@ public class RootController {
             target.setEnabled(true);
             target.setRoles("USER");
             entityManager.persist(target);
-            Lista favs = new Lista(target,"favoritos",false,"");
-            Lista viewing = new Lista(target,"viendo",false,"");
-            Lista ended = new Lista(target,"terminado",false,"");
+            Lista favs = new Lista(target,"favoritos",false,"",0);
+            Lista viewing = new Lista(target,"viendo",false,"",0);
+            Lista ended = new Lista(target,"terminado",false,"",0);
             entityManager.persist(favs);
             entityManager.persist(viewing);
             entityManager.persist(ended);

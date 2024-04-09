@@ -48,6 +48,11 @@ body {
   gap:25px;
 }
 
+.conjuntoPosters{
+  gap:20px;
+
+}
+
 .row {
   margin-bottom: 20px; /* Puedes ajustar el valor según la separación deseada */
 }

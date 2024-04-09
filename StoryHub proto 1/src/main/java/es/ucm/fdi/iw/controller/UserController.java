@@ -140,12 +140,15 @@ public class UserController {
 				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+		int contadorVistos = terminado.getContador();
+		//cambiar 
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", listasUs);
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
+		model.addAttribute("contVisto", contadorVistos);
 		return "user";
 	}
 
@@ -372,6 +375,8 @@ public class UserController {
 
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
+			int cont = lista.getContador() + 1;//aumentamos el contador
+			lista.setContador(cont);
 			lista.setMedias(lMedias);
 
 			entityManager.persist(lista);
@@ -391,30 +396,6 @@ public class UserController {
 		}
 	}
 
-	/**
-	 * Returns the default profile pic
-	 * 
-	 * @return
-	 */
-	private static InputStream defaultPic() {
-		return new BufferedInputStream(Objects.requireNonNull(
-				UserController.class.getClassLoader().getResourceAsStream(
-						"static/img/default-pic.jpg")));
-	}
-
-	/**
-	 * Downloads a profile pic for a user id
-	 * 
-	 * @param id
-	 * @return
-	 * @throws IOException
-	 */
-	@GetMapping("{id}/pic")
-	public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
-		File f = localData.getFile("user", "" + id + ".jpg");
-		InputStream in = new BufferedInputStream(f.exists() ? new FileInputStream(f) : UserController.defaultPic());
-		return os -> FileCopyUtils.copy(in, os);
-	}
 
 	@PostMapping("/{id}/crearLista")
 	@ResponseBody
@@ -501,6 +482,31 @@ public class UserController {
 			log.error("Error al comentar " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
 		}
+	}
+
+	/**
+	 * Returns the default profile pic
+	 * 
+	 * @return
+	 */
+	private static InputStream defaultPic() {
+		return new BufferedInputStream(Objects.requireNonNull(
+				UserController.class.getClassLoader().getResourceAsStream(
+						"static/img/default-avatar.jpg")));
+	}
+
+	/**
+	 * Downloads a profile pic for a user id
+	 * 
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
+	@GetMapping("{id}/pic")
+	public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
+		File f = localData.getFile("user", "" + id + ".jpg");
+		InputStream in = new BufferedInputStream(f.exists() ? new FileInputStream(f) : UserController.defaultPic());
+		return os -> FileCopyUtils.copy(in, os);
 	}
 
 	/**

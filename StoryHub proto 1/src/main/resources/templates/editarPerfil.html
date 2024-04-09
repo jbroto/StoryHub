@@ -16,9 +16,14 @@
             <div class="profile-info">
                 <div class="profile-picture">
                     <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
-                    class="rounded-end" style="width: 200px; height: 200px;">
+                        class="rounded-end" style="width: 200px; height: 200px;">
                 </div>
                 <div class="change-picture">
+                    <!--contenedor para la vista previa de la nueva imagen -->
+                    <div id="newProfilePicPreview" style="display: none;">
+                        <h5>Nueva Foto de Perfil</h5>
+                        <img id="newProfilePicPreviewImg" src="/img/default-avatar.jpg"class="rounded-end" style="width: 200px; height: 200px;">
+                    </div>
                     <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post" enctype="multipart/form-data">
                         <input type="file" id="newProfilePic" name="photo" accept="image/*">
                         <button type="submit" class="btn btn-sm btn-secondary">Cambiar Foto</button>
@@ -44,6 +49,8 @@
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/editarPerfil.js}"></script>
+
 </body>
 
 </html>

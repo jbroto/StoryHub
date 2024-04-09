@@ -8,6 +8,7 @@ body {
 }
 
 .container.overview {
+  margin-top: 30px;
   /*background: radial-gradient(circle, #2a2a2a, #2c2c2c); /* Color de fondo oscuro */
   /*color: #fff; /* Color de texto blanco para contrastar */
   border: 2px solid #ccc; /* Grosor del borde */

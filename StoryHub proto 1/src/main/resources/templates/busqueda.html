@@ -15,7 +15,15 @@
         <!--<div class="container barraBusqueda mt-3">
             <input type="text" placeholder="Buscar">
         </div>-->
-        <h2 class="mt-5">Resultados: <span th:text="${paramBusqueda}"></span> </h2>
+        <div class="row">
+            <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
+                <button class="btn btn-outline-dark" id="user-search">Usuarios</button>
+                <button class="btn btn-dark" id="media-search">Audiovisual</button>
+                <button class="btn btn-outline-dark" id="book-search">Libros</button>
+            </div>
+        </div>
+       
+        <h2 class="mt-5">Resultados para: <span id="searchParam" th:text="${paramBusqueda}"></span> </h2>
         <div class="row">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
             <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
@@ -37,6 +45,8 @@
             </div>
         </div>
     </div>
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/busqueda.js}"></script>
 </body>
 
 </html>

@@ -253,6 +253,7 @@ public class UserController {
 			model.addAttribute("user", target);
 			model.addAttribute("resultado", lista);
 			model.addAttribute("result", result);
+			model.addAttribute("paramBusqueda", paramBusqueda);
 			return "busqueda";
 
 		} catch (Exception e) {

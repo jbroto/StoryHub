@@ -31,17 +31,20 @@
                                 <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
                                 <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
                                     <!--<a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">-->
-                                        <!-- Redireccion a añadir a lista -->
-                                        <form th:action="@{/user/{id}/addTo/{list}(id=${user.id}, list=${item.name})}" method="post">
-                                            <input type="hidden" name="mediaId" th:value="${media.id}" />
-                                            <input type="hidden" name="mediaTipo" th:value="${media.tipo}" />
-                                            <button type="submit" class="btn btn-outline-info">
-                                                <span th:if="${item.name == 'favoritos'}">❤️</span>
-                                                <span th:if="${item.name == 'viendo'}">👀</span>
-                                                <span th:if="${item.name == 'terminado'}">🔚</span>
-                                                <span th:unless="${item.name == 'favoritos'||item.name == 'viendo'||item.name == 'terminado'}" th:text="${item.name}">Nombre</span>
-                                            </button>
-                                        </form>
+                                    <!-- Redireccion a añadir a lista -->
+                                    <form th:action="@{/user/{id}/addTo/{list}(id=${user.id}, list=${item.name})}"
+                                        method="post">
+                                        <input type="hidden" name="mediaId" th:value="${media.id}" />
+                                        <input type="hidden" name="mediaTipo" th:value="${media.tipo}" />
+                                        <button type="submit" class="btn btn-outline-info">
+                                            <span th:if="${item.name == 'favoritos'}">❤️</span>
+                                            <span th:if="${item.name == 'viendo'}">👀</span>
+                                            <span th:if="${item.name == 'terminado'}">🔚</span>
+                                            <span
+                                                th:unless="${item.name == 'favoritos'||item.name == 'viendo'||item.name == 'terminado'}"
+                                                th:text="${item.name}">Nombre</span>
+                                        </button>
+                                    </form>
                                     <!--</a>-->
                                 </div>
                             </div>
@@ -112,55 +115,61 @@
     <div class="container mb-2">
         <h2>Comentarios</h2>
         <!--Boton para poner un comentario-->
-      <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#comentarioModal">
-        Nuevo Comentario
-      </button>
-      <div class="container">
-        <div class="row">
-            <div class="col-sm-5 col-md-6 col-12 pb-4">
-                <div th:each="comentario : ${comentarios}" class="card mt-4">
-                    <div class="card-body cabecera-comentario d-flex align-items-center">
-                        <img th:src="@{/user/__${user.id}__/pic}" alt="" class="rounded-circle mr-3" width="40" height="40">
-                        <div>
-                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
-                            <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text comentario-texto" th:text="${comentario.text}">Texto</p>
+        <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#comentarioModal">
+            Nuevo Comentario
+        </button>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-md-6 col-12 pb-4">
+                    <div th:each="comentario : ${comentarios}">
+                        <a class="card mt-4" th:href="@{/}">
+                            <div class="card-body cabecera-comentario d-flex align-items-center">
+                                <img th:src="@{/user/__${user.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
+                                    height="40">
+                                <div>
+                                    <h4 class="card-title nombre-comentario mb-1"
+                                        th:text="${comentario.author.username}">Nombre</h4>
+                                    <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text comentario-texto" th:text="${comentario.text}">Texto</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="comentarioModal" role="dialog" >
+    <div class="modal fade" id="comentarioModal" role="dialog">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nuevo Comentario</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/__${media.id}__/nuevoComentario}" th:object="${comentario}" method="post">
-                <div class="form-group">
-                  <label for="cont">Comentario</label>
-                  <textarea class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}" rows="4"></textarea>
-                  <input type="hidden" name="tipo" th:value="${media.tipo}" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Comentario</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <button type="submit" class="btn btn-primary" >Guardar</button>
-              </form>
+                <div class="modal-body">
+                    <!-- Formulario -->
+                    <form th:action="@{/user/__${user.id}__/__${media.id}__/nuevoComentario}" th:object="${comentario}"
+                        method="post">
+                        <div class="form-group">
+                            <label for="cont">Comentario</label>
+                            <textarea class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}"
+                                rows="4"></textarea>
+                            <input type="hidden" name="tipo" th:value="${media.tipo}" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
     <!--<div class="container mb-2">
         <h2>Reseñas</h2>
         <div class="comment">

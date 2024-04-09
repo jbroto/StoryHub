@@ -115,8 +115,26 @@
       <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#comentarioModal">
         Nuevo Comentario
       </button>
-      <!-- Modal -->
-      <div class="modal fade" id="comentarioModal" role="dialog" >
+      <div class="container">
+        <div class="row">
+            <div class="col-sm-5 col-md-6 col-12 pb-4">
+                <div th:each="comentario : ${comentarios}" class="card mt-4">
+                    <div class="card-body">
+                        <img th:src="@{/user/__${user.id}__/pic}" alt="" class="rounded-circle" width="40" height="40">
+                        <h4 class="card-title" th:text="${comentario.author.username}">Nombre</h4>
+                        <p class="card-text">
+                            <span class="text-muted small" th:text="${comentario.dateSent}">Fecha</span><br>
+                            <span th:text="${comentario.text}">Texto</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="comentarioModal" role="dialog" >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -130,21 +148,8 @@
               <form th:action="@{/user/__${user.id}__/__${media.id}__/nuevoComentario}" th:object="${comentario}" method="post">
                 <div class="form-group">
                   <label for="cont">Comentario</label>
-                  <input type="text" class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}">
+                  <textarea class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}" rows="4"></textarea>
                   <input type="hidden" name="tipo" th:value="${media.tipo}" />
-                </div>
-                <div class="form-group">
-                    <label for="calificacion">Calificación:</label><br>
-                    <input type="radio" id="estrella1" name="puntuacion" th:value="1">
-                    <label for="estrella1">⭐</label>
-                    <input type="radio" id="estrella2" name="puntuacion" th:value="2">
-                    <label for="estrella2">⭐</label>
-                    <input type="radio" id="estrella3" name="puntuacion" th:value="3">
-                    <label for="estrella3">⭐</label>
-                    <input type="radio" id="estrella4" name="puntuacion" th:value="4">
-                    <label for="estrella4">⭐</label>
-                    <input type="radio" id="estrella5" name="puntuacion" th:value="5">
-                    <label for="estrella5">⭐</label>
                 </div>
                 <button type="submit" class="btn btn-primary" >Guardar</button>
               </form>
@@ -155,11 +160,6 @@
           </div>
         </div>
       </div>
-            <ul>
-                <li th:each="comentario : ${comentarios}" th:text="${comentario.text}"></li>
-            </ul>
-    </div>
-    <hr>
     <!--<div class="container mb-2">
         <h2>Reseñas</h2>
         <div class="comment">

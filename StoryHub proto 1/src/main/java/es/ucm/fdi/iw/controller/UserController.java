@@ -46,6 +46,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.*;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -141,7 +142,7 @@ public class UserController {
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		int contadorVistos = terminado.getContador();
-		//cambiar 
+		// cambiar
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", listasUs);
@@ -214,7 +215,6 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "editarPerfil";
 	}
-	
 
 	@GetMapping("/{id}/busqueda")
 	public String busqueda(@PathVariable long id, @RequestParam("paramBusqueda") String paramBusqueda, Model model) {
@@ -259,7 +259,8 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return anterior
+		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
+							// anterior
 	}
 
 	@GetMapping("/{id}/contenido")
@@ -306,7 +307,7 @@ public class UserController {
 		return "contenido";// en caso de que no llegue al otro return
 	}
 
-	//PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
+	// PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
 	@GetMapping("/{id}/check-nombreLista")
 	public ResponseEntity<Boolean> checkNombreLista(@PathVariable long id, @RequestParam String nombreLista) {
 		try {
@@ -375,7 +376,7 @@ public class UserController {
 
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
-			int cont = lista.getContador() + 1;//aumentamos el contador
+			int cont = lista.getContador() + 1;// aumentamos el contador
 			lista.setContador(cont);
 			lista.setMedias(lMedias);
 
@@ -395,7 +396,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al añadir a la lista");
 		}
 	}
-
 
 	@PostMapping("/{id}/crearLista")
 	@ResponseBody
@@ -457,8 +457,7 @@ public class UserController {
 			coment.setAuthor(usuario);
 			coment.setText(comentario.getText());
 			coment.setMedia(m);
-			coment.setPuntuacion(comentario.getPuntuacion());
-			coment.setDateSent(LocalDateTime.now());
+			coment.setDateSent(LocalDate.now());
 
 			entityManager.persist(coment);
 

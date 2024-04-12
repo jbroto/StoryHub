@@ -342,6 +342,20 @@ public class UserController {
 		return "lista";
 	}
 
+	@GetMapping("/{id}/comentario/{idComentario}")
+	public String getLista(@PathVariable long id, @PathVariable long idComentario, Model model, HttpSession session) {
+		User target = entityManager.find(User.class, id);
+		Comment comentario = entityManager.find(Comment.class, idComentario);
+		List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
+				.setParameter("father", idComentario).getResultList();
+
+		model.addAttribute("comentarios", comentarios);
+		model.addAttribute("coment", comentario);
+		model.addAttribute("user", target);
+
+		return "comentario";
+	}
+
 	@PostMapping("/{id}/addTo/{nombreLista}")
 	@ResponseBody
 	@Transactional

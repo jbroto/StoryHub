@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -19,6 +21,10 @@ import lombok.Getter;
 
 @Entity
 @Data
+@NamedQueries({
+        @NamedQuery(name = "Comentario.byFather", query = "SELECT c FROM Comment c "
+                + "WHERE c.father.id = :father")
+})
 public class Comment implements Transferable<Comment.Transfer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")

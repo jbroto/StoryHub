@@ -345,15 +345,55 @@ public class UserController {
 	@GetMapping("/{id}/comentario/{idComentario}")
 	public String getLista(@PathVariable long id, @PathVariable long idComentario, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
-		Comment comentario = entityManager.find(Comment.class, idComentario);
+		Comment coment = entityManager.find(Comment.class, idComentario);
 		List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
 				.setParameter("father", idComentario).getResultList();
 
+		Comment comentario = new Comment();
+
 		model.addAttribute("comentarios", comentarios);
-		model.addAttribute("coment", comentario);
+		model.addAttribute("coment", coment);
 		model.addAttribute("user", target);
+		model.addAttribute("comentario", comentario);
 
 		return "comentario";
+	}
+
+	@PostMapping("/{id}/{idComent}/nuevaRespuesta")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<String> nuevaRespuesta(@PathVariable long id, @PathVariable long idComent,
+			@ModelAttribute Comment comentario, HttpSession session,
+			Model model) {
+		try {
+			User usuario = entityManager.find(User.class, id);
+			model.addAttribute("user", usuario);
+			Comment padre = entityManager.find(Comment.class, idComent);
+			Comment coment = new Comment();
+			coment.setAuthor(usuario);
+			coment.setText(comentario.getText());
+			coment.setDateSent(LocalDate.now());
+			coment.setFather(padre);
+
+			entityManager.persist(coment);
+			entityManager.flush();
+
+			List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
+					.setParameter("father", idComent).getResultList();
+
+			model.addAttribute("comentario", coment);
+			model.addAttribute("comentarios", comentarios);
+			model.addAttribute("coment", padre);
+			model.addAttribute("user", usuario);
+
+			log.info("Comentario de ", id);
+
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
+					"/user/" + id + "/comentario/" + padre.getId()).build();
+		} catch (Exception e) {
+			log.error("Error al comentar " + id, e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
+		}
 	}
 
 	@PostMapping("/{id}/addTo/{nombreLista}")

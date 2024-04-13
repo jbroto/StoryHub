@@ -1,0 +1,24 @@
+.centered-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.comentario-box {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    width: 600%;
+}
+
+.comentario-texto {
+    word-wrap: break-word;
+}
+
+.comentario-body {
+    padding-top: 10px; /* Ajusta el espaciado si es necesario */
+    max-width: 300px; /* ajusta este valor según el diseño de tu página */
+}

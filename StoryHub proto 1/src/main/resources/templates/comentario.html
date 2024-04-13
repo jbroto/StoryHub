@@ -5,30 +5,31 @@
     <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" th:href="@{/css/contenido.css}" href="css/contenido.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/comentario.css}" href="css/comentario.css" type="text/css" />
     <title>Inicio</title>
 </head>
 
-<body data-userId="${user.id}" data-mediaId="${media.id}" data-mediaTipo="${media.tipo}">
+<body data-userId="${user.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container comentario-section">
-        <div class="container">
+        <div class="centered-box">
             <div class="row">
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
-                        <div class="card mt-4">
-                            <div class="card-body cabecera-comentario d-flex align-items-center">
-                                <img th:src="@{/user/__${user.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
-                                    height="40">
-                                <div>
-                                    <h4 class="card-title nombre-comentario mb-1"
-                                        th:text="${comentario.author.username}">Nombre</h4>
-                                    <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text comentario-texto" th:text="${comentario.text}">Texto</p>
+                    <div class="comentario-box">
+                        <div class="comentario-body cabecera-comentario d-flex">
+                            <img th:src="@{/user/__${coment.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40" height="40">
+                            <div>
+                                <h4 class="nombre-comentario mb-1" th:text="${coment.author.username}">Nombre</h4>
+                                <span class="text-muted small mb-2" th:text="${coment.dateSent}">Fecha</span>
                             </div>
                         </div>
+                        <div class="comentario-body">
+                            <div>
+                                <p class="comentario-texto" th:text="${coment.text}">Texto</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,21 +44,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
-                    <div th:each="comentario : ${comentarios}">
-                        <a class="card mt-4" th:href="@{/user/{id}/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                    <div th:each="item : ${comentarios}">
+                        <div class="card mt-4">
                             <div class="card-body cabecera-comentario d-flex align-items-center">
-                                <img th:src="@{/user/__${user.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
+                                <img th:src="@{/user/__${item.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
                                     height="40">
                                 <div>
                                     <h4 class="card-title nombre-comentario mb-1"
-                                        th:text="${comentario.author.username}">Nombre</h4>
-                                    <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+                                        th:text="${item.author.username}">Nombre</h4>
+                                    <span class="text-muted small mb-2" th:text="${item.dateSent}">Fecha</span>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <p class="card-text comentario-texto" th:text="${comentario.text}">Texto</p>
+                                <p class="card-text comentario-texto" th:text="${item.text}">Texto</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,13 +76,12 @@
                 </div>
                 <div class="modal-body">
                     <!-- Formulario -->
-                    <form th:action="@{/user/__${user.id}__/__${media.id}__/nuevoComentario}" th:object="${comentario}"
+                    <form th:action="@{/user/__${user.id}__/__${coment.id}__/nuevaRespuesta}" th:object="${comentario}"
                         method="post">
                         <div class="form-group">
                             <label for="cont">Comentario</label>
                             <textarea class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}"
                                 rows="4"></textarea>
-                            <input type="hidden" name="tipo" th:value="${media.tipo}" />
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
@@ -96,7 +96,6 @@
     <footer>
         <th:block th:replace="fragments/footer.html :: footer" />
     </footer>
-    <script th:src="@{/js/contenido.js}"></script>
 </body>
 
 </html>

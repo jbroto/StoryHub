@@ -80,14 +80,24 @@ public class TMDBService {
         return m;
     }
 
-    public String obtenerCapitulos(String id){
+    public String obtenerCapitulos(long id){
 
         //https://api.themoviedb.org/3/tv/66732?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES&append_to_response=episode_groups
         //ejemplo para obtener todos los capitulos de srtanger things que tiene id 66732
 
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + "/tv/" + id + API_KEY + LANGUAGE + "&append_to_response=episode_groups";
+    
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+    
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-
-
-        return null;
     }
 }

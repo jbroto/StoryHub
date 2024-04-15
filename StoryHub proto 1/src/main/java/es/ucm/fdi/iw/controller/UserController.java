@@ -243,8 +243,6 @@ public class UserController {
 
 			ArrayList<Media> lista = new ArrayList<>();
 
-			System.out.println("AQUI TAMBIEN LLEGO");
-
 			// Iterar sobre los elementos de la matriz "results"
 			for (JsonNode resultNode : resultsNode) {
 				System.out.println(resultNode.get("id").asLong());
@@ -308,12 +306,32 @@ public class UserController {
 
 				m = s.parseTMDBtoMedia(resultNode);
 				m.setTipo(tipo);
+
+
+				//obtener el numero de temporadas. Para poder obtener mas info tipo el num de capitulos o la sinopsis deberiamos
+				//replantearnos crear otra class 
+				if (m.getTipo().equals("tv")) {
+					JsonNode seasonsNode = resultNode.get("seasons");
+					List<String> seasonNames = new ArrayList<>();
+				
+					if (seasonsNode != null && seasonsNode.isArray()) {
+						for (JsonNode seasonNode : seasonsNode) {
+							String name = seasonNode.get("name").asText();
+							seasonNames.add(name);
+						}
+					}
+				
+					// Ahora tienes la lista de nombres de temporadas
+					model.addAttribute("temporadas", seasonNames);
+				}
+				
 			}
 			// Agregamos los detalles del contenido al modelo
 			List<Comment> comentsMedia = m.getComments();
 			model.addAttribute("comentarios", comentsMedia);
 			model.addAttribute("user", target);
 			model.addAttribute("media", m);
+
 
 			// Devolvemos el nombre de la vista a la que se redirigirá
 			return "contenido";

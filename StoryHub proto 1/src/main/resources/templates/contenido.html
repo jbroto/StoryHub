@@ -60,45 +60,15 @@
 
     <!-- Verifica si media.type no es igual a "movie" -->
     <th:block th:if="${media.tipo != 'movie'}">
-        <h2>Capítulos</h2>
+        <h2>Temporadas</h2>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-3 mb-4">
+                <div th:each="item: ${temporadas}" class="col-lg-3 col-md-3 mb-4">
                     <!--<a href="miPerfil.html">-->
                     <div class="card">
-                        <img class="card-img-top" src="img/portada.jpg" alt="portada">
+                        <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}" alt="poster">
                         <div class="card-body text-center">
-                            <h6 class="card-title">S1E1</h6>
-                        </div>
-                    </div>
-                    <!--</a>-->
-                </div>
-                <div class="col-lg-3 col-md-3 mb-4">
-                    <!--<a href="miPerfil.html">-->
-                    <div class="card">
-                        <img class="card-img-top" src="img/portada.jpg" alt="portada">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">S1E2</h6>
-                        </div>
-                    </div>
-                    <!--</a>-->
-                </div>
-                <div class="col-lg-3 col-md-3 mb-4">
-                    <!--<a href="miPerfil.html">-->
-                    <div class="card">
-                        <img class="card-img-top" src="img/portada.jpg" alt="portada">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">S1E3</h6>
-                        </div>
-                    </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-3 mb-4">
-                    <!--<a href="miPerfil.html">-->
-                    <div class="card">
-                        <img class="card-img-top" src="img/portada.jpg" alt="portada">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">S1E4</h6>
+                            <h6 class="card-title" th:text="${item}">"S1E1"</h6>
                         </div>
                     </div>
                     <!--</a>-->

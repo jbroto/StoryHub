@@ -7,17 +7,16 @@ $(document).ready(function(){
     let user = false;
     let media = true;
     let book = false;
+    let userId = document.body.dataset.userid;
+    const urlParams = new URLSearchParams(window.location.search);
+    const texto = urlParams.get('paramBusqueda'); // Devuelve el valor de parametro1
 
     btnUser.on('click', function(){
         comprobarBoton();
         btnUser.removeClass("btn-outline-dark").addClass("btn-dark");
         user = true;
-        $.ajax({
-            url: '/'+idUser+ '/user-search',
-            method: 'GET',
-            data: $('#searchParam').text(),
-            success:,
-            error:
+        $('#resultado-audiovisual').fadeOut(200, function(){
+            $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
         });
     })
 
@@ -25,6 +24,9 @@ $(document).ready(function(){
         comprobarBoton();
         btnMedia.removeClass("btn-outline-dark").addClass("btn-dark");
         media = true;
+        $('#resultado-users').fadeOut(200, function(){
+            $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
+        });
     })
 
     btnBooks.on('click', function(){

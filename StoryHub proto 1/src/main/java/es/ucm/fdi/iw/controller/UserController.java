@@ -225,7 +225,12 @@ public class UserController {
 		TMDBService s = new TMDBService();
 		String result = s.searchTerm(paramBusqueda);
 
-		System.out.println("ESTOY ENTRANDO AQUÍ");
+		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.byUsername", User.class)
+                .setParameter("username", paramBusqueda)
+                .getResultList();
+
+		model.addAttribute("users", users);
+		System.out.println("ESTOY ENTRANDO AQUÍ" + target.getId());
 
 		try {
 			// lo parseamos tipo JSON
@@ -259,10 +264,21 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("paramBusqueda", paramBusqueda);
+		model.addAttribute("user", target);
 
 		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
 							// anterior
 	}
+
+
+	@GetMapping("/{id}/userSearch")
+ public ResponseEntity<List<User>> userSearch(@PathVariable long id, @RequestParam("searchParam") String searchParam) {
+        ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.byUsername", User.class)
+                .setParameter("username", searchParam)
+                .getResultList();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
 	@GetMapping("/{id}/contenido")
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,

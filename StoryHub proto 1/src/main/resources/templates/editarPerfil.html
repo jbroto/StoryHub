@@ -13,6 +13,7 @@
     <main class="flex-shrink-0">
         <div class="container">
             <h1>Perfil de  <span th:text="${user.username}">default</span></h1>
+            <p th:if="${EditarExitoso}" class="editProfile-message" th:text="${EditarExitoso}">Perfil editado correctamente</p>
             <div class="profile-info">
                 <div class="profile-picture">
                     <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
@@ -22,15 +23,15 @@
                     <!--contenedor para la vista previa de la nueva imagen -->
                     <div id="newProfilePicPreview" style="display: none;">
                         <h5>Nueva Foto de Perfil</h5>
-                        <img id="newProfilePicPreviewImg" src="/img/default-avatar.jpg"class="rounded-end" style="width: 200px; height: 200px;">
+                        <img id="newProfilePicPreviewImg" class="rounded-end" alt="Nueva foto" style="width: 200px; height: 200px;">
                     </div>
-                    <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post" enctype="multipart/form-data">
+                    <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post">
                         <input type="file" id="newProfilePic" name="photo" accept="image/*">
-                        <button type="submit" class="btn btn-sm btn-secondary">Cambiar Foto</button>
+                        <button id="postProfilePic" type="submit" class="btn btn-sm btn-warning">Cambiar Foto</button>
                     </form>
                 </div>
             </div>
-            <form id="profileForm" th:object="${user}" method="post" th:action="@{/perfil}" enctype="multipart/form-data">
+            <form id="profileForm" th:object="${user}" method="post" th:action="@{/user/__${user.id}__/editarPerfil}">
                 <p>
                     <label for="firstName">Nombre</label>
                     <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}">
@@ -45,6 +46,9 @@
                 </p>
                 <button class="btn btn-primary" type="submit">Guardar Cambios</button>
             </form>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-danger "> Darse de baja</button>
+            </div>
         </div>
     </main>
 

@@ -34,7 +34,13 @@
     margin-top: 10px;
 }
 
+.editProfile-message{
+    color:green;
+}
+
 .container {
+    margin-top: 20px;
+    margin-bottom:20px;
     border: 2px solid #ccc; /* Grosor del borde */
     border-radius: 10px; /* Radio de redondeo de las esquinas */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */

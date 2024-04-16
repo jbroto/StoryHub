@@ -209,11 +209,31 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/editarPerfil")
-	public String editarPerfil(@PathVariable long id, Model model) {
+	public String verEditarPerfil(@PathVariable long id, Model model) {
 		User user = entityManager.find(User.class, id);
-
 		model.addAttribute("user", user);
 		return "editarPerfil";
+	}
+
+	@PostMapping("/{id}/editarPerfil")
+	@Transactional
+	public String solicitudEditarPerfil(@PathVariable long id, @RequestParam("firstName") String nombre,
+	 @RequestParam("lastName") String apellidos,  Model model) {
+		User user = entityManager.find(User.class, id);//buscamos al usuario
+		//y cambiamos los campos rellenados
+		user.setFirstName(nombre);
+		user.setLastName(apellidos);
+		//preguntar si deberiamos dejar cambiar el username
+
+		entityManager.persist(user);
+		entityManager.flush();
+
+		log.info("CAMBIOS REALIZADOS -> Username : "+ user.getUsername() + " FirstName: " + user.getFirstName() + 
+		" LastName: " + user.getLastName());
+
+		model.addAttribute("user", user);
+		model.addAttribute("EditarExitoso", "El perfil de "+user.getUsername()+" se ha actualizado con exito :)");
+		return "editarPerfil";//redirigimos otra vez a editar perfil
 	}
 
 	@GetMapping("/{id}/busqueda")

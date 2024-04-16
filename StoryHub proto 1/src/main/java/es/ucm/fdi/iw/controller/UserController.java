@@ -225,8 +225,8 @@ public class UserController {
 		TMDBService s = new TMDBService();
 		String result = s.searchTerm(paramBusqueda);
 
-		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.byUsername", User.class)
-                .setParameter("username", paramBusqueda)
+		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.aproxUsername", User.class)
+                .setParameter("username", '%'+paramBusqueda+'%')
                 .getResultList();
 
 		model.addAttribute("users", users);
@@ -271,7 +271,19 @@ public class UserController {
 
 	@GetMapping("/{id}/perfilUsuario")
 	public String getMethodName(@PathVariable long id, @RequestParam("username") String param, Model model) {
-		
+		User u =  entityManager.createNamedQuery("User.byUsername", User.class)
+		.setParameter("username", param)
+		.getSingleResult();
+
+		/*System.out.println("LLEGO AL USER" + u.getUsername());
+		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
+		.setParameter("author", u.getId())
+		.getResultList();
+
+		System.out.println("LLEGO A LAS LISTAS" + ls.toString());*/
+
+		model.addAttribute("resultado", u);
+		//model.addAttribute("listasPublicas", ls);
 		return "perfilUser";
 	}
 	

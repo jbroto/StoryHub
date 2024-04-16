@@ -14,7 +14,8 @@ import lombok.AllArgsConstructor;
 @NamedQueries({
     @NamedQuery(name = "Lista.byName", query = "SELECT l FROM Lista l "
             + "WHERE l.name = :name "
-            +"AND l.author.id = :author") 
+            +"AND l.author.id = :author"),
+    @NamedQuery(name = "Lista.byAuthor", query = "SELECT l FROM Lista l WHERE l.author.id = :author AND isPublic = TRUE")
 })
 public class Lista implements Transferable<Lista.Transfer> {
 

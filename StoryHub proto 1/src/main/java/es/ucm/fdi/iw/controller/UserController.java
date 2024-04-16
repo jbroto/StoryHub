@@ -300,8 +300,9 @@ public class UserController {
 		model.addAttribute("user", target);
 
 		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
-							// anterior
+		
 	}
+
 
 	@GetMapping("/{id}/perfilUsuario")
 	public String getMethodName(@PathVariable long id, @RequestParam("username") String param, Model model) {

@@ -17,9 +17,9 @@
         </div>-->
         <div class="row">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
-                <button class="btn btn-outline-dark" id="user-search">Usuarios</button>
-                <button class="btn btn-dark" id="media-search">Audiovisual</button>
-                <button class="btn btn-outline-dark" id="book-search">Libros</button>
+                <button class="btn btn-outline-dark" id="user-search">Usuarios (resultados: <span id="resultadosUser" th:text="${users.size()}"></span>)</button>
+                <button class="btn btn-dark" id="media-search">Audiovisual (resultados: <span id="resultadosAudiovisual" th:text="${resultado.size()}"></span>)</button>
+                <button class="btn btn-outline-dark" id="book-search">Libros (resultados: 0<span id="resultadosBook"></span>)</button>
             </div>
         </div>
        
@@ -48,7 +48,9 @@
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${users}">
             <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                 <form>
+                 <form th:action="@{/user/__${user.id}__/perfilUsuario}" method="get">
+                    <input type="hidden" name="username" th:value="${item.username}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
                             <img class="card-img w-500" th:src="@{/img/default-avatar.jpg}" alt="Avatar">
                             <div class="card-body">

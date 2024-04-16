@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <th:block th:replace="fragments/head :: header" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
+  <title>Perfil</title>
+</head>
+
+<body>
+  <header th:replace="fragments/nav.html :: nav"></header>
+
+  <div class="container contenidoPerfil">
+    <h1 class="mb-4" th:text="${resultado.username}"></h1>
+    <h2>Lista de Reproducción</h2>
+    <p>Tus peliculas, series y libros</p>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <a href="miPerfil.html">
+          <div class="card">
+            <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+        </a>
+        <div class="card-body text-center">
+          <h6 class="card-title">Stranger Things</h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 mb-4">
+      <a href="miPerfil.html">
+        <div class="card">
+          <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+      </a>
+      <div class="card-body text-center">
+        <h6 class="card-title">Juego de Tronos</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 mb-4">
+    <a href="miPerfil.html">
+      <div class="card">
+        <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+    </a>
+    <div class="card-body text-center">
+      <h6 class="card-title">El Mentalista</h6>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <hr />
+
+  <h2>Ya visto</h2>
+  <p>Ve más series, películas o libros para rellenar este espacio.</p>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mb-4">
+      <a href="miPerfil.html">
+        <div class="card">
+          <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+      </a>
+      <div class="card-body text-center">
+        <h6 class="card-title">Breaking bad</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 mb-4">
+    <a href="miPerfil.html">
+      <div class="card">
+        <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+    </a>
+    <div class="card-body text-center">
+      <h6 class="card-title">Arcane</h6>
+    </div>
+
+  </div>
+  </div>
+  <div class="col-lg-4 col-md-6 mb-4">
+    <a href="miPerfil.html">
+      <div class="card">
+        <img class="card-img-top" src="img/portada.jpg" alt="portada" />
+    </a>
+    <div class="card-body text-center">
+      <h6 class="card-title">Drag Race</h6>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <hr />
+
+  <h2>Mis Comentarios</h2>
+  <p>Aquí van tus Comentarios.</p>
+
+  <hr />
+
+  <h2>Mis Reseñas</h2>
+  <p>Todavía no hay reseñas, ¡Animate y publica una!</p>
+  </div>
+
+  <footer>
+    <p>Copyright 2024 ©️</p>
+  </footer>
+</body>
+
+</html>

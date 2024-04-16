@@ -269,14 +269,12 @@ public class UserController {
 							// anterior
 	}
 
-
-	@GetMapping("/{id}/userSearch")
- public ResponseEntity<List<User>> userSearch(@PathVariable long id, @RequestParam("searchParam") String searchParam) {
-        ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.byUsername", User.class)
-                .setParameter("username", searchParam)
-                .getResultList();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
+	@GetMapping("/{id}/perfilUsuario")
+	public String getMethodName(@PathVariable long id, @RequestParam("username") String param, Model model) {
+		
+		return "perfilUser";
+	}
+	
 
 	@GetMapping("/{id}/contenido")
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,

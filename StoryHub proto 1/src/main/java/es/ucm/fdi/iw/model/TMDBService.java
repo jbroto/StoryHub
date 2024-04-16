@@ -65,7 +65,8 @@ public class TMDBService {
             m.setNombre("Nombre no disponible");
         }
 
-        m.setCoverImageUrl(resultNode.get("poster_path").asText());
+        
+        m.setCoverImageUrl("https://image.tmdb.org/t/p/original/"+resultNode.get("poster_path").asText());
         m.setRating(0.0);
         //cuando hacemos la busqueda de un contenido en concreto, puede no cotener el campo de tipo
         m.setTipo(resultNode.has("media_type") ? resultNode.get("media_type").asText() : "Tipo no disponible");

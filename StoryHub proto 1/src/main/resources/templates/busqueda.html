@@ -34,7 +34,7 @@
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
-                            <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
                             <div class="card-body">
                                 <h6><b><span th:text="${item.nombre}"></span></b></h6>
                                 <h6><span th:text="${item.tipo}"></span></h6>
@@ -57,6 +57,23 @@
                                 <h6><b><span th:text="${item.username}"></span></b></h6>
                             </div>
                         </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="resultado-libros" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
+            <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                 <form method="get">
+                   <!-- <button type="submit" class="btn btn-link text-decoration-none p-0 m-0"> -->
+                    <div class="card">
+                        <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                        <div class="card-body">
+                            <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                            <h6><span th:text="${item.tipo}"></span></h6>
+                        </div>
+                    </div>
                     </button>
                 </form>
             </div>

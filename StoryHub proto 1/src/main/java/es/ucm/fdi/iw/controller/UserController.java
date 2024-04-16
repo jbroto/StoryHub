@@ -8,6 +8,7 @@ import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 import es.ucm.fdi.iw.model.Lista;
 import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.GoogleBookService;
 import es.ucm.fdi.iw.model.Media;
 
 import org.apache.logging.log4j.LogManager;
@@ -243,7 +244,10 @@ public class UserController {
 		User target = entityManager.find(User.class, id);
 
 		TMDBService s = new TMDBService();
-		String result = s.searchTerm(paramBusqueda);
+		GoogleBookService s2 = new GoogleBookService();
+		String resultTMDB = s.searchTerm(paramBusqueda);
+		String resultBooks = s2.searchTerm(paramBusqueda);
+
 
 		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.aproxUsername", User.class)
                 .setParameter("username", '%'+paramBusqueda+'%')
@@ -256,26 +260,36 @@ public class UserController {
 			// lo parseamos tipo JSON
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			JsonNode rootNode = objectMapper.readTree(result);
+			JsonNode rootNodeTMDB = objectMapper.readTree(resultTMDB);
+			JsonNode rootNodeBooks = objectMapper.readTree(resultBooks);
 
 			// Obtener la matriz "results"
-			JsonNode resultsNode = rootNode.get("results");
+			JsonNode resultsNodeTMDB = rootNodeTMDB.get("results");
+			JsonNode resultsNodeBooks = rootNodeBooks.get("items");
 
-			ArrayList<Media> lista = new ArrayList<>();
+			ArrayList<Media> listaAudiovisual = new ArrayList<>();
+			ArrayList<Media> listaBooks = new ArrayList<>();
 
 			// Iterar sobre los elementos de la matriz "results"
-			for (JsonNode resultNode : resultsNode) {
+			for (JsonNode resultNode : resultsNodeTMDB) {
 				System.out.println(resultNode.get("id").asLong());
 				// parseamos los datos de la API TMDB
 				Media m = s.parseTMDBtoMedia(resultNode);
 
-				lista.add(m);
+				listaAudiovisual.add(m);
 			}
 
-			System.out.println(lista);
+			for(JsonNode resultNode : resultsNodeBooks){
+				Media m = s2.parseGoogleBook(resultNode);
+				listaBooks.add(m);
+			}
+
+			System.out.println(listaAudiovisual);
 			model.addAttribute("user", target);
-			model.addAttribute("resultado", lista);
-			model.addAttribute("result", result);
+			model.addAttribute("resultado", listaAudiovisual);
+			model.addAttribute("result", resultTMDB);
+			model.addAttribute("resultadoBooks", listaBooks);
+			model.addAttribute("resultBooks", resultBooks);
 			model.addAttribute("paramBusqueda", paramBusqueda);
 			return "busqueda";
 

@@ -16,12 +16,11 @@
     <section id="listasPublicas">
       <h2>Listas de <span th:text="${resultado.username}"></span></h2>
       <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${listasPublicas}">
-
-             <form method="get">
-                <!--<button type="submit" class="btn btn-link text-decoration-none p-0 m-0">-->
+             <form th:action="@{/user/__${resultado.id}__/__${item.name}__}" method="get">
+                <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                     <div class="card">
                         <div class="card-body">
-                            <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                            <h6><b><span th:text="${item.name}"></span></b></h6>
                         </div>
                     </div>
                 </button>

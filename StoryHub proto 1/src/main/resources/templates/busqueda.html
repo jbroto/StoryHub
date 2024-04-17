@@ -10,7 +10,6 @@
 
 <body th:attr="data-userId=${user.id}" >
     <header th:replace="fragments/nav.html :: nav"></header>
-
     <section class="container justify-content-center" id="mi-lista">
         <!--<div class="container barraBusqueda mt-3">
             <input type="text" placeholder="Buscar">
@@ -79,7 +78,9 @@
             </div>
         </div>
     </div>
-    <th:block th:replace="fragments/footer.html :: footer" />
+    </section>
+
+    <th:block th:replace="fragments/footer.html :: footer" />    
     <script th:src="@{/js/busqueda.js}"></script>
 </body>
 

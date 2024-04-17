@@ -12,24 +12,48 @@ $(document).ready(function(){
     const texto = urlParams.get('paramBusqueda'); // Devuelve el valor de parametro1
 
     btnUser.on('click', function(){
+        if(media){
+            $('#resultado-audiovisual').fadeOut(200, function(){
+                $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
+        else if(book){
+            $('#resultado-libros').fadeOut(200, function(){
+                $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
         comprobarBoton();
         btnUser.removeClass("btn-outline-dark").addClass("btn-dark");
         user = true;
-        $('#resultado-audiovisual').fadeOut(200, function(){
-            $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
-        });
     })
 
     btnMedia.on('click', function(){
+        if(book){
+            $('#resultado-libros').fadeOut(200, function(){
+                $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
+        else if(user){
+            $('#resultado-users').fadeOut(200, function(){
+                $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
         comprobarBoton();
         btnMedia.removeClass("btn-outline-dark").addClass("btn-dark");
         media = true;
-        $('#resultado-users').fadeOut(200, function(){
-            $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
-        });
     })
 
     btnBooks.on('click', function(){
+        if(media){
+            $('#resultado-audiovisual').fadeOut(200, function(){
+                $('#resultado-libros').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
+        else if(user){
+            $('#resultado-users').fadeOut(200, function(){
+                $('#resultado-libros').hide().removeClass("d-none").fadeIn(200);
+            });
+        }
         comprobarBoton();
         btnBooks.removeClass("btn-outline-dark").addClass("btn-dark");
         book = true;

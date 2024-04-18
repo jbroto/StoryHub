@@ -1,17 +1,16 @@
 package es.ucm.fdi.iw.model;
 
-
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import javax.persistence.*;
 
-
 @Entity
 @Data
 @NoArgsConstructor
-public class MediaUserRelation implements Transferable<MediaUserRelation.Transfer>{
+public class MediaUserRelation implements Transferable<MediaUserRelation.Transfer> {
     @EmbeddedId
     private MediaUserRelationId id;
 
@@ -41,14 +40,17 @@ public class MediaUserRelation implements Transferable<MediaUserRelation.Transfe
         private long user;
     }
 
-	@Override
+    @Override
     public Transfer toTransfer() {
-		return new Transfer(id,favorito,calificacion,viendo,ended,media.getApi(),user.getId());
-	}
-	
-	@Override
-	public String toString() {
-		return toTransfer().toString();
-	}
+        return new Transfer(id, favorito, calificacion, viendo, ended, media.getApi(), user.getId());
+    }
 
+    @Override
+    public String toString() {
+        return toTransfer().toString();
+    }
+
+    public void setCal(int cal) {
+        this.calificacion = cal;
+    }
 }

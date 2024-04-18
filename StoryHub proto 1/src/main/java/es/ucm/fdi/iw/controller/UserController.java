@@ -10,6 +10,8 @@ import es.ucm.fdi.iw.model.Lista;
 import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.GoogleBookService;
 import es.ucm.fdi.iw.model.Media;
+import es.ucm.fdi.iw.model.MediaUserRelation;
+import es.ucm.fdi.iw.model.MediaUserRelationId;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -219,22 +221,22 @@ public class UserController {
 	@PostMapping("/{id}/editarPerfil")
 	@Transactional
 	public String solicitudEditarPerfil(@PathVariable long id, @RequestParam("firstName") String nombre,
-	 @RequestParam("lastName") String apellidos,  Model model) {
-		User user = entityManager.find(User.class, id);//buscamos al usuario
-		//y cambiamos los campos rellenados
+			@RequestParam("lastName") String apellidos, Model model) {
+		User user = entityManager.find(User.class, id);// buscamos al usuario
+		// y cambiamos los campos rellenados
 		user.setFirstName(nombre);
 		user.setLastName(apellidos);
-		//preguntar si deberiamos dejar cambiar el username
+		// preguntar si deberiamos dejar cambiar el username
 
 		entityManager.persist(user);
 		entityManager.flush();
 
-		log.info("CAMBIOS REALIZADOS -> Username : "+ user.getUsername() + " FirstName: " + user.getFirstName() + 
-		" LastName: " + user.getLastName());
+		log.info("CAMBIOS REALIZADOS -> Username : " + user.getUsername() + " FirstName: " + user.getFirstName() +
+				" LastName: " + user.getLastName());
 
 		model.addAttribute("user", user);
-		model.addAttribute("EditarExitoso", "El perfil de "+user.getUsername()+" se ha actualizado con exito :)");
-		return "editarPerfil";//redirigimos otra vez a editar perfil
+		model.addAttribute("EditarExitoso", "El perfil de " + user.getUsername() + " se ha actualizado con exito :)");
+		return "editarPerfil";// redirigimos otra vez a editar perfil
 	}
 
 	@GetMapping("/{id}/busqueda")
@@ -248,10 +250,9 @@ public class UserController {
 		String resultTMDB = s.searchTerm(paramBusqueda);
 		String resultBooks = s2.searchTerm(paramBusqueda);
 
-
 		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.aproxUsername", User.class)
-                .setParameter("username", '%'+paramBusqueda+'%')
-                .getResultList();
+				.setParameter("username", '%' + paramBusqueda + '%')
+				.getResultList();
 
 		model.addAttribute("users", users);
 		System.out.println("ESTOY ENTRANDO AQUÍ" + target.getId());
@@ -279,7 +280,7 @@ public class UserController {
 				listaAudiovisual.add(m);
 			}
 
-			for(JsonNode resultNode : resultsNodeBooks){
+			for (JsonNode resultNode : resultsNodeBooks) {
 				Media m = s2.parseGoogleBook(resultNode);
 				listaBooks.add(m);
 			}
@@ -300,20 +301,19 @@ public class UserController {
 		model.addAttribute("user", target);
 
 		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
-		
-	}
 
+	}
 
 	@GetMapping("/{id}/perfilUsuario")
 	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model) {
-		User u =  entityManager.createNamedQuery("User.byUsername", User.class)
-		.setParameter("username", param)
-		.getSingleResult();
+		User u = entityManager.createNamedQuery("User.byUsername", User.class)
+				.setParameter("username", param)
+				.getSingleResult();
 
 		System.out.println("LLEGO AL USER" + u.getUsername());
 		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
-		.setParameter("author", u.getId())
-		.getResultList();
+				.setParameter("author", u.getId())
+				.getResultList();
 
 		System.out.println("LLEGO A LAS LISTAS" + ls.toString());
 
@@ -321,7 +321,6 @@ public class UserController {
 		model.addAttribute("listasPublicas", ls);
 		return "perfilUser";
 	}
-	
 
 	@GetMapping("/{id}/contenido")
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,
@@ -352,31 +351,39 @@ public class UserController {
 				m = s.parseTMDBtoMedia(resultNode);
 				m.setTipo(tipo);
 
-
-				//obtener el numero de temporadas. Para poder obtener mas info tipo el num de capitulos o la sinopsis deberiamos
-				//replantearnos crear otra class 
+				// obtener el numero de temporadas. Para poder obtener mas info tipo el num de
+				// capitulos o la sinopsis deberiamos
+				// replantearnos crear otra class
 				if (m.getTipo().equals("tv")) {
 					JsonNode seasonsNode = resultNode.get("seasons");
 					List<String> seasonNames = new ArrayList<>();
-				
+
 					if (seasonsNode != null && seasonsNode.isArray()) {
 						for (JsonNode seasonNode : seasonsNode) {
 							String name = seasonNode.get("name").asText();
 							seasonNames.add(name);
 						}
 					}
-				
+
 					// Ahora tienes la lista de nombres de temporadas
 					model.addAttribute("temporadas", seasonNames);
 				}
-				
+
+			}
+			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
+
+			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
+
+			if (r == null) {
+				model.addAttribute("myRating", 0);
+			} else {
+				model.addAttribute("myRating", r.getCalificacion());
 			}
 			// Agregamos los detalles del contenido al modelo
 			List<Comment> comentsMedia = m.getComments();
 			model.addAttribute("comentarios", comentsMedia);
 			model.addAttribute("user", target);
 			model.addAttribute("media", m);
-
 
 			// Devolvemos el nombre de la vista a la que se redirigirá
 			return "contenido";
@@ -560,6 +567,67 @@ public class UserController {
 		} catch (Exception e) {
 			log.error("Error al crear la lista para el usuario " + id, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
+		}
+	}
+
+	@PostMapping("/{id}/califica")
+	@ResponseBody
+	@Transactional
+	public void califica(HttpSession session,
+			Model model, @PathVariable long userId, @RequestParam("rating") int rating,
+			@RequestParam("tipo") String mediaTipo, @RequestParam("mediaId") long mediaId) {
+		try {
+			User usuario = entityManager.find(User.class, userId);
+			Media m = entityManager.find(Media.class, mediaId);// obtenemos el contenido
+			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
+				// parseamos los datos de la API TMDB
+				TMDBService s = new TMDBService();
+				// Llamar al servicio para obtener los detalles del contenido
+				String resultado = s.obtenerContenido(mediaTipo, mediaId);
+				// lo parseamos tipo JSON
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode resultNode = objectMapper.readTree(resultado);
+
+				m = s.parseTMDBtoMedia(resultNode);
+				m.setTipo(mediaTipo);
+				entityManager.persist(m);
+			}
+			model.addAttribute("user", usuario);
+			Comment coment = new Comment();
+			model.addAttribute("comentario", coment);
+
+			MediaUserRelationId rel = new MediaUserRelationId(mediaId, userId);
+
+			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
+
+			if (r == null) {
+				entityManager.persist(rel);
+				entityManager.flush();
+				MediaUserRelation relacion = new MediaUserRelation();
+				relacion.setId(rel);
+				relacion.setCal(rating);
+				entityManager.persist(relacion);
+				entityManager.flush();
+				model.addAttribute("myRating", relacion.getCalificacion());
+			} else {
+				r.setCal(rating);
+				entityManager.merge(r);
+				entityManager.flush();
+				model.addAttribute("myRating", r.getCalificacion());
+			}
+			List<Comment> comentsMedia = m.getComments();
+			model.addAttribute("comentarios", comentsMedia);
+
+			List<Lista> listasUs = usuario.getListas();
+			model.addAttribute("Listas", listasUs);
+
+			model.addAttribute("media", m);
+
+			log.info("Comentario de ", userId);
+
+		} catch (Exception e) {
+			log.error("Error al comentar " + userId, e);
+
 		}
 	}
 

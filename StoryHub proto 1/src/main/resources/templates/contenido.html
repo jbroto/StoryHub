@@ -8,7 +8,7 @@
     <title>Inicio</title>
 </head>
 
-<body data-userId="${user.id}" data-mediaId="${media.id}" data-mediaTipo="${media.tipo}">
+<body th:attr="data-userId=${user.id}, data-mediaId=${media.id}, data-mediaTipo=${media.tipo}">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container contenido-section">
@@ -49,8 +49,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="rating">
-                            <!-- aqui irian las estrellas para las valoraciones -->
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5" th:checked="${myRating == 5}" onclick="submitRating(this.value)"/>
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" th:checked="${myRating == 4}" onclick="submitRating(this.value)"/>
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" th:checked="${myRating == 3}" onclick="submitRating(this.value)"/>
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" th:checked="${myRating == 2}" onclick="submitRating(this.value)"/>
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" th:checked="${myRating == 1}" onclick="submitRating(this.value)"/>
+                            <label for="star1" title="text">1 star</label>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,9 @@
 $(document).ready(function() {
-    let userId = document.body.dataset.userId;
-    let mediaId = document.body.dataset.mediaId;
-    let mediaTipo = document.body.dataset.mediaTipo;
+    let userId = document.body.dataset.userid;
+    let mediaId = document.body.dataset.mediaid;
+    let mediaTipo = document.body.dataset.mediatipo;
+
+    console.log("ID DEL USUARIO: " +userId + " MEDIA CON ID: "+mediaId+ " Y DE TIPO: " + mediaTipo)
 
     // Función para enviar una solicitud AJAX al controlador
     function sendRequest(url) {
@@ -56,3 +58,29 @@ $(document).ready(function() {
         }
     });
 });
+
+function submitRating(rating) {
+    let userId = document.body.dataset.userid;
+    let mediaId = document.body.dataset.mediaid;
+    let mediaTipo = document.body.dataset.mediatipo;
+
+    console.log("ID DEL USUARIO: " +userId + " MEDIA CON ID: "+mediaId+ " Y DE TIPO: " + mediaTipo + "Y RATING: "+ rating);
+
+    $.ajax({
+        type: 'POST',
+        url: '/user/'+userId+'/califica',
+        data: {
+            rating: rating,
+            mediaTipo: mediaTipo,
+            mediaId: mediaId
+        },
+        success: function(response) {
+            console.log("Rating submitted successfully");
+            // Optionally, update UI based on response
+        },
+        error: function(xhr, status, error) {
+            console.error("Error submitting rating: " + error);
+            // Optionally, handle errors
+        }
+    });
+}

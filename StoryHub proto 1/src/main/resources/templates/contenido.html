@@ -26,11 +26,16 @@
                     <div class="acciones">
                         <h2> Añadir a: </h2>
                         <div class="container">
-
+                            <!-- Acciones que puede realizar el usuario con las listas basicas -->
                             <div class="acciones">
-                                <button class="btn btn-primary" id="favoritoBtn">Favoritos</button>
-                                <button class="btn btn-primary" id="viendoBtn">Viendo</button>
-                                <button class="btn btn-primary" id="terminadoBtn">Terminado</button>
+                                <button class="btn"
+                                    th:class="${relacion.favorito} ? 'btn btn-danger' : 'btn btn-success'"
+                                    id="favoritoBtn">Favoritos</button>
+                                <button class="btn" th:class="${relacion.viendo} ? 'btn btn-danger' : 'btn btn-success'"
+                                    id="viendoBtn">Viendo</button>
+                                <button class="btn" th:class="${relacion.ended} ? 'btn btn-danger' : 'btn btn-success'"
+                                    id="terminadoBtn">Terminado</button>
+
                             </div>
 
                             <div class="row">
@@ -56,20 +61,15 @@
                             </div>
                         </div>
                         <div class="rate">
-                            <input type="radio" id="star5" name="rate" value="5" th:checked="${myRating == 5}"
-                                onclick="submitRating(this.value)" />
+                            <input type="radio" id="star5" class="star" name="rate" value="5" th:checked="${relacion.calificacion == 5}" />
                             <label for="star5" title="text">5 stars</label>
-                            <input type="radio" id="star4" name="rate" value="4" th:checked="${myRating == 4}"
-                                onclick="submitRating(this.value)" />
+                            <input type="radio" id="star4" class="star" name="rate" value="4" th:checked="${relacion.calificacion == 4}" />
                             <label for="star4" title="text">4 stars</label>
-                            <input type="radio" id="star3" name="rate" value="3" th:checked="${myRating == 3}"
-                                onclick="submitRating(this.value)" />
+                            <input type="radio" id="star3" class="star" name="rate" value="3" th:checked="${relacion.calificacion == 3}" />
                             <label for="star3" title="text">3 stars</label>
-                            <input type="radio" id="star2" name="rate" value="2" th:checked="${myRating == 2}"
-                                onclick="submitRating(this.value)" />
+                            <input type="radio" id="star2" class="star" name="rate" value="2" th:checked="${relacion.calificacion == 2}" />
                             <label for="star2" title="text">2 stars</label>
-                            <input type="radio" id="star1" name="rate" value="1" th:checked="${myRating == 1}"
-                                onclick="submitRating(this.value)" />
+                            <input type="radio" id="star1" class="star" name="rate" value="1" th:checked="${relacion.calificacion == 1}" />
                             <label for="star1" title="text">1 star</label>
                         </div>
                     </div>

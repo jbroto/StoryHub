@@ -50,9 +50,6 @@ public class MediaUserRelation implements Transferable<MediaUserRelation.Transfe
         return toTransfer().toString();
     }
 
-    public void setCal(int cal) {
-        this.calificacion = cal;
-    }
 
     public boolean listasBasicas(String nombreLista, boolean estado) {
         boolean listaBasica = true;

@@ -18,7 +18,7 @@ $(document).ready(function () {
             // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
         })
             .catch(error => {
-                console.error("Error al añadir o quitar contenido de " +dataURL +" " + error);
+                console.error("Error al añadir o quitar contenido de " + dataURL + " " + error);
                 // Opcionalmente, manejar errores
             });
 
@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     // Función para cambiar el color del botón y enviar la solicitud
     function cambiarColoryPost(button, estado, url) {
-        button.toggleClass('btn-primary btn-danger');
+        button.toggleClass('btn-success btn-danger');
         sendRequest(estado, url);
     }
 
@@ -36,7 +36,7 @@ $(document).ready(function () {
         let estado, url;
 
         // Obtener el estado según la clase del botón
-        if ($(this).hasClass('btn-primary')) {
+        if ($(this).hasClass('btn-success')) {
             estado = 'addTo';
         } else {
             estado = 'removeFrom';
@@ -49,28 +49,32 @@ $(document).ready(function () {
         // Llamar a la función para cambiar el color del botón y enviar la solicitud
         cambiarColoryPost($(this), estado, url);
     });
+
+    const rateInputs = $('.rate .star');
+    rateInputs.on('change', function () {
+        submitRating($(this).val());
+    });
+
+    function submitRating(rating) {
+
+        let url = '/user/' + userId + '/califica' +
+            '?rating=' + encodeURIComponent(rating) +
+            '&mediaTipo=' + encodeURIComponent(mediaTipo) +
+            '&mediaId=' + encodeURIComponent(mediaId);
+
+        console.log("URL: " + url);
+
+        go(url, 'POST')
+            .then(response => {
+                console.log("La calificacion se ha enviado correctamente");
+                // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+            })
+            .catch(error => {
+                console.error("Error al enviar calificacion: " + error);
+                // Opcionalmente, manejar errores
+            });
+    }
+
+
 });
 
-function submitRating(rating) {
-    let userId = document.body.dataset.userid;
-    let mediaId = encodeURIComponent(document.body.dataset.mediaid);
-    let mediaTipo = encodeURIComponent(document.body.dataset.mediatipo);
-    let ratingData = encodeURIComponent(rating);
-
-    let url = '/user/' + userId + '/califica' +
-        '?rating=' + ratingData +
-        '&mediaTipo=' + mediaTipo +
-        '&mediaId=' + mediaId;
-
-    console.log("URL: " + url);
-
-    go(url, 'POST')
-        .then(response => {
-            console.log("Rating submitted successfully");
-            // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
-        })
-        .catch(error => {
-            console.error("Error submitting rating: " + error);
-            // Opcionalmente, manejar errores
-        });
-}

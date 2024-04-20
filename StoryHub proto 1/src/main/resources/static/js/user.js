@@ -25,7 +25,7 @@ $(document).ready(function () {
             validateForm();
             return; // Salir de la función sin realizar la llamada AJAX
         }
-        go('/user/' + idUser + '/check-nombreLista?&nombreLista=' + nombreLista, 'GET')
+        go('/user/' + idUser + '/check-nombreLista?&nombreLista=' + encodeURIComponent(nombreLista), 'GET')
             .then(response => {
                 if (response) {
                     // La lista existe, mostrar mensaje de error

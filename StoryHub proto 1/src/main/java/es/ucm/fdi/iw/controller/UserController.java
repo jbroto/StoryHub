@@ -323,17 +323,13 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/contenido")
+	@Transactional
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,
 			@RequestParam("idMedia") Long idMedia, Model model) {
 		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
-		User target = entityManager.find(User.class, id);
-
 		User usuario = entityManager.find(User.class, id);
 		Comment comentario = new Comment();
-		model.addAttribute("comentario", comentario);
-		model.addAttribute("user", usuario);
-		model.addAttribute("Listas", usuario.getListas());
 
 		Media m = entityManager.find(Media.class, idMedia);
 
@@ -368,22 +364,36 @@ public class UserController {
 					// Ahora tienes la lista de nombres de temporadas
 					model.addAttribute("temporadas", seasonNames);
 				}
-
+				entityManager.persist(m);
 			}
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
-
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
-
+			// CADA VEZ QUE UN USUARIO ACCEDA A NUEVO CONTENIDO CREAMOS LA RELACION CON
+			// VALORACION 0 Y SIN NINGUNA LISTA AÑADIDA
 			if (r == null) {
-				model.addAttribute("myRating", 0);
-			} else {
-				model.addAttribute("myRating", r.getCalificacion());
+				MediaUserRelation relacion = new MediaUserRelation();
+				relacion.setId(rel);
+				relacion.setCalificacion(0);
+				relacion.setEnded(false);
+				relacion.setFavorito(false);
+				relacion.setViendo(false);
+				relacion.setUser(usuario);
+				relacion.setMedia(m);
+
+				entityManager.persist(relacion);
+				entityManager.flush();
+				r=relacion;
 			}
+
 			// Agregamos los detalles del contenido al modelo
 			List<Comment> comentsMedia = m.getComments();
+
+			model.addAttribute("comentario", comentario);
+			model.addAttribute("user", usuario);
+			model.addAttribute("Listas", usuario.getListas());
 			model.addAttribute("comentarios", comentsMedia);
-			model.addAttribute("user", target);
 			model.addAttribute("media", m);
+			model.addAttribute("relacion", r);
 
 			// Devolvemos el nombre de la vista a la que se redirigirá
 			return "contenido";
@@ -393,7 +403,6 @@ public class UserController {
 		}
 		return "contenido";// en caso de que no llegue al otro return
 	}
-
 
 	@GetMapping("/{id}/comentario/{idComentario}")
 	public String getLista(@PathVariable long id, @PathVariable long idComentario, Model model, HttpSession session) {
@@ -410,6 +419,48 @@ public class UserController {
 		model.addAttribute("comentario", comentario);
 
 		return "comentario";
+	}
+
+	@PostMapping("/{id}/{idMedia}/nuevoComentario")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<String> nuevoComentario(@PathVariable long id, @PathVariable long idMedia,
+			@RequestParam("tipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
+			Model model) {
+		try {
+			User usuario = entityManager.find(User.class, id);
+			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
+
+			model.addAttribute("user", usuario);
+			Comment coment = new Comment();
+			model.addAttribute("comentario", coment);
+			coment.setAuthor(usuario);
+			coment.setText(comentario.getText());
+			coment.setMedia(m);
+			coment.setDateSent(LocalDate.now());
+
+			entityManager.persist(coment);
+
+			m.addComment(coment);
+			entityManager.merge(m);
+			entityManager.flush();
+
+			List<Comment> comentsMedia = m.getComments();
+			model.addAttribute("comentarios", comentsMedia);
+
+			List<Lista> listasUs = usuario.getListas();
+			model.addAttribute("Listas", listasUs);
+
+			model.addAttribute("media", m);
+
+			log.info("Comentario de ", id);
+
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
+					"/user/" + id + "/contenido?tipo=" + m.getTipo() + "&idMedia=" + m.getId()).build();
+		} catch (Exception e) {
+			log.error("Error al comentar " + id, e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
+		}
 	}
 
 	@PostMapping("/{id}/{idComent}/nuevaRespuesta")
@@ -483,8 +534,9 @@ public class UserController {
 		return "lista";
 	}
 
-	//funcion para añadir un contenido a una lista (de tipo bool para llamarlo desde JS)
-	@PostMapping("/{id}/addTo/{nombreLista}") 
+	// funcion para añadir un contenido a una lista (de tipo bool para llamarlo
+	// desde JS)
+	@PostMapping("/{id}/addTo/{nombreLista}")
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> addMediaToLista(@PathVariable long id, @PathVariable String nombreLista,
@@ -500,41 +552,10 @@ public class UserController {
 
 			System.out.println(lista.getName());
 
-			if (m == null) {// si no tenemos ese contenido en la BD
-				TMDBService s = new TMDBService();
-				// buscamos el contenido en la API
-				String resultado = s.obtenerContenido(tipoMedia, idMedia);
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
-				m = s.parseTMDBtoMedia(resultNode);
-				m.setTipo(tipoMedia);
-				// añadimos el contenido a la base de datos (porque siempre usamos temporalmente la API)
-				entityManager.persist(m); 
-			}
-
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
-			//SI ES UNA DE LAS LISTAS BASICAS COMO FAV, VIENDO O TERMINADO -> Se actualiza user_Media
-			//si no, se deja creado
-			if (r == null) {
-				entityManager.persist(rel);
-				MediaUserRelation relacion = new MediaUserRelation();
-				relacion.setId(rel);
-				relacion.setCal(0);
-				relacion.setEnded(false);
-				relacion.setFavorito(false);
-				relacion.setViendo(false);
-				relacion.listasBasicas(nombreLista, true);
-
-				entityManager.persist(relacion);
-				entityManager.flush();
-			} else {
-				r.listasBasicas(nombreLista, true);
-				entityManager.merge(r);
-				entityManager.flush();
-			}
+			r.listasBasicas(nombreLista, true);
 
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
@@ -558,8 +579,9 @@ public class UserController {
 		}
 	}
 
-	//funcion para añadir un contenido a una lista (de tipo bool para llamarlo desde JS)
-	@PostMapping("/{id}/removeFrom/{nombreLista}") 
+	// funcion para añadir un contenido a una lista (de tipo bool para llamarlo
+	// desde JS)
+	@PostMapping("/{id}/removeFrom/{nombreLista}")
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> removeMediaFromLista(@PathVariable long id, @PathVariable String nombreLista,
@@ -575,45 +597,14 @@ public class UserController {
 
 			System.out.println(lista.getName());
 
-			if (m == null) {// si no tenemos ese contenido en la BD
-				TMDBService s = new TMDBService();
-				// buscamos el contenido en la API
-				String resultado = s.obtenerContenido(tipoMedia, idMedia);
-
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
-				m = s.parseTMDBtoMedia(resultNode);
-				m.setTipo(tipoMedia);
-				// añadimos el contenido a la base de datos (porque siempre usamos temporalmente la API)
-				entityManager.persist(m); 
-			}
-
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
-			//SI ES UNA DE LAS LISTAS BASICAS COMO FAV, VIENDO O TERMINADO -> Se actualiza user_Media
-			//si no, se deja creado
-			if (r == null) {
-				entityManager.persist(rel);
-				MediaUserRelation relacion = new MediaUserRelation();
-				relacion.setId(rel);
-				relacion.setCal(0);
-				relacion.setEnded(false);
-				relacion.setFavorito(false);
-				relacion.setViendo(false);
-				relacion.listasBasicas(nombreLista, true);
-
-				entityManager.persist(relacion);
-				entityManager.flush();
-			} else {
-				r.listasBasicas(nombreLista, true);
-				entityManager.merge(r);
-				entityManager.flush();
-			}
+			r.listasBasicas(nombreLista, false);
 
 			List<Media> lMedias = lista.getMedias();
-			lMedias.add(m);
-			int cont = lista.getContador() + 1;// aumentamos el contador
+			lMedias.remove(m);
+			int cont = lista.getContador() - 1;// disminuimos el contador
 			lista.setContador(cont);
 			lista.setMedias(lMedias);
 
@@ -625,15 +616,13 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", id, m, nombreLista);
 
-			// "Elemento agregado correctamente a la lista"
+			// "Elemento eliminado correctamente a la lista"
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
-			log.error("Error al crear la lista para el usuario " + id, e);
+			log.error("Error al eliminar de  la lista para el usuario " + id, e);
 			return ResponseEntity.ok(false);
 		}
 	}
-
-
 
 	@PostMapping("/{id}/crearLista")
 	@ResponseBody
@@ -676,42 +665,19 @@ public class UserController {
 		try {
 			User usuario = entityManager.find(User.class, id);
 			Media m = entityManager.find(Media.class, mediaId);// obtenemos el contenido
-			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
-				// parseamos los datos de la API TMDB
-				TMDBService s = new TMDBService();
-				// Llamar al servicio para obtener los detalles del contenido
-				String resultado = s.obtenerContenido(mediaTipo, mediaId);
-				// lo parseamos tipo JSON
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
 
-				m = s.parseTMDBtoMedia(resultNode);
-				m.setTipo(mediaTipo);
-				entityManager.persist(m);
-			}
 			model.addAttribute("user", usuario);
 			Comment coment = new Comment();
 			model.addAttribute("comentario", coment);
 
 			MediaUserRelationId rel = new MediaUserRelationId(mediaId, id);
-
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
-			if (r == null) {
-				entityManager.persist(rel);
-				entityManager.flush();
-				MediaUserRelation relacion = new MediaUserRelation();
-				relacion.setId(rel);
-				relacion.setCal(rating);
-				entityManager.persist(relacion);
-				entityManager.flush();
-				model.addAttribute("myRating", relacion.getCalificacion());
-			} else {
-				r.setCal(rating);
-				entityManager.merge(r);
-				entityManager.flush();
-				model.addAttribute("myRating", r.getCalificacion());
-			}
+			r.setCalificacion(rating);
+			entityManager.merge(r);
+			entityManager.flush();
+			model.addAttribute("myRating", r.getCalificacion());
+
 			List<Comment> comentsMedia = m.getComments();
 			model.addAttribute("comentarios", comentsMedia);
 
@@ -726,62 +692,7 @@ public class UserController {
 
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
-
 			return ResponseEntity.ok(false);
-		}
-	}
-
-	@PostMapping("/{id}/{idMedia}/nuevoComentario")
-	@ResponseBody
-	@Transactional
-	public ResponseEntity<String> nuevoComentario(@PathVariable long id, @PathVariable long idMedia,
-			@RequestParam("tipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
-			Model model) {
-		try {
-			User usuario = entityManager.find(User.class, id);
-			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
-			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
-				// parseamos los datos de la API TMDB
-				TMDBService s = new TMDBService();
-				// Llamar al servicio para obtener los detalles del contenido
-				String resultado = s.obtenerContenido(tipo, idMedia);
-				// lo parseamos tipo JSON
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
-
-				m = s.parseTMDBtoMedia(resultNode);
-				m.setTipo(tipo);
-				entityManager.persist(m);
-			}
-			model.addAttribute("user", usuario);
-			Comment coment = new Comment();
-			model.addAttribute("comentario", coment);
-			coment.setAuthor(usuario);
-			coment.setText(comentario.getText());
-			coment.setMedia(m);
-			coment.setDateSent(LocalDate.now());
-
-			entityManager.persist(coment);
-
-			m.addComment(coment);
-			entityManager.merge(m);
-			entityManager.flush();
-
-			List<Comment> comentsMedia = m.getComments();
-			model.addAttribute("comentarios", comentsMedia);
-
-			List<Lista> listasUs = usuario.getListas();
-			model.addAttribute("Listas", listasUs);
-
-			model.addAttribute("media", m);
-
-			log.info("Comentario de ", id);
-
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
-					"/user/" + id + "/contenido?tipo=" + m.getTipo() + "&idMedia=" + m.getId()).build();
-		} catch (Exception e) {
-			log.error("Error al comentar " + id, e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
 		}
 	}
 

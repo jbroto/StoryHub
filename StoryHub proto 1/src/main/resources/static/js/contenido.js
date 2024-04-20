@@ -1,86 +1,76 @@
-$(document).ready(function() {
+$(document).ready(function () {
     let userId = document.body.dataset.userid;
     let mediaId = document.body.dataset.mediaid;
     let mediaTipo = document.body.dataset.mediatipo;
 
-    console.log("ID DEL USUARIO: " +userId + " MEDIA CON ID: "+mediaId+ " Y DE TIPO: " + mediaTipo)
+    console.log("ID DEL USUARIO: " + userId + " MEDIA CON ID: " + mediaId + " Y DE TIPO: " + mediaTipo)
 
     // Función para enviar una solicitud AJAX al controlador
-    function sendRequest(url) {
+    function sendRequest(estado, url) {
         console.log(userId); // Verifica el valor de userId en la consola del navegador
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                mediaId: mediaId,
-                mediaTipo: mediaTipo
-            },
-            success: function(data) {
-                console.log('Solicitud enviada con éxito');
-            },
-            error: function() {
-                console.error('Error al enviar la solicitud');
-            }
-        });
+        let dataURL = url +
+            '?mediaTipo=' + mediaTipo +
+            '&mediaId=' + mediaId;
+
+        go(dataURL, "POST").then(response => {
+            console.log("Solicitud enviada con éxito");
+            // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+        })
+            .catch(error => {
+                console.error("Error al añadir o quitar contenido de " +dataURL +" " + error);
+                // Opcionalmente, manejar errores
+            });
+
     }
 
     // Función para cambiar el color del botón y enviar la solicitud
-    function cambiarColoryPost(button, url) {
+    function cambiarColoryPost(button, estado, url) {
         button.toggleClass('btn-primary btn-danger');
-        sendRequest(url);
+        sendRequest(estado, url);
     }
-    
+
 
     // Agregar eventos de clic para cambiar el color del botón y enviar la solicitud
-    $('#favoritoBtn').click(function() {
+    $('.acciones button').click(function () {
+        let estado, url;
 
+        // Obtener el estado según la clase del botón
         if ($(this).hasClass('btn-primary')) {
-            cambiarColoryPost($(this), '/user/' + userId + '/addTo/favoritos');
+            estado = 'addTo';
         } else {
-            cambiarColoryPost($(this), '/user/' + userId + '/removeFrom/favoritos');
+            estado = 'removeFrom';
         }
-    });
 
-    $('#viendoBtn').click(function() {
-        if ($(this).hasClass('btn-primary')) {
-            cambiarColoryPost($(this), '/user/' + userId + '/addTo/viendo');
-        } else {
-            cambiarColoryPost($(this), '/user/' + userId + '/removeFrom/viendo');
-        }
-    });
+        // Obtener el nombre de la lista basándote en el texto del botón
+        let buttonText = $(this).text().toLowerCase();
+        url = '/user/' + userId + '/' + estado + '/' + buttonText;
 
-    $('#terminadoBtn').click(function() {
-        if ($(this).hasClass('btn-primary')) {
-            cambiarColoryPost($(this), '/user/' + userId + '/addTo/terminado');
-        } else {
-            cambiarColoryPost($(this), '/user/' + userId + '/removeFrom/terminado');
-        }
+        // Llamar a la función para cambiar el color del botón y enviar la solicitud
+        cambiarColoryPost($(this), estado, url);
     });
 });
 
 function submitRating(rating) {
     let userId = document.body.dataset.userid;
-    let mediaId = document.body.dataset.mediaid;
-    let mediaTipo = document.body.dataset.mediatipo;
+    let mediaId = encodeURIComponent(document.body.dataset.mediaid);
+    let mediaTipo = encodeURIComponent(document.body.dataset.mediatipo);
+    let ratingData = encodeURIComponent(rating);
 
-    console.log("ID DEL USUARIO: " +userId + " MEDIA CON ID: "+mediaId+ " Y DE TIPO: " + mediaTipo + "Y RATING: "+ rating);
+    let url = '/user/' + userId + '/califica' +
+        '?rating=' + ratingData +
+        '&mediaTipo=' + mediaTipo +
+        '&mediaId=' + mediaId;
 
-    $.ajax({
-        type: 'POST',
-        url: '/user/'+userId+'/califica',
-        data: {
-            rating: rating,
-            mediaTipo: mediaTipo,
-            mediaId: mediaId
-        },
-        success: function(response) {
+    console.log("URL: " + url);
+
+    go(url, 'POST')
+        .then(response => {
             console.log("Rating submitted successfully");
-            // Optionally, update UI based on response
-        },
-        error: function(xhr, status, error) {
+            // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+        })
+        .catch(error => {
             console.error("Error submitting rating: " + error);
-            // Optionally, handle errors
-        }
-    });
+            // Opcionalmente, manejar errores
+        });
 }

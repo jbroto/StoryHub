@@ -26,23 +26,21 @@ $(document).ready(function() {
             $('#username-error').text('');
             return; // Salir de la función sin realizar la llamada AJAX
         }
-        $.ajax({
-            url: '/check-username', // Endpoint en el backend para verificar el nombre de usuario
-            method: 'GET',
-            data: { username: username },
-            success: function(response) {
-                if (response) {
-                    $('#username-error').text('Nombre de usuario disponible').css('color', 'green');
-                    validUsername = true;
-                } else {
-                    $('#username-error').text('Este nombre de usuario ya está en uso.').css('color', 'red');
-                    validUsername = false;
-                }
-                validateForm(); // Validar el formulario después de recibir la respuesta AJAX
-            },
-            error: function() {
-                console.error('Error al verificar la disponibilidad del nombre de usuario');
+        //he cambiado la llamada AJAX por la funcion go de IW 
+        //el encode es para que los parametros lleguen bien a la URL
+        go('/check-username?username=' + encodeURIComponent(username), 'GET')
+        .then(response => {
+            if (response) {
+                $('#username-error').text('Nombre de usuario disponible').css('color', 'green');
+                validUsername = true;
+            } else {
+                $('#username-error').text('Este nombre de usuario ya está en uso.').css('color', 'red');
+                validUsername = false;
             }
+            validateForm(); // Validar el formulario después de recibir la respuesta AJAX
+        })
+        .catch(error => {
+            console.error('Error al verificar la disponibilidad del nombre de usuario', error);
         });
     });
     $('#password').on('input', function() {

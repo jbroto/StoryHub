@@ -96,6 +96,7 @@ function go(url, method, data = {}, headers = false) {
     return fetch(url, params)
         .then(response => {
             const r = response;
+            console.log(response);
             if (r.ok) {
                 return r.json().then(json => Promise.resolve(json));
             } else {

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var idUser = $("body").data("iduser");
     console.log("El ID del usuario es:", idUser);
 
@@ -15,8 +15,8 @@ $(document).ready(function() {
         $('#crearListaButton').prop('disabled', !isValid);
     }
 
-    $('#nombreLista').on('input', function() {
-        var nombreLista = $(this).val();
+    $('#nombreLista').on('input', function () {
+        var nombreLista = $(this).val().toLowerCase();
         // Verificar si el campo de nombre de lista está vacío
         if (!nombreLista) {
             // Si está vacío, establecer un mensaje predeterminado o realizar alguna acción necesaria
@@ -25,25 +25,21 @@ $(document).ready(function() {
             validateForm();
             return; // Salir de la función sin realizar la llamada AJAX
         }
-        $.ajax({
-            url: '/user/' + idUser + '/check-nombreLista', // Endpoint en el backend para verificar el nombre de la lista
-            method: 'GET',
-            data: { id: idUser, nombreLista: nombreLista }, // Pasar ID de usuario y nombre de lista
-            success: function(response) {
+        go('/user/' + idUser + '/check-nombreLista?&nombreLista=' + nombreLista, 'GET')
+            .then(response => {
                 if (response) {
                     // La lista existe, mostrar mensaje de error
                     $('#nombreLista-error').text('Este nombre de lista ya está en uso.').css('color', 'red');
-                    validNombreLista =false;
+                    validNombreLista = false;
                 } else {
                     // La lista no existe, mostrar mensaje indicando que el nombre de la lista está disponible
                     $('#nombreLista-error').text('Nombre de lista disponible').css('color', 'green');
-                    validNombreLista =true;
+                    validNombreLista = true;
                 }
                 validateForm(); // Validar el formulario después de recibir la respuesta AJAX
-            },
-            error: function() {
-                console.error('Error al verificar la disponibilidad del nombre de la lista');
-            }
-        });
+            })
+            .catch(error => {
+                console.error('Error al verificar la disponibilidad del nombre de la lista', error);
+            });
     });
 });

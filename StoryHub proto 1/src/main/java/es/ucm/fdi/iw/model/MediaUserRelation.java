@@ -53,4 +53,24 @@ public class MediaUserRelation implements Transferable<MediaUserRelation.Transfe
     public void setCal(int cal) {
         this.calificacion = cal;
     }
+
+    public boolean listasBasicas(String nombreLista, boolean estado) {
+        boolean listaBasica = true;
+
+        switch (nombreLista) {
+            case "favoritos":
+                this.favorito = estado;
+                break;
+            case "viendo":
+                this.viendo = estado;
+                break;
+            case "terminado":
+                this.ended = estado;
+                break;
+            default:
+                listaBasica = false;
+                break;
+        }
+        return listaBasica;
+    }
 }

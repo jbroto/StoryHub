@@ -15,6 +15,7 @@ import es.ucm.fdi.iw.model.MediaUserRelationId;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.aspectj.apache.bcel.classfile.ExceptionTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -329,7 +330,10 @@ public class UserController {
 		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
 		User usuario = entityManager.find(User.class, id);
-		Comment comentario = new Comment();
+
+		//List<Comment> comentario= entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
+		//		.setParameter("idMedia", idMedia).getResultList();
+
 
 		Media m = entityManager.find(Media.class, idMedia);
 
@@ -501,14 +505,25 @@ public class UserController {
 	}
 
 	@PostMapping("/{id}/{idMedia}/reportarComentario")
-	public ResponseEntity<String> postMethodName(@PathVariable long id,  @PathVariable long idMedia, @ModelAttribute Comment comentario, HttpSession session) {
-		Comment find = entityManager.find(Comment.class, comentario.getId());
+	public ResponseEntity<Boolean> postMethodName(@PathVariable long id,  @PathVariable long idMedia, @ModelAttribute Comment comentario, HttpSession session) {
+		
+
+		try {
+			Comment c = entityManager.find(Comment.class, comentario.getId());
+			if(c.isReport()){
+
+			}
+			return ResponseEntity.ok(true);
+		} catch (NoResultException e) {
+			
+			return ResponseEntity.ok(false);
+		}
+
 
 		//mi idea es crear como una list<Comment> donde guardaremos todos los comentarios que han querido ser reportados, 
 		//para luego esa lista representarla en el .html de admin y que el pueda ver todos los comentarios que han sido reportados, que usuarios
 		//los han reportado, y el comentario en si con su contenido y en el media que se encuentra
 		
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
 	
 

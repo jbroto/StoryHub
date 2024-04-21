@@ -76,6 +76,12 @@ public class AdminController {
 				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+
+
+		// Obtenemos la lista de terminado
+		List<Comment> reports = entityManager.createNamedQuery("Comentario.isReported", Comment.class).getResultList();
+
+
 		int contadorVistos = terminado.getContador();
 		// cambiar
 		model.addAttribute("user", target);
@@ -85,6 +91,7 @@ public class AdminController {
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
 		model.addAttribute("contVisto", contadorVistos);
+		model.addAttribute("reportes", reports);
         
         //User user = entityManager.find(User.class, );
         

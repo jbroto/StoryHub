@@ -23,7 +23,11 @@ import lombok.Getter;
 @Data
 @NamedQueries({
         @NamedQuery(name = "Comentario.byFather", query = "SELECT c FROM Comment c "
-                + "WHERE c.father.id = :father")
+                + "WHERE c.father.id = :father"),
+        @NamedQuery(name = "Comentario.isReported", query = "SELECT c FROM Comment c "
+        + "WHERE c.report = true"),
+        @NamedQuery(name = "Comentario.byMedia", query = "SELECT c FROM Comment c "
+        + "WHERE c.MEDIA_ID = :idMedia")
 })
 public class Comment implements Transferable<Comment.Transfer> {
     @Id
@@ -39,6 +43,7 @@ public class Comment implements Transferable<Comment.Transfer> {
 
     private String text;
     private LocalDate dateSent;
+    private boolean report;
 
     @Getter
     @AllArgsConstructor
@@ -49,6 +54,7 @@ public class Comment implements Transferable<Comment.Transfer> {
         private String text;
         long id;
         private String father;
+        private boolean report;
 
         public Transfer(Comment c) {
             this.author = c.getAuthor().getUsername();
@@ -57,6 +63,7 @@ public class Comment implements Transferable<Comment.Transfer> {
             this.text = c.getText();
             this.id = c.getId();
             this.father = c.getFather().toString();
+            this.report = false;
         }
     }
 
@@ -64,6 +71,6 @@ public class Comment implements Transferable<Comment.Transfer> {
     public Transfer toTransfer() {
         return new Transfer(author.getUsername(), media.getApi(),
                 DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dateSent),
-                text, id, father.getText());
+                text, id, father.getText(), false);
     }
 }

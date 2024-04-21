@@ -74,6 +74,22 @@
         </div>
       </main>
 
+      <div class="reportes">
+        <h3>Reportes de comentarios</h3>
+        <div class="container justify-content-center align-items-center" th:each="item : ${reportes}">
+          <div class="card">
+            <div class="card-body cabecera-comentario d-flex align-items-center">
+              <img th:src="@{/user/__${item.author.id}__/pic}" alt="foto" class="rounded-circle mr-3" width="40" height="40">
+              <div>
+                <h4 class="card-title nombre-comentario mb-1" th:text="@{item.author.username}"></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
+
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/ajax-demo.js}"></script>
 </body>

@@ -500,6 +500,18 @@ public class UserController {
 		}
 	}
 
+	@PostMapping("/{id}/{idMedia}/reportarComentario")
+	public ResponseEntity<String> postMethodName(@PathVariable long id,  @PathVariable long idMedia, @ModelAttribute Comment comentario, HttpSession session) {
+		Comment find = entityManager.find(Comment.class, comentario.getId());
+
+		//mi idea es crear como una list<Comment> donde guardaremos todos los comentarios que han querido ser reportados, 
+		//para luego esa lista representarla en el .html de admin y que el pueda ver todos los comentarios que han sido reportados, que usuarios
+		//los han reportado, y el comentario en si con su contenido y en el media que se encuentra
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+	}
+	
+
 	// PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
 	@GetMapping("/{id}/check-nombreLista")
 	public ResponseEntity<Boolean> checkNombreLista(@PathVariable long id, @RequestParam String nombreLista) {

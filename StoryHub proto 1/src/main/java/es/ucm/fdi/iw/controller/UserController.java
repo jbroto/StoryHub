@@ -333,7 +333,6 @@ public class UserController {
 
 		Comment comentario = new Comment();
 
-
 		Media m = entityManager.find(Media.class, idMedia);
 
 		try {
@@ -385,7 +384,7 @@ public class UserController {
 
 				entityManager.persist(relacion);
 				entityManager.flush();
-				r=relacion;
+				r = relacion;
 			}
 
 			// Agregamos los detalles del contenido al modelo
@@ -427,8 +426,9 @@ public class UserController {
 	@PostMapping("/{id}/{idMedia}/nuevoComentario")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<String> nuevoComentario(@PathVariable long id, @PathVariable long idMedia,
-			@RequestParam("tipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
+	public ResponseEntity<Boolean> nuevoComentario(@PathVariable long id, @RequestParam("mediaId") long idMedia,
+			@RequestParam("texto") String texto,
+			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
 		try {
 			User usuario = entityManager.find(User.class, id);
@@ -438,7 +438,7 @@ public class UserController {
 			Comment coment = new Comment();
 			model.addAttribute("comentario", coment);
 			coment.setAuthor(usuario);
-			coment.setText(comentario.getText());
+			coment.setText(texto);
 			coment.setMedia(m);
 			coment.setDateSent(LocalDate.now());
 
@@ -458,11 +458,10 @@ public class UserController {
 
 			log.info("Comentario de ", id);
 
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
-					"/user/" + id + "/contenido?tipo=" + m.getTipo() + "&idMedia=" + m.getId()).build();
+			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
+			return ResponseEntity.ok(false);
 		}
 	}
 
@@ -504,27 +503,28 @@ public class UserController {
 	}
 
 	@PostMapping("/{id}/{idMedia}/reportarComentario")
-	public ResponseEntity<Boolean> postMethodName(@PathVariable long id,  @PathVariable long idMedia, @ModelAttribute Comment comentario, HttpSession session) {
-		
+	public ResponseEntity<Boolean> postMethodName(@PathVariable long id, @PathVariable long idMedia,
+			@ModelAttribute Comment comentario, HttpSession session) {
 
 		try {
 			Comment c = entityManager.find(Comment.class, comentario.getId());
-			if(c.isReport()){
+			if (c.isReport()) {
 
 			}
 			return ResponseEntity.ok(true);
 		} catch (NoResultException e) {
-			
+
 			return ResponseEntity.ok(false);
 		}
 
+		// mi idea es crear como una list<Comment> donde guardaremos todos los
+		// comentarios que han querido ser reportados,
+		// para luego esa lista representarla en el .html de admin y que el pueda ver
+		// todos los comentarios que han sido reportados, que usuarios
+		// los han reportado, y el comentario en si con su contenido y en el media que
+		// se encuentra
 
-		//mi idea es crear como una list<Comment> donde guardaremos todos los comentarios que han querido ser reportados, 
-		//para luego esa lista representarla en el .html de admin y que el pueda ver todos los comentarios que han sido reportados, que usuarios
-		//los han reportado, y el comentario en si con su contenido y en el media que se encuentra
-		
 	}
-	
 
 	// PARA HACER CHECK DEL NOMBRE DE LISTA DISPONIBLE
 	@GetMapping("/{id}/check-nombreLista")

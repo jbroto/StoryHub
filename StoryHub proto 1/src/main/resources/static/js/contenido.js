@@ -75,6 +75,28 @@ $(document).ready(function () {
             });
     }
 
+    $("#submitBtn").click(function () {
+        addComment();
+    });
 
+    function addComment() {
+
+        let url =  userId + mediaId + '/nuevoComentario' +
+            '?texto=' + $('#commentText').val() +
+            '&mediaTipo=' + encodeURIComponent(mediaTipo) +
+            '&mediaId=' + encodeURIComponent(mediaId);
+
+        console.log("URL: " + url);
+
+        go(url, 'POST')
+            .then(response => {
+                console.log("El comentario se ha enviado correctamente");
+                // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+            })
+            .catch(error => {
+                console.error("Error al enviar el comentario: " + error);
+                // Opcionalmente, manejar errores
+            });
+    }
 });
 

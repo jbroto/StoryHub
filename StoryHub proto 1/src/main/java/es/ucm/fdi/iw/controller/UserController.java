@@ -331,8 +331,7 @@ public class UserController {
 
 		User usuario = entityManager.find(User.class, id);
 
-		//List<Comment> comentario= entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
-		//		.setParameter("idMedia", idMedia).getResultList();
+		Comment comentario = new Comment();
 
 
 		Media m = entityManager.find(Media.class, idMedia);

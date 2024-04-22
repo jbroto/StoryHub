@@ -426,7 +426,7 @@ public class UserController {
 	@PostMapping("/{id}/{idMedia}/nuevoComentario")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> nuevoComentario(@PathVariable long id, @RequestParam("mediaId") long idMedia,
+	public Comment nuevoComentario(@PathVariable long id, @RequestParam("mediaId") long idMedia,
 			@RequestParam("texto") String texto,
 			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
@@ -458,10 +458,10 @@ public class UserController {
 
 			log.info("Comentario de ", id);
 
-			return ResponseEntity.ok(true);
+			return coment;
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
-			return ResponseEntity.ok(false);
+			return new Comment();
 		}
 	}
 

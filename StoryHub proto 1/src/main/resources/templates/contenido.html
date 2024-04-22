@@ -113,30 +113,25 @@
         <h4>Add a comment</h4>
         <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
         <button id="submitBtn" >Submit</button>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 col-md-6 col-12 pb-4">
-                    <div th:each="comentario : ${comentarios}">
-                        <!--a--><div class="card mt-4">
-                            <a class="card-body cabecera-comentario d-flex align-items-center" th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
-                                <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
-                                    class="rounded-circle mr-3" width="40" height="40">
-                                <div>
-                                    <h4 class="card-title nombre-comentario mb-1"
-                                        th:text="${comentario.author.username}">Nombre</h4>
-                                    <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
-                                </div>
-                            </a>
-                            <div class="card-body">
-                                <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
-                                <span>
-                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#reporteModal">
-                                        🚩
-                                    </button>
-                                </span>
-                            </div>
+        <div id="comments">
+            <div th:each="comentario : ${comentarios}" class="comment">
+                <div class="card mt-4">
+                    <a class="card-body cabecera-comentario d-flex align-items-center" th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
+                            class="rounded-circle mr-3" width="40" height="40">
+                        <div>
+                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
+                            <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                         </div>
+                    </a>
+                    <div class="card-body">
+                        <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
+                        <span>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#reporteModal">
+                                🚩
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>

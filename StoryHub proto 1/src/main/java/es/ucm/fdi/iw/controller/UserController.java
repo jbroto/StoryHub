@@ -54,7 +54,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -426,7 +428,8 @@ public class UserController {
 	@PostMapping("/{id}/{idMedia}/nuevoComentario")
 	@ResponseBody
 	@Transactional
-	public Comment nuevoComentario(@PathVariable long id, @RequestParam("mediaId") long idMedia,
+	public ResponseEntity<Map<String, String>> nuevoComentario(@PathVariable long id,
+			@RequestParam("mediaId") long idMedia,
 			@RequestParam("texto") String texto,
 			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
@@ -458,10 +461,19 @@ public class UserController {
 
 			log.info("Comentario de ", id);
 
-			return coment;
+			Map<String, String> response = new HashMap<>();
+			response.put("author", coment.getAuthor().getFirstName());
+			response.put("authorId", String.valueOf(coment.getAuthor().getId()));
+			response.put("dateSent", coment.getDateSent().toString());
+			response.put("text", coment.getText());
+
+			return ResponseEntity.ok().body(response);
+
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
-			return new Comment();
+			Map<String, String> response = new HashMap<>();
+			response.put("error", "Error al agregar el comentario");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

@@ -88,7 +88,6 @@ $(document).ready(function () {
             '&mediaId=' + encodeURIComponent(mediaId);
 
         console.log("URL: " + url);
-
         go(url, 'POST')
             .then(response => {
                 console.log("El comentario se ha enviado correctamente");
@@ -101,15 +100,15 @@ $(document).ready(function () {
         console.log("rendering: ", response);
         return '<div class="comment"><div class="card mt-4">' +
         '<a class="card-body cabecera-comentario d-flex align-items-center" th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">' +
-        '<img th:src="@{/user/__' + response.author.id + '__/pic}" alt=""' +
+        '<img th:src="@{/user/__  ${response.authorId}  __/pic}" alt=""' +
         'class="rounded-circle mr-3" width="40" height="40">' +
         '<div>' +
-        '<h4 class="card-title nombre-comentario mb-1" th:text="' + response.author.username + '">Nombre</h4>' +
-        '<span class="text-muted small mb-2" th:text="' + response.dateSent + '">Fecha</span>' +
+        '<h4 class="card-title nombre-comentario mb-1" th:text="${response.author}">Nombre</h4>' +
+        '<span class="text-muted small mb-2" th:text="${response.dateSent}">Fecha</span>' +
         '</div>' +
         '</a>' +
         '<div class="card-body">' +
-        '<span class="card-text comentario-texto" th:text="' + response.text + '">Texto</span>' +
+        '<span class="card-text comentario-texto" th:text="${response.text}">Texto</span>' +
         '<span>' +
         '<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"' +
         'data-bs-target="#reporteModal">' +

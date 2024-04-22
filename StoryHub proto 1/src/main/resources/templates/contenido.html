@@ -121,8 +121,8 @@
                             class="rounded-circle mr-3" width="40" height="40">
                         <div>
                             <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
-                            <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                         </div>
+                        <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                     </a>
                     <div class="card-body">
                         <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>

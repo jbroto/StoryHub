@@ -462,10 +462,11 @@ public class UserController {
 			log.info("Comentario de ", id);
 
 			Map<String, String> response = new HashMap<>();
-			response.put("author", coment.getAuthor().getFirstName());
+			response.put("author", coment.getAuthor().getUsername());
 			response.put("authorId", String.valueOf(coment.getAuthor().getId()));
 			response.put("dateSent", coment.getDateSent().toString());
 			response.put("text", coment.getText());
+			response.put("comentId", String.valueOf(coment.getId()));
 
 			return ResponseEntity.ok().body(response);
 

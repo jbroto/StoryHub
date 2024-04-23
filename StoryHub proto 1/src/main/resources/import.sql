@@ -71,8 +71,9 @@ VALUES (2, 66732);
 INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID)
 VALUES (3, 66732);
 
---INSERT INTO Comment (AUTHOR_ID, MEDIA_ID, TEXT, DATE_SENT, REPORT)
---VALUES (2, 66732, 'buenisima serie', CURRENT_DATE, FALSE);
+INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID)
+VALUES (1, CURRENT_DATE, FALSE, 'el prota es un tonto', 4, 66732);
+
 
 
 -- start id numbering from a value that is larger than any assigned above

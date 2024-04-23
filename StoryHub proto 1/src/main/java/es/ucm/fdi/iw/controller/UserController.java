@@ -390,7 +390,12 @@ public class UserController {
 			}
 
 			// Agregamos los detalles del contenido al modelo
-			List<Comment> comentsMedia = m.getComments();
+			
+			List<Comment> comentsMedia = entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
+			.setParameter("idMedia", idMedia).getResultList();
+
+			m.setComments(comentsMedia);
+			
 
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("user", usuario);
@@ -526,12 +531,13 @@ public class UserController {
 
 	@PostMapping("/{id}/{idMedia}/reportarComentario")
 	public ResponseEntity<Boolean> postMethodName(@PathVariable long id, @PathVariable long idMedia,
-			@ModelAttribute Comment comentario, HttpSession session) {
+	@RequestParam("commentario") long comentario, HttpSession session) {
 
 		try {
-			Comment c = entityManager.find(Comment.class, comentario.getId());
-			if (c.isReport()) {
-
+			Comment c = entityManager.find(Comment.class, comentario);
+			if (!c.isReport()) {
+				c.setReport(true);
+				entityManager.persist(c);
 			}
 			return ResponseEntity.ok(true);
 		} catch (NoResultException e) {

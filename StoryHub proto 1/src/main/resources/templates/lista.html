@@ -8,32 +8,39 @@
   <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container contenidoLista">
-        <div class="lista-header">
-            <h1 class="mb-4"><span th:text="${lista.name}">default</span></h1>
-            <p>Lista creada por: <span th:text="${user.username}">default</span></p>
+        <div class="row d-flex mt-3">
+            <div class="col-md-6">
+                <h1 class="mb-0"><span th:text="${lista.name.toUpperCase()}">default</span></h1>
+                <p>Lista creada por: <span th:text="${lista.author.getUsername()}">default</span></p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+                <!-- Botón alineado a la derecha de la columna -->
+                <div th:unless="${lista.author.getUsername() eq user.username}">
+                    <button class="btn btn-danger" type="button">Suscribirse</button>
+                </div>
+            </div>
         </div>
 
-        <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
-            <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
-                 <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
-                    <input type="hidden" name="idMedia" th:value="${item.id}" />
-                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                        <div class="card">
-                            <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
-                            <div class="card-body">
-                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
-                                <h6><span th:text="${item.tipo}"></span></h6>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+                     <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                        <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                        <input type="hidden" name="idMedia" th:value="${item.id}" />
+                        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                            <div class="card">
+                                <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
+                                <div class="card-body">
+                                    <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                                    <h6><span th:text="${item.tipo}"></span></h6>
+                                </div>
                             </div>
-                        </div>
-                    </button>
-                </form>
-            </div>
+                        </button>
+                    </form>
+                </div>
         </div>
     </div>
 
-    <footer>
-        <th:block th:replace="fragments/footer.html :: footer" />
-    </footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
   </body>
 </html>

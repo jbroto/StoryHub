@@ -309,9 +309,10 @@ public class UserController {
 
 	@GetMapping("/{id}/perfilUsuario")
 	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model) {
-		User u = entityManager.createNamedQuery("User.byUsername", User.class)
+		User target = entityManager.createNamedQuery("User.byUsername", User.class)
 				.setParameter("username", param)
 				.getSingleResult();
+		User u = entityManager.find(User.class, id);
 
 		System.out.println("LLEGO AL USER" + u.getUsername());
 		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
@@ -320,7 +321,8 @@ public class UserController {
 
 		System.out.println("LLEGO A LAS LISTAS" + ls.toString());
 
-		model.addAttribute("resultado", u);
+		model.addAttribute("resultado", target);
+		model.addAttribute("user", u);
 		model.addAttribute("listasPublicas", ls);
 		return "perfilUser";
 	}
@@ -565,17 +567,18 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/{id}/{nombreLista}")
-	public String getLista(@PathVariable long id, @PathVariable String nombreLista, Model model, HttpSession session) {
-		User target = entityManager.find(User.class, id);
+	@GetMapping("/{id}/{nombreLista}/{username}")
+	public String getLista(@PathVariable long id, @PathVariable String nombreLista, @PathVariable String username, Model model, HttpSession session) {
+		User u = entityManager.find(User.class, id);
+		User target = entityManager.createNamedQuery("User.byUsername", User.class).setParameter("username", username).getSingleResult();
 
 		// Obtenemos la lista de favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", nombreLista).setParameter("author", id).getSingleResult();
+				.setParameter("name", nombreLista).setParameter("author", target.getId()).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-		model.addAttribute("user", target);
+		model.addAttribute("user", u);
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
 

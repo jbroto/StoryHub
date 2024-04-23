@@ -40,38 +40,39 @@
                     </div>
                 </div>
             </div>
-    </section>
-
-    <div class="container mb-2 mt-4">
-        <h2>Comentarios</h2>
-        <!--Boton para poner un comentario-->
-        <h4>Add a comment</h4>
-        <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
-        <button id="submitBtn" >Submit</button>
-        <div id="comments">
-            <div th:each="comentario : ${comentarios}" class="comment">
-                <div class="card mt-4">
-                    <a class="card-body cabecera-comentario d-flex align-items-center">
-                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
-                            class="rounded-circle mr-3" width="40" height="40">
-                        <div>
-                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
+            <div class="container mb-2 mt-4">
+                <h2>Comentarios</h2>
+                <!--Boton para poner un comentario-->
+                <h4>Add a comment</h4>
+                <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
+                <button id="submitBtn" >Submit</button>
+                <div id="comments">
+                    <div th:each="comentario : ${comentarios}" class="comment">
+                        <div class="card mt-4">
+                            <a class="card-body cabecera-comentario d-flex align-items-center">
+                                <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
+                                    class="rounded-circle mr-3" width="40" height="40">
+                                <div>
+                                    <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
+                                </div>
+                                <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+                            </a>
+                            <div class="card-body">
+                                <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
+                                <span>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#reporteModal">
+                                        🚩
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                        <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
-                    </a>
-                    <div class="card-body">
-                        <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
-                        <span>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#reporteModal">
-                                🚩
-                            </button>
-                        </span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+    </section>
+
+    
 
     <footer>
         <th:block th:replace="fragments/footer.html :: footer" />

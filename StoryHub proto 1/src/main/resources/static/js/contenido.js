@@ -99,8 +99,8 @@ $(document).ready(function () {
     function renderMsg(response) {
         console.log("rendering: ", response);
         return `<div class="comment"><div class="card mt-4">
-        <a class="card-body cabecera-comentario d-flex align-items-center" th:href="@{/user/${response.authorId}/comentario/${response.comentId}}">
-        <img th:src="@{/user/${response.authorId}/pic}" alt=""
+        <a class="card-body cabecera-comentario d-flex align-items-center" href="/user/`+ response.authorId +`/comentario/`+ response.comentId + `">
+        <img src="/user/${response.authorId}/pic" alt=""
         class="rounded-circle mr-3" width="40" height="40">
         <div>
         <h4 class="card-title nombre-comentario mb-1 >${response.author}</h4>

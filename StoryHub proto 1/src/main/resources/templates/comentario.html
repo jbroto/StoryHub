@@ -3,18 +3,26 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <link rel="stylesheet" th:href="@{/css/contenido.css}" href="css/contenido.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/comentario.css}" href="css/comentario.css" type="text/css" />
     <title>Inicio</title>
 </head>
 
-<body data-userId="${user.id}">
+<body th:attr="data-userId=${user.id}, data-fatherId=${coment.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
-
+    <div class="contenido-background" th:style="'background-image: url(' + ${coment.media.backdropImageUrl} + ')'"></div>
     <section class="container comentario-section">
-        <div class="centered-box">
             <div class="row">
+                <div class="col-md-6 mt 4">
+                    <div class="card poster" onclick="irAtras()">
+                        <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${coment.media.coverImageUrl}}"
+                          alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                        <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                        <div class="card-body text-center textocarta">
+                          <h6 class="card-title textocarta" th:text="${coment.media.nombre}">Nombre del contenido</h6>
+                        </div>
+                      </div>
+                </div>
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
                     <div class="comentario-box">
                         <div class="comentario-body cabecera-comentario d-flex">
@@ -32,62 +40,34 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
-    <div class="container mb-2">
+    <div class="container mb-2 mt-4">
         <h2>Comentarios</h2>
         <!--Boton para poner un comentario-->
-        <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#comentarioModal">
-            Nuevo Comentario
-        </button>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 col-md-6 col-12 pb-4">
-                    <div th:each="item : ${comentarios}">
-                        <div class="card mt-4">
-                            <div class="card-body cabecera-comentario d-flex align-items-center">
-                                <img th:src="@{/user/__${item.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
-                                    height="40">
-                                <div>
-                                    <h4 class="card-title nombre-comentario mb-1"
-                                        th:text="${item.author.username}">Nombre</h4>
-                                    <span class="text-muted small mb-2" th:text="${item.dateSent}">Fecha</span>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text comentario-texto" th:text="${item.text}">Texto</p>
-                            </div>
+        <h4>Add a comment</h4>
+        <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
+        <button id="submitBtn" >Submit</button>
+        <div id="comments">
+            <div th:each="comentario : ${comentarios}" class="comment">
+                <div class="card mt-4">
+                    <a class="card-body cabecera-comentario d-flex align-items-center">
+                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
+                            class="rounded-circle mr-3" width="40" height="40">
+                        <div>
+                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
                         </div>
+                        <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+                    </a>
+                    <div class="card-body">
+                        <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
+                        <span>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#reporteModal">
+                                🚩
+                            </button>
+                        </span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="comentarioModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Comentario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Formulario -->
-                    <form th:action="@{/user/__${user.id}__/__${coment.id}__/nuevaRespuesta}" th:object="${comentario}"
-                        method="post">
-                        <div class="form-group">
-                            <label for="cont">Comentario</label>
-                            <textarea class="form-control" id="cont" placeholder="Comentario..." th:field="*{text}"
-                                rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -96,6 +76,7 @@
     <footer>
         <th:block th:replace="fragments/footer.html :: footer" />
     </footer>
+    <script th:src="@{/js/comentario.js}"></script>
 </body>
 
 </html>

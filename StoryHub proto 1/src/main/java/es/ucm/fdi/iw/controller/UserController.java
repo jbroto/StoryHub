@@ -478,10 +478,11 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/{id}/{idComent}/nuevaRespuesta")
+	@PostMapping("/{id}/comentario/{idComent}/nuevaRespuesta")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<String> nuevaRespuesta(@PathVariable long id, @PathVariable long idComent,
+	public ResponseEntity<Map<String, String>> nuevaRespuesta(@PathVariable long id,
+			@RequestParam("fatherId") long idComent, @RequestParam("texto") String text,
 			@ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
 		try {
@@ -490,7 +491,7 @@ public class UserController {
 			Comment padre = entityManager.find(Comment.class, idComent);
 			Comment coment = new Comment();
 			coment.setAuthor(usuario);
-			coment.setText(comentario.getText());
+			coment.setText(text);
 			coment.setDateSent(LocalDate.now());
 			coment.setFather(padre);
 
@@ -507,11 +508,19 @@ public class UserController {
 
 			log.info("Comentario de ", id);
 
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION,
-					"/user/" + id + "/comentario/" + padre.getId()).build();
+			Map<String, String> response = new HashMap<>();
+			response.put("author", coment.getAuthor().getUsername());
+			response.put("authorId", String.valueOf(coment.getAuthor().getId()));
+			response.put("dateSent", coment.getDateSent().toString());
+			response.put("text", coment.getText());
+			response.put("comentId", String.valueOf(coment.getId()));
+
+			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
 			log.error("Error al comentar " + id, e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al comentar");
+			Map<String, String> response = new HashMap<>();
+			response.put("error", "Error al agregar el comentario");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 

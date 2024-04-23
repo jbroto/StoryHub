@@ -23,62 +23,74 @@
                 <div class="contenido-info">
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
                     <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
-                    <div class="acciones">
-                        <h2> Añadir a: </h2>
-                        <div class="container">
-                            <!-- Acciones que puede realizar el usuario con las listas basicas -->
-                            <div class="acciones">
-                                <button class="btn"
-                                    th:class="${relacion.favorito} ? 'btn btn-danger' : 'btn btn-success'"
-                                    id="favoritoBtn">Favoritos</button>
-                                <button class="btn" th:class="${relacion.viendo} ? 'btn btn-danger' : 'btn btn-success'"
-                                    id="viendoBtn">Viendo</button>
-                                <button class="btn" th:class="${relacion.ended} ? 'btn btn-danger' : 'btn btn-success'"
-                                    id="terminadoBtn">Terminado</button>
+                    <h3>aqui van los datos del contenido</h3>
+                </div>
+                <div class="row"> <!-- Agregar una fila -->
+                    <div class="col-md-12"> <!-- La columna que contiene las acciones -->
+                        <div class="acciones">
+                            <!-- <h2> Añadir a: </h2> -->
+                            <div class="container">
+                                <!-- Acciones que puede realizar el usuario con las listas basicas -->
+                                <div class="d-grid gap-2">
 
-                            </div>
+                                    <div class="rate">
+                                        <input type="radio" id="star5" class="star" name="rate" value="5"
+                                            th:checked="${relacion.calificacion == 5}" />
+                                        <label for="star5" title="text">5 stars</label>
+                                        <input type="radio" id="star4" class="star" name="rate" value="4"
+                                            th:checked="${relacion.calificacion == 4}" />
+                                        <label for="star4" title="text">4 stars</label>
+                                        <input type="radio" id="star3" class="star" name="rate" value="3"
+                                            th:checked="${relacion.calificacion == 3}" />
+                                        <label for="star3" title="text">3 stars</label>
+                                        <input type="radio" id="star2" class="star" name="rate" value="2"
+                                            th:checked="${relacion.calificacion == 2}" />
+                                        <label for="star2" title="text">2 stars</label>
+                                        <input type="radio" id="star1" class="star" name="rate" value="1"
+                                            th:checked="${relacion.calificacion == 1}" />
+                                        <label for="star1" title="text">1 star</label>
+                                    </div>
 
-                            <div class="row">
-                                <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
-                                <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
-                                    <!--<a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">-->
-                                    <!-- Redireccion a añadir a lista -->
-                                    <form th:action="@{/user/{id}/addTo/{list}(id=${user.id}, list=${item.name})}"
-                                        method="post">
-                                        <input type="hidden" name="mediaId" th:value="${media.id}" />
-                                        <input type="hidden" name="mediaTipo" th:value="${media.tipo}" />
-                                        <button type="submit" class="btn btn-outline-info">
-                                            <span th:if="${item.name == 'favoritos'}">❤️</span>
-                                            <span th:if="${item.name == 'viendo'}">👀</span>
-                                            <span th:if="${item.name == 'terminado'}">🔚</span>
-                                            <span
-                                                th:unless="${item.name == 'favoritos'||item.name == 'viendo'||item.name == 'terminado'}"
-                                                th:text="${item.name}">Nombre</span>
-                                        </button>
-                                    </form>
-                                    <!--</a>-->
+                                    <button class="btn"
+                                        th:class="${relacion.favorito} ? 'btn btn-danger' : 'btn btn-success'"
+                                        id="favoritoBtn">Favoritos</button>
+                                    <button class="btn"
+                                        th:class="${relacion.viendo} ? 'btn btn-danger' : 'btn btn-success'"
+                                        id="viendoBtn">Viendo</button>
+                                    <button class="btn"
+                                        th:class="${relacion.ended} ? 'btn btn-danger' : 'btn btn-success'"
+                                        id="terminadoBtn">Terminado</button>
+
+
+                                </div>
+
+                                <div class="row">
+                                    <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+                                    <div th:each="item : ${Listas}" class="col-lg-4 col-md-6 mb-2">
+                                        <!--<a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">-->
+                                        <!-- Redireccion a añadir a lista -->
+                                        <form th:action="@{/user/{id}/addTo/{list}(id=${user.id}, list=${item.name})}"
+                                            method="post">
+                                            <input type="hidden" name="mediaId" th:value="${media.id}" />
+                                            <input type="hidden" name="mediaTipo" th:value="${media.tipo}" />
+                                            <button type="submit" class="btn btn-outline-info">
+                                                <span th:if="${item.name == 'favoritos'}">❤️</span>
+                                                <span th:if="${item.name == 'viendo'}">👀</span>
+                                                <span th:if="${item.name == 'terminado'}">🔚</span>
+                                                <span
+                                                    th:unless="${item.name == 'favoritos'||item.name == 'viendo'||item.name == 'terminado'}"
+                                                    th:text="${item.name}">Nombre</span>
+                                            </button>
+                                        </form>
+                                        <!--</a>-->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="rate">
-                            <input type="radio" id="star5" class="star" name="rate" value="5"
-                                th:checked="${relacion.calificacion == 5}" />
-                            <label for="star5" title="text">5 stars</label>
-                            <input type="radio" id="star4" class="star" name="rate" value="4"
-                                th:checked="${relacion.calificacion == 4}" />
-                            <label for="star4" title="text">4 stars</label>
-                            <input type="radio" id="star3" class="star" name="rate" value="3"
-                                th:checked="${relacion.calificacion == 3}" />
-                            <label for="star3" title="text">3 stars</label>
-                            <input type="radio" id="star2" class="star" name="rate" value="2"
-                                th:checked="${relacion.calificacion == 2}" />
-                            <label for="star2" title="text">2 stars</label>
-                            <input type="radio" id="star1" class="star" name="rate" value="1"
-                                th:checked="${relacion.calificacion == 1}" />
-                            <label for="star1" title="text">1 star</label>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -112,15 +124,17 @@
         <!--Boton para poner un comentario-->
         <h4>Add a comment</h4>
         <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
-        <button id="submitBtn" >Submit</button>
+        <button id="submitBtn">Submit</button>
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">
-                    <a class="card-body cabecera-comentario d-flex align-items-center" th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
-                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
-                            class="rounded-circle mr-3" width="40" height="40">
+                    <a class="card-body cabecera-comentario d-flex align-items-center"
+                        th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
+                            width="40" height="40">
                         <div>
-                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
+                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre
+                            </h4>
                         </div>
                         <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                     </a>
@@ -137,34 +151,35 @@
             </div>
         </div>
     </div>
-    
+
 
     <!--Modal reportar comentario-->
 
-    <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Reportar comentario</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reportar comentario</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario -->
+                    <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario}"
+                        th:object="${comentario}" method="post">
+                        <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para que lo
+                            compruebe</p>
+                        <button type="submit" class="btn btn-primary">Reportar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario}"
-              th:object="${comentario}" method="post">
-              <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para que lo
-                  compruebe</p>
-              <button type="submit" class="btn btn-primary">Reportar</button>
-          </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
     <!--<div class="container mb-2">

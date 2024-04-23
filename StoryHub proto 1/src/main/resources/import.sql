@@ -5,16 +5,44 @@ VALUES (1, TRUE, 'ADMIN,USER', 'a',
 INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (2, TRUE, 'USER', 'b',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+INSERT INTO IWUser (id, enabled, roles, username, password)
+VALUES (3, TRUE, 'USER', 'User_c',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+INSERT INTO IWUser (id, enabled, roles, username, password)
+VALUES (4, TRUE, 'USER', 'User_d',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+INSERT INTO IWUser (id, enabled, roles, username, password)
+VALUES (5, TRUE, 'USER', 'User_e',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 
---LISTAS DE EL USER
+--LISTAS DE USERS
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (1,'', 1, FALSE,'favoritos', 2);
-
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (2,'', 1, FALSE,'viendo', 2);
-
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (3,'', 1, FALSE,'terminado', 2);
+
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (7,'', 0, FALSE,'favoritos', 3);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (8,'', 0, FALSE,'viendo', 3);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (9,'', 0, FALSE,'terminado', 3);
+
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (10,'', 0, FALSE,'favoritos', 4);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (11,'', 0, FALSE,'viendo', 4);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (12,'', 0, FALSE,'terminado', 4);
+
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (13,'', 0, FALSE,'favoritos', 5);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (14,'', 0, FALSE,'viendo', 5);
+INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
+VALUES (15,'', 0, FALSE,'terminado', 5);
 
 --LISTAS DE EL ADMIN
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)

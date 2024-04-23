@@ -93,11 +93,13 @@ $(document).ready(function() {
          if (!confirmPassword) {
             // Si está vacío, establecer un mensaje predeterminado o realizar alguna acción necesaria
             $('#confirmPassword-error').text('');
+            validateForm();
             return;
         }
         // Verificar que las contraseñas coincidan
         if (password !== confirmPassword) {
             $('#confirmPassword-error').text('Las contraseñas no coinciden.').css('color', 'red');
+            validateForm();
             return;
         }
         // Si todas las validaciones pasan, eliminar el mensaje de error

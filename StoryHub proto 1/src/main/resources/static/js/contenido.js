@@ -16,19 +16,18 @@ $(document).ready(function () {
 
         go(dataURL, "POST").then(response => {
             console.log("Solicitud enviada con éxito");
-            // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
         })
             .catch(error => {
                 console.error("Error al añadir o quitar contenido de " + dataURL + " " + error);
-                // Opcionalmente, manejar errores
             });
 
     }
 
     // Función para cambiar el color del botón y enviar la solicitud
     function cambiarColoryPost(button, estado, url) {
-        button.toggleClass('btn-success btn-danger');
+        //quitamos la clase porque si no se queda seleccionado
         sendRequest(estado, url);
+        button.toggleClass('btn-success btn-danger');
     }
 
 
@@ -82,7 +81,7 @@ $(document).ready(function () {
 
     function addComment() {
 
-        let url =  userId + mediaId + '/nuevoComentario' +
+        let url = userId + mediaId + '/nuevoComentario' +
             '?texto=' + $('#commentText').val() +
             '&mediaTipo=' + encodeURIComponent(mediaTipo) +
             '&mediaId=' + encodeURIComponent(mediaId);
@@ -102,7 +101,7 @@ $(document).ready(function () {
     function renderMsg(response) {
         console.log("rendering: ", response);
         return `<div class="comment"><div class="card mt-4">
-        <a class="card-body cabecera-comentario d-flex align-items-center" href="/user/`+ response.authorId +`/comentario/`+ response.comentId + `">
+        <a class="card-body cabecera-comentario d-flex align-items-center" href="/user/`+ response.authorId + `/comentario/` + response.comentId + `">
         <img src="/user/${response.authorId}/pic" alt=""
         class="rounded-circle mr-3" width="40" height="40">
         <div>

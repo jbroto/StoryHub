@@ -92,7 +92,10 @@ $(document).ready(function () {
             .then(response => {
                 console.log("El comentario se ha enviado correctamente");
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
-                messageDiv.insertAdjacentHTML("beforeend", renderMsg(response));
+                messageDiv.insertAdjacentHTML("beforebegin", renderMsg(response));
+            })
+            .then(error => {
+                console.log("El comentario no se ha enviado correctamente");
             })
     }
 

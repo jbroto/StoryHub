@@ -38,36 +38,41 @@
         <div class="col-md-6 mt-3">
           <div class="stats d-flex flex-row justify-content-end">
             <!-- Contador de contenido visto -->
-            <a th:href="@{/user/__${user.id}__/terminado}">
+            <a th:href="@{/user/__${user.id}__/terminado/__${user.username}__}">
               <div class="content-viewed d-flex flex-column align-items-center">
                 <div class="text">
                   <h4>Visto</h4>
                 </div>
                 <div class="number">
-                  <span th:text="${contVisto}">numero</span>
+                  <span th:text="${terminado.size}">numero</span>
                 </div>
               </div>
             </a>
             <!-- Contador de seguidores -->
-            <div class="followers d-flex flex-column align-items-center mr-2">
-              <div class="text">
-                <h4>Seguidores</h4>
-              </div>
+            <a th:href="@{/user/__${user.id}__/social/followers}">
+              <div class="followers d-flex flex-column align-items-center mr-2">
+                <div class="text">
+                  <h4>Seguidores</h4>
+                </div>
 
-              <div class="number">
-                <p>500</p>
+                <div class="number">
+                  <span th:text="${user.followers.size}">Número</span>
+                </div>
               </div>
-            </div>
+            </a>
+
             <!-- Contador de usuarios seguidos -->
-            <div class="following d-flex flex-column align-items-center">
-              <div class="text">
-                <h4>Siguiendo</h4>
-              </div>
+            <a th:href="@{/user/__${user.id}__/social/following}">
+              <div class="following d-flex flex-column align-items-center">
+                <div class="text">
+                  <h4>Siguiendo</h4>
+                </div>
 
-              <div class="number">
-                <p>300</p>
+                <div class="number">
+                  <span th:text="${user.following.size}">Número</span>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -99,7 +104,8 @@
           <div class="col-md-6 mt-3 d-flex flex-row justify-content-start botonLista">
             <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
             <div th:each="item : ${Listas}" class="mr-2">
-              <a th:href="@{/user/{id}/{list}(id=${user.id}, list=${item.name})}">
+              <!-- hay que cambiar esto -->
+              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${user.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
                 <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
               </a>

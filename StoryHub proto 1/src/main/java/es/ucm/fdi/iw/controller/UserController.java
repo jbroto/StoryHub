@@ -147,7 +147,6 @@ public class UserController {
 				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-		int contadorVistos = terminado.getContador();
 		// cambiar
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
@@ -155,7 +154,7 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
-		model.addAttribute("contVisto", contadorVistos);
+
 		return "user";
 	}
 

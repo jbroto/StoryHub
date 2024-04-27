@@ -69,6 +69,12 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany
     private List<User> following;
 
+    private List<Lista> suscripciones;
+
+    @OneToMany
+    private List<User> followUsers;
+
+
     /**
      * Checks whether this user has a given role.
      * 

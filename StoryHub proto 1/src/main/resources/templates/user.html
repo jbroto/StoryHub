@@ -28,7 +28,7 @@
             <!-- Botón para editar perfil -->
             <div class="edit-profile ml-auto">
               <a th:href="@{/user/__${user.id}__/editarPerfil}">
-                <button class="btn btn-primary">Editar Perfil</button>
+                <button class="btn btn-primary">Editar Perfil <i class="fa-solid fa-gear"></i></button>
               </a>
 
             </div>
@@ -44,6 +44,7 @@
                   <h4>Visto</h4>
                 </div>
                 <div class="number">
+                  <i class="fa-regular fa-eye"></i>
                   <span th:text="${terminado.size}">numero</span>
                 </div>
               </div>
@@ -56,6 +57,7 @@
                 </div>
 
                 <div class="number">
+                  <i class="fas fa-user"></i>
                   <span th:text="${user.followers.size}">Número</span>
                 </div>
               </div>
@@ -69,6 +71,7 @@
                 </div>
 
                 <div class="number">
+                  <i class="fas fa-user"></i>
                   <span th:text="${user.following.size}">Número</span>
                 </div>
               </div>
@@ -88,12 +91,13 @@
           <div class="mostrarListas d-flex">
             <a class="btn btn-success mb-2  " data-bs-toggle="collapse" href="#collapseNombreListas" role="button"
               aria-expanded="false" aria-controls="collapseNombreListas">
-              Mis Listas
+              <i class="fa-solid fa-list"></i>
+              Listas
             </a>
             <!--Boton para crear una nueva lista-->
             <button type="button" class="btn btn-outline-primary mb-2 " data-bs-toggle="modal"
               data-bs-target="#nuevaListaModal">
-              Añadir Lista
+              Añadir Lista <i class="fa-solid fa-plus"></i>
             </button>
           </div>
         </div>
@@ -152,7 +156,7 @@
 
     <hr />
     <!-- LISTA DE ESTAS VIENDO -->
-    <h2>Estás viendo</h2>
+    <h2><i class="fa-sharp fa-solid fa-hourglass-half"></i> Viendo </h2>
     <p>Tus peliculas, series y libros</p>
     <div class="row">
       <!-- Iterar sobre los medios y mostrarlos -->
@@ -178,7 +182,7 @@
 
     <hr />
     <!-- LISTA DE FAVORITOS -->
-    <h2>Tus favoritos</h2>
+    <h2><i class="fa-solid fa-heart"></i> Favoritos </h2>
     <p>Ve más series, películas o libros para rellenar este espacio.</p>
     <div class="row">
       <!-- Iterar sobre los medios y mostrarlos -->

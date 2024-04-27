@@ -69,10 +69,9 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany
     private List<User> following;
 
+    @OneToMany
     private List<Lista> suscripciones;
 
-    @OneToMany
-    private List<User> followUsers;
 
 
     /**

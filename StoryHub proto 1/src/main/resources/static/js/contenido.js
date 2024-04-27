@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 
     // Agregar eventos de clic para cambiar el color del botón y enviar la solicitud
-    $('.acciones button').click(function () {
+    $('.botonesBasicos').click(function () {
         let estado, url;
 
         // Obtener el estado según la clase del botón

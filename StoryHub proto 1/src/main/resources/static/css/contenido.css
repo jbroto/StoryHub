@@ -8,10 +8,11 @@
 
 
 .contenido-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
+    max-width:100%;
     /* Ancho del 100% del viewport */
     height: 100%;
     background-size: cover;

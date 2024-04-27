@@ -306,6 +306,21 @@ public class UserController {
 
 	}
 
+	//SEGUIDORES-------------------------------------------------
+
+	@GetMapping("/{id}/social/{paramSocial}")
+	public String cargarSocial(@PathVariable long id, @PathVariable String paramSocial, Model model){
+		User u = entityManager.find(User.class, id);
+
+		model.addAttribute("user", u);
+		model.addAttribute("paramSocial", paramSocial);
+
+		return "social";
+	}
+
+	//EDITAR PERFIL-------------------------------------------------
+
+
 	@GetMapping("/{id}/perfilUsuario")
 	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model) {
 		User target = entityManager.createNamedQuery("User.byUsername", User.class)

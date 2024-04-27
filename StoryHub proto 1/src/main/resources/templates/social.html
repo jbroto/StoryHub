@@ -1,1 +1,62 @@
- 
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/user.css}" href="css/user.css" type="text/css" />
+    <title>Inicio</title>
+
+</head>
+
+<body th:data-iduser="${user.id}">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <section class="container justify-content-center" id="mi-lista">
+        <!--<div class="container barraBusqueda mt-3">
+        <input type="text" placeholder="Buscar">
+    </div>-->
+        <div class="row">
+            <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
+                <button class="btn btn-dark" id="media-search">Siguiendo (<span id="resultadoFollowing"
+                        th:text="${user.following.size()}">0</span>)</button>
+                <button class="btn btn-outline-dark" id="book-search">Seguidores (<span id="resultadoFollowers"
+                        th:text="${user.followers.size()}">0</span>)</button>
+            </div>
+        </div>
+
+        <!-- HACER UNA TABLA -->
+
+
+        
+
+        <div id="content-following" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.following}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                
+            </div>
+        </div>
+        <div id="content-followers" class="row d-none mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.followers}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                
+            </div>
+        </div>
+        <div id="resultado-libros" class="row mb-2 d-none">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+               
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+</body>
+<footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</footer>   
+
+</html>

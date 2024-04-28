@@ -15,6 +15,19 @@ INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (5, TRUE, 'USER', 'User_e',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 
+-- Seguidores (todos siguen al usuario 2)
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (2, 1);
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (2, 3);
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (2, 4);
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (2, 5);
+
+-- Siguiendo (el usuario 2 sigue a 2 personas)
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (1, 2);
+INSERT INTO IWUSER_FOLLOWERS (user_id, follower_id) VALUES (3, 2);
+
+
+
+
 --LISTAS DE USERS
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (1,'', 1, FALSE,'favoritos', 2);
@@ -54,6 +67,7 @@ VALUES (5,'', 1, FALSE,'viendo', 1);
 INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (6,'', 1, FALSE,'terminado', 1);
 
+--Contenido almacenado en la BD
 INSERT INTO Media (ID, API, COVER_IMAGE_URL, BACKDROP_IMAGE_URL, DESCRIPCION, NOMBRE, RATING, TIPO, FATHER_ID)
 VALUES (66732,'TMDB','https://image.tmdb.org/t/p/original/wHhjZMlYGT9yUEyGpP9jmR6Jq3I.jpg', 'https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
 'A raíz de la desaparición de un niño, un pueblo desvela un misterio relacionado con experimentos secretos, fuerzas sobrenaturales aterradoras y una niña muy extraña.'
@@ -62,14 +76,10 @@ VALUES (66732,'TMDB','https://image.tmdb.org/t/p/original/wHhjZMlYGT9yUEyGpP9jmR
 INSERT INTO Media_User_Relation(CALIFICACION, ENDED, FAVORITO, VIENDO, MEDIA_ID, USER_ID)
 VALUES(4, TRUE, TRUE, TRUE, 66732, 2);
 
-INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID)
-VALUES (1, 66732);
-
-INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID)
-VALUES (2, 66732);
-
-INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID)
-VALUES (3, 66732);
+--media en la listas basicas del user 2
+INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (1, 66732);
+INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (2, 66732);
+INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (3, 66732);
 
 INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID)
 VALUES (1, CURRENT_DATE, FALSE, 'el prota es un tonto', 4, 66732);

@@ -67,7 +67,9 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">
                                     <form th:action="@{/logout}" method="post">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm ">logout</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                            logout</button>
                                     </form>
                                 </a>
                             </div>
@@ -78,7 +80,9 @@
                         <!--<li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>-->
                         <li class="nav-item align-self-center me-4">
                             <button type="button" class="btn btn-outline-success btn-sm position-relative">
-                                ✉️ <span id="nav-unread" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span class="visually-hidden">unread messages</span></span>
+                                <i class="fa-solid fa-envelope"></i>
+                                <!-- ✉️  -->
+                                <span id="nav-unread" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span class="visually-hidden">unread messages</span></span>
                             </button>
                         </li>
                         <!--/*

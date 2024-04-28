@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <link rel="stylesheet" th:href="@{/css/user.css}" href="css/user.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/social.css}" href="css/social.css" type="text/css" />
     <title>Inicio</title>
 
 </head>
@@ -11,7 +11,7 @@
 <body th:data-iduser="${user.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
 
-    <section class="container justify-content-center" id="mi-lista">
+    <section class="container justify-content-center" id="social-cont">
         <!--<div class="container barraBusqueda mt-3">
         <input type="text" placeholder="Buscar">
     </div>-->
@@ -26,28 +26,99 @@
 
         <!-- HACER UNA TABLA -->
 
+        <table class="table table-hover  person-table">
 
-        
+            <thead>
+                <tr>
+                    <th class="left-th">Nombre</th>
+                    <th class="table-title">Seguidores</th>
+                    <th class="table-title">Siguiendo</th>
+                    <th class="table-title">Visto</th>
+                    <th class="table-title">Listas</th>
+                    <th class="table-title">Favoritos</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="usuario : ${user.followers}">
+
+                    <td class="table-person">
+                        <div class="user-info d-flex gap-3">
+                            <img th:src="@{/user/__${usuario.id}__/pic}" class="rounded-circle" alt="pic" width="45"
+                                height="45"> </a>
+                            <div class="person-summary">
+                                <h4 class="title-3"> <a th:href="@{/user/__${usuario.id}__}" class="name">
+                                        <span th:text="${usuario.username}">username</span> </a> </h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="table-stats">
+                        <a th:href="@{/user/__${usuario.id}__/social/followers}">
+                            <i class="fa-solid fa-user"></i>
+                            <span th:text=" ${usuario.followers.size}"> 0</span>
+                        </a>
+                    </td>
+                    <td class="table-stats">
+                        <a th:href="@{/user/__${usuario.id}__/social/following}">
+                            <i class="fa-solid fa-user"></i>
+                            <span th:text=" ${usuario.following.size}"> 0</span>
+                        </a>
+                    </td>
+
+
+                    <td class="table-stats"><a class="has-icon icon-16 icon-watched" 
+                        th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
+                            <i class="fa-regular fa-eye"></i> 
+                            <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-list" ></a>
+                            <i class="fa-solid fa-list">
+                                <span th:text=" ${usuario.listas.size}"> 0</span></a></td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-liked" 
+                        th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
+                            <i class="fa-solid fa-heart"></i>
+                            <span th:text=" ${usuario.listas.size}"> 1</span></a></td>
+                            
+                    <!-- <td class="table-follow-status">
+                        <div class="follow-button-wrapper js-follow-button-wrapper" data-username="prueba"
+                            data-profile="false" style="visibility: visible;">
+
+                            <a href="#" data-action="/prueba/unfollow/"
+                                class="ajax-click-action button -compact -following js-button-following"><span
+                                    class="icon"></span><span class="btn-danger button-text">Following</span></a>
+                            <a href="#" data-action="/prueba/follow/" data-recaptcha-action="follow"
+                                class="ajax-click-action button -compact -follow js-button-follow"
+                                style="display: none;"><span class="icon"></span><span
+                                    class="button-text">Follow</span></a>
+
+
+                        </div>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+
+
+
 
         <div id="content-following" class="row mb-2">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.following}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                
+
             </div>
         </div>
         <div id="content-followers" class="row d-none mb-2">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.followers}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                
+
             </div>
         </div>
         <div id="resultado-libros" class="row mb-2 d-none">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-               
+
             </div>
         </div>
         </div>
@@ -57,6 +128,6 @@
 </body>
 <footer>
     <th:block th:replace="fragments/footer.html :: footer" />
-</footer>   
+</footer>
 
 </html>

@@ -63,10 +63,15 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "author")
     private List<Lista> listas;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+        name = "IWUSER_FOLLOWERS",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
     private List<User> followers;
-
-    @OneToMany
+    
+    @ManyToMany(mappedBy = "followers")
     private List<User> following;
 
     @OneToMany

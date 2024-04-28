@@ -126,6 +126,10 @@ public class UserController {
 	@GetMapping("{id}")
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
+		//solucion provisional porque no funciona con thymleaf usuario.followers.contains(session.u)
+		User copia = (User) session.getAttribute("u");
+		User actual = entityManager.find(User.class, copia.getId());
+
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
 		// obtenemos la lista de favoritos, viendo y terminado
 
@@ -149,7 +153,7 @@ public class UserController {
 
 		// cambiar
 		model.addAttribute("user", target);
-		model.addAttribute("u", target);
+		model.addAttribute("actual", actual);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", listasUs);
 		model.addAttribute("favoritos", favMedias);

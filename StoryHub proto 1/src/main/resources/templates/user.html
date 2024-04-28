@@ -32,7 +32,14 @@
               </a>
             </div>
             <div class="follow-profile ml-auto" th:unless="${user.id == session.u.id}">
-              <button class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Seguir</button>
+              <!-- Botón de "Unfollow" -->
+              <button th:if="${user.followers.contains(actual)}" class="btn btn-danger boton-unfollow boton-follow">
+                <i class="fa-solid fa-user-minus"></i> Seguir
+              </button>
+              <!-- Botón de "Follow" -->
+              <button th:unless="${user.followers.contains(actual)}" class="btn btn-success boton-follow">
+                <i class="fa-solid fa-user-plus"></i> Seguir
+              </button>
             </div>
           </div>
         </div>
@@ -97,8 +104,8 @@
               Listas
             </a>
             <!--Boton para crear una nueva lista-->
-            <button th:if="${user.id == session.u.id}" type="button" class="btn btn-outline-primary mb-2 " data-bs-toggle="modal"
-              data-bs-target="#nuevaListaModal">
+            <button th:if="${user.id == session.u.id}" type="button" class="btn btn-outline-primary mb-2 "
+              data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
               Añadir Lista <i class="fa-solid fa-plus"></i>
             </button>
           </div>
@@ -111,7 +118,7 @@
             <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
             <div th:each="item : ${Listas}" class="mr-2">
               <!-- hay que cambiar esto -->
-              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${u.id}, list=${item.name})}">
+              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${user.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
                 <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
               </a>
@@ -211,9 +218,10 @@
     <hr />
 
 
-  <footer>
-    <th:block th:replace="fragments/footer.html :: footer" />
-  </footer>
+    <footer>
+      <th:block th:replace="fragments/footer.html :: footer" />
+    </footer>
+    <script th:src="@{/js/user.js}" src="js/user.js"></script>
 </body>
 
 </html>

@@ -64,7 +64,8 @@
 
                     <td class="table-stats"><a class="has-icon icon-16 icon-watched"
                             th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
-                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
+                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
+                        </a></td>
                     <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
                         <i class="fa-solid fa-list">
                             <span th:text=" ${usuario.listas.size}"> 0</span></a>
@@ -72,12 +73,13 @@
                     <td class="table-stats"><a class="has-icon icon-16 icon-liked"
                             th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
-                            <span th:text=" ${usuario.listas.size}"> 1</span></a></td>
+                            <span th:text=" ${usuario.listas[0].medias.size}"> 1</span></a></td>
 
                     <td class="table-follow-status" th:unless="${usuario.id == actual.id}">
-                        <div  th:data-userId="${usuario.id}">
+                        <div th:data-userId="${usuario.id}">
                             <!-- Botón de "Unfollow" -->
-                            <button th:if="${usuario.followers.contains(actual)}" class="btn btn-danger boton-unfollow">
+                            <button th:if="${usuario.followers.contains(actual)}"
+                                class="btn btn-danger boton-unfollow boton-follow">
                                 <i class="fa-solid fa-user-minus"></i> Seguir
                             </button>
                             <!-- Botón de "Follow" -->
@@ -90,7 +92,7 @@
                 </tr>
             </tbody>
         </table>
-        
+
         <!-- TABLA FOLLOWING -->
 
         <table class="table table-hover  person-table content-following ">
@@ -131,7 +133,8 @@
 
                     <td class="table-stats"><a class="has-icon icon-16 icon-watched"
                             th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
-                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
+                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
+                        </a></td>
                     <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
                         <i class="fa-solid fa-list">
                             <span th:text=" ${usuario.listas.size}"> 0</span></a>
@@ -139,12 +142,13 @@
                     <td class="table-stats"><a class="has-icon icon-16 icon-liked"
                             th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
-                            <span th:text=" ${usuario.listas.size}"> 1</span></a></td>
+                            <span th:text=" ${usuario.listas[0].medias.size}"> 1</span></a></td>
 
                     <td class="table-follow-status" th:unless="${usuario.id == actual.id}">
-                        <div  th:data-userId="${usuario.id}">
+                        <div th:data-userid="${usuario.id}">
                             <!-- Botón de "Unfollow" -->
-                            <button th:if="${usuario.followers.contains(actual)}" class="btn btn-danger boton-unfollow">
+                            <button th:if="${usuario.followers.contains(actual)}"
+                                class="btn btn-danger boton-unfollow boton-follow">
                                 <i class="fa-solid fa-user-minus"></i> Seguir
                             </button>
                             <!-- Botón de "Follow" -->
@@ -157,33 +161,9 @@
                 </tr>
             </tbody>
         </table>
-
-
-        <div id="content-following" class="row mb-2">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.following}">
-                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
-
-
-            </div>
-        </div>
-        <div id="content-followers" class="row d-none mb-2">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${user.followers}">
-                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
-
-
-            </div>
-        </div>
-        <div id="resultado-libros" class="row mb-2 d-none">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
-                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
-
-
-            </div>
-        </div>
-        </div>
     </section>
 
-    <th:block th:replace="fragments/footer.html :: footer" />    
+    <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/social.js}"></script>
 </body>
 

@@ -2,8 +2,9 @@ $(document).ready(function () {
     // Obtener el ID del usuario de la fila al hacer clic en el botón
     $('.boton-follow').on('click', function () {
         let $button = $(this);
-        let $row = $button.closest('tr');
-        let userId = $row.find('div').data('userid'); // Obtener el ID del usuario representado en la fila
+        let $div = $button.closest('div');
+        let userId = $div.data('userid'); // Obtener el ID del usuario
+        console.log("ID del usuario: "+ userId);
         let isFollowing = $button.hasClass('boton-unfollow'); // Comprobar si el botón de "Unfollow" está presente
 
         // Realizar la llamada AJAX utilizando la función go
@@ -13,10 +14,10 @@ $(document).ready(function () {
                 // Actualizar el botón y su apariencia
                 if (response) {
                     if (isFollowing) {
-                        $button.removeClass('btn-danger boton-unfollow').addClass('btn-success boton-follow');
+                        $button.removeClass('btn-danger boton-unfollow boton-follow').addClass('btn-success boton-follow');
                         $button.html('<i class="fa-solid fa-user-plus"></i> Seguir');
                     } else {
-                        $button.removeClass('btn-success boton-follow').addClass('btn-danger boton-unfollow');
+                        $button.removeClass('btn-success boton-follow').addClass('btn-danger boton-unfollow boton-follow');
                         $button.html('<i class="fa-solid fa-user-minus"></i> Seguir');
                     }
                 } else {

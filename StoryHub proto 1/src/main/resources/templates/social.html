@@ -27,7 +27,6 @@
         <!-- HACER UNA TABLA -->
 
         <table class="table table-hover  person-table">
-
             <thead>
                 <tr>
                     <th class="left-th">Nombre</th>
@@ -41,7 +40,6 @@
 
             <tbody>
                 <tr th:each="usuario : ${user.followers}">
-
                     <td class="table-person">
                         <div class="user-info d-flex gap-3">
                             <img th:src="@{/user/__${usuario.id}__/pic}" class="rounded-circle" alt="pic" width="45"
@@ -66,33 +64,31 @@
                     </td>
 
 
-                    <td class="table-stats"><a class="has-icon icon-16 icon-watched" 
-                        th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
-                            <i class="fa-regular fa-eye"></i> 
-                            <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-list" ></a>
-                            <i class="fa-solid fa-list">
-                                <span th:text=" ${usuario.listas.size}"> 0</span></a></td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-liked" 
-                        th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
+                    <td class="table-stats"><a class="has-icon icon-16 icon-watched"
+                            th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
+                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
+                        <i class="fa-solid fa-list">
+                            <span th:text=" ${usuario.listas.size}"> 0</span></a>
+                    </td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-liked"
+                            th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
                             <span th:text=" ${usuario.listas.size}"> 1</span></a></td>
-                            
-                    <!-- <td class="table-follow-status">
-                        <div class="follow-button-wrapper js-follow-button-wrapper" data-username="prueba"
-                            data-profile="false" style="visibility: visible;">
 
-                            <a href="#" data-action="/prueba/unfollow/"
-                                class="ajax-click-action button -compact -following js-button-following"><span
-                                    class="icon"></span><span class="btn-danger button-text">Following</span></a>
-                            <a href="#" data-action="/prueba/follow/" data-recaptcha-action="follow"
-                                class="ajax-click-action button -compact -follow js-button-follow"
-                                style="display: none;"><span class="icon"></span><span
-                                    class="button-text">Follow</span></a>
-
-
+                    <td class="table-follow-status" th:unless="${usuario.id == actual.id}">
+                        <div  th:data-userId="${usuario.id}">
+                            <!-- Botón de "Unfollow" -->
+                            <button th:if="${usuario.followers.contains(actual)}" class="btn btn-danger boton-unfollow">
+                                <i class="fa-solid fa-user-minus"></i> Seguir
+                            </button>
+                            <!-- Botón de "Follow" -->
+                            <button th:unless="${usuario.followers.contains(actual)}"
+                                class="btn btn-success boton-follow">
+                                <i class="fa-solid fa-user-plus"></i> Seguir
+                            </button>
                         </div>
-                    </td> -->
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -124,10 +120,8 @@
         </div>
     </section>
 
-
+    <th:block th:replace="fragments/footer.html :: footer" />    
+    <script th:src="@{/js/social.js}"></script>
 </body>
-<footer>
-    <th:block th:replace="fragments/footer.html :: footer" />
-</footer>
 
 </html>

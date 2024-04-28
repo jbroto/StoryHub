@@ -332,13 +332,76 @@ public class UserController {
 	//SEGUIDORES-------------------------------------------------
 
 	@GetMapping("/{id}/social/{paramSocial}")
-	public String cargarSocial(@PathVariable long id, @PathVariable String paramSocial, Model model){
+	public String cargarSocial(@PathVariable long id, @PathVariable String paramSocial, Model model,HttpSession session){
 		User u = entityManager.find(User.class, id);
+		//solucion provisional porque no funciona con thymleaf usuario.followers.contains(session.u)
+		User copia = (User) session.getAttribute("u");
+		User actual = entityManager.find(User.class, copia.getId());
+
 
 		model.addAttribute("user", u);
+		model.addAttribute("actual", actual);
 		model.addAttribute("paramSocial", paramSocial);
 
 		return "social";
+	}
+
+	@PostMapping("/{id}/follow")
+	@Transactional
+	public ResponseEntity<Boolean> seguirUsuario(@PathVariable long id, Model model, HttpSession session){
+		try {
+			User target = entityManager.find(User.class, id);// buscamos al usuario
+			//solucion provisional porque no puedo añadir a la lista del user obtenido por la sesion
+			User copia = (User) session.getAttribute("u");
+			User user = entityManager.find(User.class, copia.getId());
+
+			//actualizamos la lista de followers del objetivo (el usuario al que seguimos)
+			List<User> followers = target.getFollowers();
+			followers.add(user);
+			target.setFollowers(followers);
+
+			//actualizamos nuestra lista de following (añadimos al user que acabamos de seguir)			
+			List<User> following = user.getFollowing();
+			following.add(target);
+			user.setFollowing(following);
+
+			model.addAttribute("user", target);
+			log.info("Usuario :" + user.getUsername() + " Comienza a seguir a usuario: " + target.getUsername());
+			// El usuario con sesion activa acaba de seguir al usuario con el id dado
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			log.error("Error al intentar seguir al usuario con ID: " + id, e);
+			return ResponseEntity.ok(false);
+		}
+	}
+
+	@PostMapping("/{id}/unfollow")
+	@Transactional
+	public ResponseEntity<Boolean> dejarDeSeguirUsuario(@PathVariable long id, Model model, HttpSession session){
+		try {
+			User target = entityManager.find(User.class, id);// buscamos al usuario
+			//solucion provisional porque no puedo quitar de la lista del user obtenido por la sesion
+			User copia = (User) session.getAttribute("u");
+			User user = entityManager.find(User.class, copia.getId());
+
+			//actualizamos la lista de followers del objetivo (el usuario al que ya no seguimos)
+			List<User> followers = target.getFollowers();
+			followers.remove(user);
+			target.setFollowers(followers);
+
+			//actualizamos nuestra lista de following (quitamos al user que acabamos de dar unfollow)			
+			List<User> following = user.getFollowing();
+			following.remove(target);
+			user.setFollowing(following);
+
+			model.addAttribute("user", target);
+			log.info("Usuario :" + user.getUsername() + " Ha dejado de seguir al usuario: " + target.getUsername());
+			// El usuario con sesion activa acaba de dejar de seguir al usuario con el id dado
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			log.error("Error al intentar dejar de seguir al usuario con ID: " + id, e);
+			return ResponseEntity.ok(false);
+		}
 	}
 
 	//EDITAR PERFIL-------------------------------------------------

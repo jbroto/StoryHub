@@ -55,42 +55,13 @@ public class AdminController {
         long id = user.getId();
         User target = entityManager.find(User.class, id);
 
-        Lista lista = new Lista(); // Crear una nueva instancia de Lista
-		// obtenemos la lista de favoritos, viendo y terminado
-
-		List<Lista> listasUs = target.getListas();
-
-		// Obtenemos la lista de favoritos
-		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
-		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
-		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
-
-		// Obtenemos la lista de estoy viendo
-		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "viendo").setParameter("author", id).getSingleResult();
-		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
-
-		// Obtenemos la lista de terminado
-		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
-		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
-
-
-
+    
 		// Obtenemos la lista de terminado
 		List<Comment> reports = entityManager.createNamedQuery("Comentario.isReported", Comment.class).getResultList();
 
 
-		int contadorVistos = terminado.getContador();
 		// cambiar
 		model.addAttribute("user", target);
-		model.addAttribute("Lista", lista); // Agregar la lista al modelo
-		model.addAttribute("Listas", listasUs);
-		model.addAttribute("favoritos", favMedias);
-		model.addAttribute("viendo", viendoMedias);
-		model.addAttribute("terminado", terminadoMedias);
-		model.addAttribute("contVisto", contadorVistos);
 		model.addAttribute("reportes", reports);
         
         //User user = entityManager.find(User.class, );

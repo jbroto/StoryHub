@@ -74,6 +74,8 @@ VALUES (3, 66732);
 INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID)
 VALUES (1, CURRENT_DATE, FALSE, 'el prota es un tonto', 4, 66732);
 
+INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID)
+VALUES (2, CURRENT_DATE, TRUE, 'vendo opel corsa', 5, 66732);
 
 
 -- start id numbering from a value that is larger than any assigned above

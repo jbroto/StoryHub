@@ -57,19 +57,20 @@
                                         id="favoritoBtn"><i class="fa-solid fa-heart"></i> Favoritos</button>
                                     <button class="btn"
                                         th:class="${relacion.viendo} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
-                                        id="viendoBtn"><i class="fa-sharp fa-solid fa-hourglass-half"></i> Viendo</button>
+                                        id="viendoBtn"><i class="fa-sharp fa-solid fa-hourglass-half"></i>
+                                        Viendo</button>
                                     <button class="btn"
                                         th:class="${relacion.ended} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
                                         id="terminadoBtn"><i class="fa-regular fa-eye"></i> Terminado</button>
 
-                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Seleccionar lista
-                                        </button>
-                                        <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Seleccionar lista
+                                    </button>
+                                    <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
                                     <div class="dropdown">
-                                        
+
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <form th:action="@{/user/{id}/addTo/(id=${user.id})}" method="post">
                                                 <input type="hidden" name="mediaId" th:value="${media.id}" />
@@ -93,7 +94,7 @@
                                 </div>
 
                                 <div class="row">
-                                    
+
                                 </div>
                             </div>
 
@@ -150,12 +151,47 @@
                     </a>
                     <div class="card-body">
                         <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
-                        <span>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#reporteModal">
-                                🚩
-                            </button>
-                        </span>
+                        
+                       
+                            <span>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#reporteModal">
+                                    🚩
+                                </button>
+                                <div th:if="${comentario.report}">
+                                    <span><b>Este comentario ya ha sido reportado</b></span>
+                                </div>
+                            </span>
+                        
+                    </div>
+                </div>
+
+                <!--Modal para reportar el comentario-->
+                <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Reportar comentario</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Formulario -->
+                                <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario}"
+                                    th:object="${comentario}" method="post">
+                                    <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
+                                    <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para
+                                        que lo
+                                        compruebe</p>
+                                    <button type="submit" class="btn btn-primary">Reportar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +199,7 @@
     </div>
 
 
-    <!--Modal reportar comentario-->
+    <!--Modal reportar comentario
 
     <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -176,7 +212,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario -->
+                    
                     <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario}"
                         th:object="${comentario}" method="post">
                         <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para que lo
@@ -189,7 +225,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
 
     <!--<div class="container mb-2">

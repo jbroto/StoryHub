@@ -546,20 +546,24 @@ public class UserController {
 	}
 
 	@PostMapping("/{id}/{idMedia}/reportarComentario")
-	public ResponseEntity<Boolean> postMethodName(@PathVariable long id, @PathVariable long idMedia,
-	@RequestParam("commentario") long comentario, HttpSession session) {
+	@ResponseBody
+	@Transactional
+	public String reportar(@PathVariable long id, @PathVariable long idMedia,
+	@RequestParam("comentarioId") long comentario, HttpSession session) {
 
 		try {
 			Comment c = entityManager.find(Comment.class, comentario);
 			if (!c.isReport()) {
 				c.setReport(true);
 				entityManager.persist(c);
+				entityManager.flush();
 			}
-			return ResponseEntity.ok(true);
+			
 		} catch (NoResultException e) {
 
-			return ResponseEntity.ok(false);
+			e.printStackTrace();
 		}
+		return "contenido";
 
 		// mi idea es crear como una list<Comment> donde guardaremos todos los
 		// comentarios que han querido ser reportados,

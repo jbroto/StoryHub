@@ -5,7 +5,7 @@
     <title>Inicio</title>
   </head>
 
-  <body>
+  <body th:attr="data-userId=${user.id}, data-listaId=${lista.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container contenidoLista">
         <div class="row d-flex mt-3">
@@ -16,7 +16,14 @@
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <!-- Botón alineado a la derecha de la columna -->
                 <div th:unless="${lista.author.getUsername() eq user.username}">
-                    <button class="btn btn-danger" type="button">Suscribirse</button>
+                    <div  id="btn-div" th:unless="${suscrito}">
+                        <form th:action="@{/user/__${usuario.id}__/suscripcion/__${lista.id}__}" method="post">
+                            <button class="btn btn-danger" type="submit" id="suscripcion-btn">Suscribirse</button>
+                        </form>
+                    </div>
+                    <div th:else id="av-div">
+                        <button class="btn btn-outline-danger" type="submit" id="suscripcion-btn">Suscrito</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,5 +49,6 @@
     </div>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/suscripcion.js}"></script>
   </body>
 </html>

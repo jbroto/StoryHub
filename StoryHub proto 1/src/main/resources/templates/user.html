@@ -111,7 +111,7 @@
             <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
             <div th:each="item : ${Listas}" class="mr-2">
               <!-- hay que cambiar esto -->
-              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${user.id}, list=${item.name})}">
+              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${u.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
                 <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
               </a>
@@ -210,15 +210,6 @@
 
     <hr />
 
-
-    <h2>Mis Comentarios</h2>
-    <p>Aquí van tus Comentarios.</p>
-
-    <hr />
-
-    <h2>Mis Reseñas</h2>
-    <h5>Stranger Things - Adoramos</h5>
-  </div>
 
   <footer>
     <th:block th:replace="fragments/footer.html :: footer" />

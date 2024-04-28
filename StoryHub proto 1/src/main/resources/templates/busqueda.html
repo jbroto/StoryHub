@@ -47,7 +47,8 @@
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="usuario : ${users}">
             <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                 <form th:action="@{/user/__${usuario.id}__}" method="get">
+                 <form th:action="@{/user/__${user.id}__/perfilUsuario}" method="get">
+                    <input type="hidden" name="username" th:value="${usuario.username}">
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
                             <img class="card-img w-500" img th:src="@{/user/__${usuario.id}__/pic}" alt="Avatar">

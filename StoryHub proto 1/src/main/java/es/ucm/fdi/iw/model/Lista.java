@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.*;
@@ -35,6 +36,13 @@ public class Lista implements Transferable<Lista.Transfer> {
     joinColumns = @JoinColumn(name = "lista_id"), 
     inverseJoinColumns = @JoinColumn(name = "media_id"))
     private List<Media> medias = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "lista_subscriber",
+            joinColumns = @JoinColumn(name = "lista_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> subscribers = new ArrayList<>();
+
 
 
     private Boolean isPublic;

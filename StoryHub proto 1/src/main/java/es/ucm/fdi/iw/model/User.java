@@ -74,7 +74,7 @@ public class User implements Transferable<User.Transfer> {
     @ManyToMany(mappedBy = "followers")
     private List<User> following;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "subscribers")
     private List<Lista> suscripciones;
 
 

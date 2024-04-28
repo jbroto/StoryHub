@@ -149,6 +149,7 @@ public class UserController {
 
 		// cambiar
 		model.addAttribute("user", target);
+		model.addAttribute("u", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", listasUs);
 		model.addAttribute("favoritos", favMedias);
@@ -306,6 +307,28 @@ public class UserController {
 
 	}
 
+	//SUSCRIPCIONES----------------------------------------------
+	@PostMapping("/{id}/suscripcion/{lista}")
+	@Transactional
+	public ResponseEntity<Boolean> getMethodName(@PathVariable long id, @PathVariable long lista, Model model) {
+		User u = entityManager.find(User.class, id);
+		Lista l = entityManager.find(Lista.class, lista);
+
+		try{
+			u.getSuscripciones().add(l);
+			l.getSubscribers().add(u);
+	
+			entityManager.merge(u);
+			entityManager.merge(l);
+			entityManager.flush();
+			return ResponseEntity.ok().body(true);
+		}
+		catch(Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+		}
+	}
+	
+
 	//SEGUIDORES-------------------------------------------------
 
 	@GetMapping("/{id}/social/{paramSocial}")
@@ -328,17 +351,35 @@ public class UserController {
 				.getSingleResult();
 		User u = entityManager.find(User.class, id);
 
-		System.out.println("LLEGO AL USER" + u.getUsername());
+		Lista lista = new Lista(); // Crear una nueva instancia de Lista
+
 		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
 				.setParameter("author", u.getId())
 				.getResultList();
 
-		System.out.println("LLEGO A LAS LISTAS" + ls.toString());
+		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
+		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-		model.addAttribute("resultado", target);
-		model.addAttribute("user", u);
-		model.addAttribute("listasPublicas", ls);
-		return "perfilUser";
+		// Obtenemos la lista de estoy viendo
+		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "viendo").setParameter("author", id).getSingleResult();
+		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
+
+		// Obtenemos la lista de terminado
+		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
+		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
+
+		model.addAttribute("u", u);
+		model.addAttribute("user", target);
+		model.addAttribute("Lista", lista); // Agregar la lista al modelo
+		model.addAttribute("Listas", ls);
+		model.addAttribute("favoritos", favMedias);
+		model.addAttribute("viendo", viendoMedias);
+		model.addAttribute("terminado", terminadoMedias);
+		return "user";
 	}
 
 	@GetMapping("/{id}/contenido")
@@ -605,7 +646,8 @@ public class UserController {
 		model.addAttribute("user", u);
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
-
+		model.addAttribute("suscrito", u.getSuscripciones().contains(l));
+		System.out.println(u.getSuscripciones().contains(l));
 		return "lista";
 	}
 

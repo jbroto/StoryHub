@@ -74,9 +74,11 @@
                                 </a>
                             </div>
                         </li>
-                        <li class="nav-item "><a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">Home</a></li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/user/{id}/social/followers(id=${session.u.id})}">
+                            <i class="fa-solid fa-users"></i> Social</a></li>
                         <!--<li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li> YO QUITARIA LA PESTAÑA DEL LOGIN --> 
-                        <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">Reportar</a></li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">
+                            <i class="fa-solid fa-flag"></i> Reportar</a></li>
                         <!--<li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>-->
                         <li class="nav-item align-self-center me-4">
                             <button type="button" class="btn btn-outline-success btn-sm position-relative">

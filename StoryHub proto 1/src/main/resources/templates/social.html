@@ -8,7 +8,7 @@
 
 </head>
 
-<body th:data-iduser="${user.id}">
+<body th:data-iduser="${user.id}" th:data-paramSocial="${paramSocial}">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container justify-content-center" id="social-cont">
@@ -17,16 +17,16 @@
     </div>-->
         <div class="row">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
-                <button class="btn btn-dark" id="media-search">Siguiendo (<span id="resultadoFollowing"
+                <button class="btn btn-dark" id="following-search">Siguiendo (<span id="resultadoFollowing"
                         th:text="${user.following.size()}">0</span>)</button>
-                <button class="btn btn-outline-dark" id="book-search">Seguidores (<span id="resultadoFollowers"
+                <button class="btn btn-outline-dark" id="followers-search">Seguidores (<span id="resultadoFollowers"
                         th:text="${user.followers.size()}">0</span>)</button>
             </div>
         </div>
 
-        <!-- HACER UNA TABLA -->
+        <!-- TABLA FOLLOWERS -->
 
-        <table class="table table-hover  person-table">
+        <table class="table table-hover  person-table content-followers d-none">
             <thead>
                 <tr>
                     <th class="left-th">Nombre</th>
@@ -37,7 +37,6 @@
                     <th class="table-title">Favoritos</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr th:each="usuario : ${user.followers}">
                     <td class="table-person">
@@ -62,7 +61,6 @@
                             <span th:text=" ${usuario.following.size}"> 0</span>
                         </a>
                     </td>
-
 
                     <td class="table-stats"><a class="has-icon icon-16 icon-watched"
                             th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
@@ -92,8 +90,73 @@
                 </tr>
             </tbody>
         </table>
+        
+        <!-- TABLA FOLLOWING -->
 
+        <table class="table table-hover  person-table content-following ">
+            <thead>
+                <tr>
+                    <th class="left-th">Nombre</th>
+                    <th class="table-title">Seguidores</th>
+                    <th class="table-title">Siguiendo</th>
+                    <th class="table-title">Visto</th>
+                    <th class="table-title">Listas</th>
+                    <th class="table-title">Favoritos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${user.following}">
+                    <td class="table-person">
+                        <div class="user-info d-flex gap-3">
+                            <img th:src="@{/user/__${usuario.id}__/pic}" class="rounded-circle" alt="pic" width="45"
+                                height="45"> </a>
+                            <div class="person-summary">
+                                <h4 class="title-3"> <a th:href="@{/user/__${usuario.id}__}" class="name">
+                                        <span th:text="${usuario.username}">username</span> </a> </h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="table-stats">
+                        <a th:href="@{/user/__${usuario.id}__/social/followers}">
+                            <i class="fa-solid fa-user"></i>
+                            <span th:text=" ${usuario.followers.size}"> 0</span>
+                        </a>
+                    </td>
+                    <td class="table-stats">
+                        <a th:href="@{/user/__${usuario.id}__/social/following}">
+                            <i class="fa-solid fa-user"></i>
+                            <span th:text=" ${usuario.following.size}"> 0</span>
+                        </a>
+                    </td>
 
+                    <td class="table-stats"><a class="has-icon icon-16 icon-watched"
+                            th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
+                            <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas.size}"> 1</span> </a></td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
+                        <i class="fa-solid fa-list">
+                            <span th:text=" ${usuario.listas.size}"> 0</span></a>
+                    </td>
+                    <td class="table-stats"><a class="has-icon icon-16 icon-liked"
+                            th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
+                            <i class="fa-solid fa-heart"></i>
+                            <span th:text=" ${usuario.listas.size}"> 1</span></a></td>
+
+                    <td class="table-follow-status" th:unless="${usuario.id == actual.id}">
+                        <div  th:data-userId="${usuario.id}">
+                            <!-- Botón de "Unfollow" -->
+                            <button th:if="${usuario.followers.contains(actual)}" class="btn btn-danger boton-unfollow">
+                                <i class="fa-solid fa-user-minus"></i> Seguir
+                            </button>
+                            <!-- Botón de "Follow" -->
+                            <button th:unless="${usuario.followers.contains(actual)}"
+                                class="btn btn-success boton-follow">
+                                <i class="fa-solid fa-user-plus"></i> Seguir
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
 
         <div id="content-following" class="row mb-2">

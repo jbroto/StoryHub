@@ -156,7 +156,7 @@
                         <span th:if="${comentario.author.id != user.id}"> <!--PARA QUE UN USUARIO NO PUEDA NI AUTOREPORTARSE NI QUE SEPA QUE LE HAN REPORTADO-->
                             <span th:if="${!comentario.report}">
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#reporteModal">
+                                th:data-bs-target="'#reporteModal-' + ${comentario.id}" th:id="'flag-' + ${comentario.id}">
                                     🚩
                                 </button>
                             </span>
@@ -170,7 +170,7 @@
                 </div>
 
                 <!--Modal para reportar el comentario-->
-                <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog"
+                <div class="modal fade" th:id="'reporteModal-' + ${comentario.id}" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -182,13 +182,12 @@
                             </div>
                             <div class="modal-body">
                                 <!-- Formulario -->
-                                <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario}"
-                                    th:object="${comentario}" method="post">
-                                    <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
+                                <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario/__${comentario.id}__}" method="post">
+                                    <input type="hidden" id="comment-click" th:value="${comentario.id}"/>
                                     <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para
                                         que lo
                                         compruebe</p>
-                                    <button type="submit" class="btn btn-primary">Reportar</button>
+                                    <button type="submit" class="btn btn-danger" id="btn-report">Reportar</button>
                                 </form>
                             </div>
                             <div class="modal-footer">

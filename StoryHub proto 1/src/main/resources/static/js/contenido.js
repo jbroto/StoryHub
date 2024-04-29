@@ -4,6 +4,8 @@ $(document).ready(function () {
     let mediaTipo = document.body.dataset.mediatipo;
     let messageDiv = document.getElementById("comments");
 
+    $("#comment-click").hide();
+    
     console.log("ID DEL USUARIO: " + userId + " MEDIA CON ID: " + mediaId + " Y DE TIPO: " + mediaTipo)
 
     // Función para enviar una solicitud AJAX al controlador
@@ -97,6 +99,33 @@ $(document).ready(function () {
                 console.log("El comentario no se ha enviado correctamente");
             })
     }
+
+
+    $("#btn-report").on('click', function(e){
+        e.preventDefault();
+        var commentId = $("#comment-click").val();
+        console.log(commentId + " es el fokin coment");
+        let url = '/user/' + userId + '/' + mediaId+ "/reportarComentario/"+commentId;
+        console.log("______________________________");
+        console.log(url);
+        var flag = $('#flag-' + commentId);
+
+        go(url, 'POST').then(response => {
+            if(response){
+
+                $(this).hide();
+                $(this).parent().hide();
+                $(this).parent().parent().text("Se ha reportado correctamente");
+                flag.parent().html("<div><b>Este comentario ya ha sido reportado</b></div>");
+
+            }
+        })
+        .catch(error => {
+                console.error("Error: " + error);
+            });
+        
+    })
+
 
     function renderMsg(response) {
         console.log("rendering: ", response);

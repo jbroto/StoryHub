@@ -678,15 +678,15 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/{id}/{idMedia}/reportarComentario")
+	@PostMapping("/{id}/{idMedia}/reportarComentario/{idComentario}")
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> reportar(@PathVariable long id, @PathVariable long idMedia,
-	@RequestParam("comentarioId") long comentario, HttpSession session) {
+	@PathVariable long idComentario) {
 
 
 		try {
-			Comment c = entityManager.find(Comment.class, comentario);
+			Comment c = entityManager.find(Comment.class, idComentario);
 			if (!c.isReport()) {
 				c.setReport(true);
 				entityManager.persist(c);
@@ -694,16 +694,10 @@ public class UserController {
 			}
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
-			log.error("Error al reportar el comentario con id " + comentario);
+			log.error("Error al reportar el comentario con id " + idComentario);
 			return ResponseEntity.ok(false);
 		}
 
-		// mi idea es crear como una list<Comment> donde guardaremos todos los
-		// comentarios que han querido ser reportados,
-		// para luego esa lista representarla en el .html de admin y que el pueda ver
-		// todos los comentarios que han sido reportados, que usuarios
-		// los han reportado, y el comentario en si con su contenido y en el media que
-		// se encuentra
 
 	}
 

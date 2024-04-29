@@ -1,3 +1,42 @@
+body {
+    background: radial-gradient(circle, #fff, #eff6ff);
+    color: #333; /* Color de texto oscuro para contrastar */
+    font-family: Tahoma, Geneva, sans-serif;
+    
+  }
+
+.name{
+    color:#333
+}
+
+.name:hover{
+    color:gray
+}
+
+/* .followers,.following{
+    color:darkorchid;
+}
+
+.followers:hover, .following:hover{
+    color: purple;
+} */
+
+.visto{
+    color:green;
+}
+
+.visto:hover{
+    color:darkgreen;
+}
+
+.favoritos{
+    color:orange;
+}
+
+.favoritos:hover{
+    color:darkorange;
+}
+
 .person-table{
     width: 100%;
 }

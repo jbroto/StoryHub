@@ -50,27 +50,27 @@
                         </div>
                     </td>
                     <td class="table-stats">
-                        <a th:href="@{/user/__${usuario.id}__/social/followers}">
+                        <a class="followers" th:href="@{/user/__${usuario.id}__/social/followers}">
                             <i class="fa-solid fa-user"></i>
                             <span th:text=" ${usuario.followers.size}"> 0</span>
                         </a>
                     </td>
                     <td class="table-stats">
-                        <a th:href="@{/user/__${usuario.id}__/social/following}">
+                        <a class="following" th:href="@{/user/__${usuario.id}__/social/following}">
                             <i class="fa-solid fa-user"></i>
                             <span th:text=" ${usuario.following.size}"> 0</span>
                         </a>
                     </td>
 
-                    <td class="table-stats"><a class="has-icon icon-16 icon-watched"
+                    <td class="table-stats"><a class="visto"
                             th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
                             <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
                         </a></td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
+                    <td class="table-stats"><a class="listas"></a>
                         <i class="fa-solid fa-list">
                             <span th:text=" ${usuario.listas.size}"> 0</span></a>
                     </td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-liked"
+                    <td class="table-stats"><a class="favoritos"
                             th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
                             <span th:text=" ${usuario.listas[0].medias.size}"> 1</span></a></td>
@@ -119,27 +119,27 @@
                         </div>
                     </td>
                     <td class="table-stats">
-                        <a th:href="@{/user/__${usuario.id}__/social/followers}">
+                        <a class="followers" th:href="@{/user/__${usuario.id}__/social/followers}">
                             <i class="fa-solid fa-user"></i>
                             <span th:text=" ${usuario.followers.size}"> 0</span>
                         </a>
                     </td>
                     <td class="table-stats">
-                        <a th:href="@{/user/__${usuario.id}__/social/following}">
+                        <a class="following" th:href="@{/user/__${usuario.id}__/social/following}">
                             <i class="fa-solid fa-user"></i>
                             <span th:text=" ${usuario.following.size}"> 0</span>
                         </a>
                     </td>
 
-                    <td class="table-stats"><a class="has-icon icon-16 icon-watched"
+                    <td class="table-stats"><a class="visto"
                             th:href="@{/user/__${usuario.id}__/terminado/__${usuario.username}__}">
                             <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
                         </a></td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-list"></a>
+                    <td class="table-stats"><a class="listas"></a>
                         <i class="fa-solid fa-list">
                             <span th:text=" ${usuario.listas.size}"> 0</span></a>
                     </td>
-                    <td class="table-stats"><a class="has-icon icon-16 icon-liked"
+                    <td class="table-stats"><a class="favoritos"
                             th:href="@{/user/__${usuario.id}__/favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
                             <span th:text=" ${usuario.listas[0].medias.size}"> 1</span></a></td>

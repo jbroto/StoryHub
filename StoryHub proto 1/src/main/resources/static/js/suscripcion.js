@@ -1,40 +1,40 @@
 $(document).ready(function(){
     const suscripcion = $('#suscripcion-btn');
+    const anular = $('#anular-btn');
     let userId = document.body.dataset.userid;
-    let listaId = document.body.dataset.mediaid;
+    let listaId = document.body.dataset.listaid;
 
     suscripcion.on('click', function(e){
-        e.preventDefault;
-        console.log(userId);
-        console.log(listaId);
+        e.preventDefault();
         let url = '/user/' + userId + '/suscripcion/' + listaId;
         console.log("______________________________");
         console.log(url);
 
-        $.ajax({
-            url: url,
-            type: 'POST',
-            success: function(data, textStatus, xhr) {
-                // Tratar la respuesta del servidor
-                if (xhr.status === 200) {
-                    // La solicitud fue exitosa, tratar la respuesta JSON
-                    if (data === true) {
-                        $('#btn-div').fadeOut(200, function(){
-                            $('#av-div').fadeIn(200);
-                        });
-                    } else {
-                        alert("Ha habido un error a la hora de suscribirte, intentelo de nuevo más tarde.");
-                    }
-                } else {
-                    // La solicitud fue exitosa pero la respuesta indica un error
-                    alert("Ha habido un error a la hora de suscribirte, intentelo de nuevo más tarde.");
-                }
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                // Manejar errores de la solicitud AJAX
-                alert("Ha habido un error al procesar la solicitud: " + errorThrown);
+        go(url, 'POST').then(response => {
+            if(response){
+                $('#btn-div').fadeOut(200, function(){
+                    anular.fadeIn(200);
+                })
             }
-        });        
+        })
+        .catch(error => {
+                console.error("Error al añadir o quitar contenido de " + dataURL + " " + error);
+            });
         
     })
+
+    anular.on('click', function(e){
+        e.preventDefault();
+        let secondUrl = '/user/' + userId + '/anular/' + listaId;
+
+        go(secondUrl, 'POST').then(response =>{
+            if(response){
+                $('#av-div').fadeOut(200, function(){
+                    suscripcion.fadeIn(200);
+                })
+            }
+        }).catch(error =>{
+            console.error("Error al añadir o quitar contenido de " + dataURL + " " + error);
+        })
+    });
 })

@@ -326,12 +326,36 @@ public class UserController {
 			entityManager.merge(u);
 			entityManager.merge(l);
 			entityManager.flush();
-			return ResponseEntity.ok().body(true);
+			return ResponseEntity.ok(true);
 		}
 		catch(Exception e){
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+			return ResponseEntity.ok(false);
 		}
 	}
+
+	//ANULAR SUSCRIPCIÓN-----------------------------------------
+	@PostMapping("/{id}/anular/{lista}")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<Boolean> anularSuscripcion(@PathVariable long id, @PathVariable long lista, Model model) {
+		User u = entityManager.find(User.class, id);
+		Lista l = entityManager.find(Lista.class, lista);
+
+		try{
+			u.getSuscripciones().remove(l);
+			l.getSubscribers().remove(u);
+
+			entityManager.merge(u);
+			entityManager.merge(l);
+			entityManager.flush();
+
+			return ResponseEntity.ok(true);
+		}
+		catch(Exception e){
+			return ResponseEntity.ok(false);
+		}
+	}
+	
 	
 
 	//SEGUIDORES-------------------------------------------------

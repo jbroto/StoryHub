@@ -90,6 +90,17 @@
     margin-right: 10px;
 }
 
+.dropdown-menu{
+    padding-bottom: 15px;
+}
+
+.dropdown-menu .btn {
+    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
 .comentario-texto {
     word-wrap: break-word;
 }

@@ -313,10 +313,12 @@ public class UserController {
 
 	//SUSCRIPCIONES----------------------------------------------
 	@PostMapping("/{id}/suscripcion/{lista}")
+	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> getMethodName(@PathVariable long id, @PathVariable long lista, Model model) {
+	public ResponseEntity<Boolean> suscribirse(@PathVariable long id, @PathVariable long lista, Model model) {
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
+		Boolean response = false;
 
 		try{
 			u.getSuscripciones().add(l);
@@ -325,10 +327,11 @@ public class UserController {
 			entityManager.merge(u);
 			entityManager.merge(l);
 			entityManager.flush();
-			return ResponseEntity.ok().body(true);
+			response = true;
+			return ResponseEntity.ok().body(response);
 		}
 		catch(Exception e){
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 	
@@ -421,25 +424,25 @@ public class UserController {
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
 
 		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
-				.setParameter("author", u.getId())
+				.setParameter("author", target.getId())
 				.getResultList();
 
 		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
+				.setParameter("name", "favoritos").setParameter("author", target.getId()).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de estoy viendo
 		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "viendo").setParameter("author", id).getSingleResult();
+				.setParameter("name", "viendo").setParameter("author", target.getId()).getSingleResult();
 		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de terminado
 		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
+				.setParameter("name", "terminado").setParameter("author", target.getId()).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-		model.addAttribute("u", u);
+		model.addAttribute("actual", u);
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
 		model.addAttribute("Listas", ls);

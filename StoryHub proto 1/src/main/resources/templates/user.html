@@ -118,7 +118,7 @@
             <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
             <div th:each="item : ${Listas}" class="mr-2">
               <!-- hay que cambiar esto -->
-              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${user.id}, list=${item.name})}">
+              <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${actual.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
                 <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
               </a>

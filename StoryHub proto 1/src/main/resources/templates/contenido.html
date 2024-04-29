@@ -65,24 +65,26 @@
 
                                     <div class="dropdown ">
                                         <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                            aria-expanded="false">
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                            data-bs-auto-close="outside" aria-expanded="false">
                                             <i class="fa-solid fa-list"></i> Seleccionar lista
                                         </button>
                                         <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
 
-                                        <div class="dropdown-menu dropdown-menu-dark w-100 " aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu dropdown-menu-dark w-100 "
+                                            aria-labelledby="dropdownMenuButton">
 
                                             <!-- Iterar sobre las listas y mostrarlas como checkboxes en el dropdown -->
                                             <div th:each="item : ${Listas}" class="mt-2 ">
                                                 <!-- asi no aparecen los botones de favoritos, viendo y terminado -->
-                                                <button th:unless="${item.name == 'favoritos'|| item.name == 'viendo' || item.name == 'terminado' }"
+                                                <button
+                                                    th:unless="${item.name == 'favoritos'|| item.name == 'viendo' || item.name == 'terminado' }"
                                                     class="btn "
                                                     th:class="${item.medias.contains(media)} ? 'btn botonesBasicos  btn-danger' : 'btn botonesBasicos btn-success'"
                                                     th:text="${item.name}">
                                                 </button>
                                             </div>
-            
+
                                         </div>
 
                                     </div>
@@ -147,14 +149,18 @@
                         <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                     </a>
                     <div class="card-body">
-                        <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
+                        <span class="card-text comentario-texto" th:text="${comentario.text}"
+                            th:classappend="${comentario.deleted} ? 'deleted-comment' : ''">
+                            Texto
+                        </span>
 
 
-                        <span th:if="${comentario.author.id != user.id}">
+                        <span th:if="${(comentario.author.id != user.id) and (!comentario.deleted)}">
                             <!--PARA QUE UN USUARIO NO PUEDA NI AUTOREPORTARSE NI QUE SEPA QUE LE HAN REPORTADO-->
                             <span th:if="${!comentario.report}">
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                th:data-bs-target="'#reporteModal-' + ${comentario.id}" th:id="'flag-' + ${comentario.id}">
+                                    th:data-bs-target="'#reporteModal-' + ${comentario.id}"
+                                    th:id="'flag-' + ${comentario.id}">
                                     🚩
                                 </button>
                             </span>
@@ -180,8 +186,10 @@
                             </div>
                             <div class="modal-body">
                                 <!-- Formulario -->
-                                <form th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario/__${comentario.id}__}" method="post">
-                                    <input type="hidden" id="comment-click" th:value="${comentario.id}"/>
+                                <form
+                                    th:action="@{/user/__${user.id}__/__${media.id}__/reportarComentario/__${comentario.id}__}"
+                                    method="post">
+                                    <input type="hidden" id="comment-click" th:value="${comentario.id}" />
                                     <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para
                                         que lo
                                         compruebe</p>

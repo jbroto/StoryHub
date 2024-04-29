@@ -17,15 +17,19 @@ import es.ucm.fdi.iw.model.MediaUserRelationId;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.apache.bcel.generic.ObjectType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -59,11 +63,11 @@ public class AdminController {
         User target = entityManager.find(User.class, id);
 
     
-		// Obtenemos la lista de terminado
+		// Obtenemos la lista de comentarios reportados
 		List<Comment> reports = entityManager.createNamedQuery("Comentario.isReported", Comment.class).getResultList();
 
 
-		// cambiar
+	
 		model.addAttribute("user", target);
 		model.addAttribute("reportes", reports);
         
@@ -73,6 +77,50 @@ public class AdminController {
         
         
         return "admin";
+    }
+
+
+    @PostMapping("{idComentario}/eliminarComentario")
+	@ResponseBody
+	@Transactional
+    public ResponseEntity<Boolean> eliminar(@PathVariable long idComentario) {
+
+        try {
+			Comment c = entityManager.find(Comment.class, idComentario);
+			if (c.isReport()) {
+				c.setText("Este comentario ha sido eliminado por infringir las normas");
+                c.setReport(false);
+                c.setDeleted(true);
+				entityManager.persist(c);
+				entityManager.flush();
+			}
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			log.error("Error al eliminar el comentario con id " + idComentario);
+			return ResponseEntity.ok(false);
+		}
+
+    }
+
+
+    @PostMapping("{idComentario}/quitarReporte")
+	@ResponseBody
+	@Transactional
+    public ResponseEntity<Boolean> quitarReporte(@PathVariable long idComentario) {
+
+        try {
+			Comment c = entityManager.find(Comment.class, idComentario);
+			if (c.isReport()) {
+				c.setReport(false);
+				entityManager.persist(c);
+				entityManager.flush();
+			}
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			log.error("Error al quitar reporte en el comentario con id " + idComentario);
+			return ResponseEntity.ok(false);
+		}
+
     }
 
     @PostMapping("/id/")

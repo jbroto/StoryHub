@@ -181,3 +181,7 @@
 #submitBtn:hover {
     background-color: #45a049;
 }
+
+.deleted-comment {
+    font-weight: bold;
+}

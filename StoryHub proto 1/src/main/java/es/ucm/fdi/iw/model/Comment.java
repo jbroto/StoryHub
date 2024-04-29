@@ -44,6 +44,7 @@ public class Comment implements Transferable<Comment.Transfer> {
     private String text;
     private LocalDate dateSent;
     private boolean report;
+    private boolean deleted;
 
     @Getter
     @AllArgsConstructor
@@ -55,6 +56,7 @@ public class Comment implements Transferable<Comment.Transfer> {
         long id;
         private String father;
         private boolean report;
+        private boolean deleted;
 
         public Transfer(Comment c) {
             this.author = c.getAuthor().getUsername();
@@ -64,6 +66,7 @@ public class Comment implements Transferable<Comment.Transfer> {
             this.id = c.getId();
             this.father = c.getFather().toString();
             this.report = false;
+            this.deleted = false;
         }
     }
 
@@ -71,6 +74,6 @@ public class Comment implements Transferable<Comment.Transfer> {
     public Transfer toTransfer() {
         return new Transfer(author.getUsername(), media.getApi(),
                 DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dateSent),
-                text, id, father.getText(), false);
+                text, id, father.getText(), false, false);
     }
 }

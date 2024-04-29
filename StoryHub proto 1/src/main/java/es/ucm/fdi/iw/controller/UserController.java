@@ -318,7 +318,6 @@ public class UserController {
 	public ResponseEntity<Boolean> suscribirse(@PathVariable long id, @PathVariable long lista, Model model) {
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
-		Boolean response = false;
 
 		try{
 			u.getSuscripciones().add(l);
@@ -327,11 +326,10 @@ public class UserController {
 			entityManager.merge(u);
 			entityManager.merge(l);
 			entityManager.flush();
-			response = true;
-			return ResponseEntity.ok().body(response);
+			return ResponseEntity.ok().body(true);
 		}
 		catch(Exception e){
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
 		}
 	}
 	

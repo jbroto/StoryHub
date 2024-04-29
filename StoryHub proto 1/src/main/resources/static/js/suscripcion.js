@@ -13,7 +13,7 @@ $(document).ready(function(){
         go(url, 'POST').then(response => {
             if(response){
                 $('#btn-div').fadeOut(200, function(){
-                    anular.fadeIn(200);
+                    $('#av-div').hide().removeClass("d-none").fadeIn(200);
                 })
             }
         })
@@ -30,7 +30,7 @@ $(document).ready(function(){
         go(secondUrl, 'POST').then(response =>{
             if(response){
                 $('#av-div').fadeOut(200, function(){
-                    suscripcion.fadeIn(200);
+                    $('#btn-div').hide().removeClass("d-none").fadeIn(200);
                 })
             }
         }).catch(error =>{

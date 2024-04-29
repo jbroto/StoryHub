@@ -16,14 +16,14 @@
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <!-- Botón alineado a la derecha de la columna -->
                 <div th:unless="${lista.author.getUsername() eq user.username}">
-                    <div  id="btn-div" th:unless="${suscrito}">
+                    <div  id="btn-div" th:classappend="${suscrito} ? 'd-none' : ''">
                         <form th:action="@{/user/__${user.id}__/suscripcion/__${lista.id}__}" method="post">
-                            <button class="btn btn-danger" type="submit" id="suscripcion-btn">Suscribirse</button>
+                            <button class="btn btn-success" type="submit" id="suscripcion-btn">Suscribirse</button>
                         </form>
                     </div>
-                    <div th:if="${suscrito}" id="av-div">
+                    <div th:classappend="${suscrito} ? '' : 'd-none'" id="av-div">
                         <form action="">
-                            <button class="btn btn-outline-danger" type="submit" id="anular-btn">Anular suscripcion</button>
+                            <button class="btn btn-danger" type="submit" id="anular-btn">Anular suscripcion</button>
                         </form>
                     </div>
                 </div>

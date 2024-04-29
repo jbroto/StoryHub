@@ -783,9 +783,12 @@ public class UserController {
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
 			rootNode.put("text", "Se ha añadido "+m.getNombre()+" a la lista " +lista.getName());
-			String json = mapper.writeValueAsString(rootNode);
+			rootNode.put("listaName", lista.getName());
+			rootNode.put("username", usuario.getUsername());
 
 			for (User u : lista.getSubscribers()) {
+				rootNode.put("userId", u.getId());
+				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}
 
@@ -833,6 +836,19 @@ public class UserController {
 			model.addAttribute("user", usuario);
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", id, m, nombreLista);
+
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.put("text", "Se ha eliminado "+m.getNombre()+" de la lista " +lista.getName());
+			rootNode.put("listaName", lista.getName());
+			rootNode.put("username", usuario.getUsername());
+			
+
+			for (User u : lista.getSubscribers()) {
+				rootNode.put("userId", u.getId());
+				String json = mapper.writeValueAsString(rootNode);
+				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
+			}
 
 			// "Elemento eliminado correctamente a la lista"
 			return ResponseEntity.ok(true);

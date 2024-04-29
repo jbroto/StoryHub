@@ -12,70 +12,6 @@
 <body th:data-iduser="${user.id}">
   <header th:replace="fragments/nav.html :: nav"></header>
 
-  <main class="flex-shrink-0">
-    <div class="container overview">
-      <div class="row">
-        <!-- Columna izquierda: Foto de perfil, nombre de usuario y botón de editar perfil -->
-        <div class="col-md-6">
-          <div class="profile-info d-flex align-items-center">
-            <!-- Foto de usuario -->
-            <div class="profile-picture mr-3">
-              <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
-                class="rounded-circle" style="width: 100px; height: 100px;">
-            </div>
-            <!-- Nombre de usuario -->
-            <div class="username">
-              <h3><span th:text="${user.username}">Default</span></h3>
-            </div>
-            <!-- Botón para editar perfil -->
-            <div class="edit-profile ml-auto">
-              <a th:href="@{/user/__${user.id}__/editarPerfil}">
-                <button class="btn btn-primary">Editar Perfil</button>
-              </a>
-
-            </div>
-          </div>
-        </div>
-        <!-- Columna derecha: Contadores de contenido visto, seguidores y usuarios seguidos -->
-        <div class="col-md-6 mt-3">
-          <div class="stats d-flex flex-row justify-content-end">
-            <!-- Contador de contenido visto -->
-            <a th:href="@{/user/__${user.id}__/terminado}">
-              <div class="content-viewed d-flex flex-column align-items-center">
-                <div class="text">
-                  <h4>Visto</h4>
-                </div>
-                <div class="number">
-                  <span th:text="${contVisto}">numero</span>
-                </div>
-              </div>
-            </a>
-            <!-- Contador de seguidores -->
-            <div class="followers d-flex flex-column align-items-center mr-2">
-              <div class="text">
-                <h4>Seguidores</h4>
-              </div>
-
-              <div class="number">
-                <p>500</p>
-              </div>
-            </div>
-            <!-- Contador de usuarios seguidos -->
-            <div class="following d-flex flex-column align-items-center">
-              <div class="text">
-                <h4>Siguiendo</h4>
-              </div>
-
-              <div class="number">
-                <p>300</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
   <div class="reportes">
     <h3>Reportes de comentarios</h3>
     <div th:if="${#lists.isEmpty(reportes)}">
@@ -97,8 +33,8 @@
           <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
 
           <span>
-            <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal"
-              data-target="#commentModal">
+            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+              data-bs-target="#reporteModal">
               ✅
             </button>
           </span>
@@ -107,39 +43,38 @@
         </div>
       </div>
       <!--Modal para reportar el comentario-->
-      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      <div class="modal fade" id="reporteModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Reportar comentario</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Reporte de comentario</h5>
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <!-- Formulario -->
-              <form th:action="@{/user/__${user.id}__/__${media.id}__/eliminarComentario}" th:object="${comentario}"
-                method="post">
-                <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
-                <button type="submit" class="btn btn-primary">Eliminar</button>
+              <p>¿Qué quieres hacer con este comentario?</p>
+              <form th:action="@{/admin/__${user.id}__/eliminarComentario}"
+                  th:object="${comentario}" method="post">
+                  <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
-              <form th:action="@{/user/__${user.id}__/__${media.id}__/quitarReporte}" th:object="${comentario}"
-                method="post">
-                <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
-                <button type="submit" class="btn btn-primary">Quitar reporte</button>
+              <form th:action="@{/admin/__${user.id}__/quitarReporte}"
+                  th:object="${comentario}" method="post">
+                  <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
+                  <button type="submit" class="btn btn-success">Quitar reporte</button>
               </form>
-            </div>
-            
+          </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
-
           </div>
-
         </div>
-
       </div>
+
+
 
     </div>
   </div>

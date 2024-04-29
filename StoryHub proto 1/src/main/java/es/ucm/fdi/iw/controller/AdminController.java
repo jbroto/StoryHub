@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  *  Site administration.
@@ -71,4 +74,12 @@ public class AdminController {
         
         return "admin";
     }
+
+    @PostMapping("/id/")
+    public String postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return entity;
+    }
+    
 }

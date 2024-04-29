@@ -57,7 +57,8 @@
                                         id="favoritoBtn"><i class="fa-solid fa-heart"></i>Favoritos</button>
                                     <button class="btn"
                                         th:class="${relacion.viendo} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
-                                        id="viendoBtn"><i class="fa-sharp fa-solid fa-hourglass-half"></i>Viendo</button>
+                                        id="viendoBtn"><i
+                                            class="fa-sharp fa-solid fa-hourglass-half"></i>Viendo</button>
                                     <button class="btn"
                                         th:class="${relacion.ended} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
                                         id="terminadoBtn"><i class="fa-regular fa-eye"></i>Terminado</button>
@@ -150,18 +151,21 @@
                     </a>
                     <div class="card-body">
                         <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
-                        
-                       
-                            <span>
+
+
+                        <span th:if="${comentario.author.id != user.id}"> <!--PARA QUE UN USUARIO NO PUEDA NI AUTOREPORTARSE NI QUE SEPA QUE LE HAN REPORTADO-->
+                            <span th:if="${!comentario.report}">
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#reporteModal">
                                     🚩
                                 </button>
-                                <div th:if="${comentario.report}">
-                                    <span><b>Este comentario ya ha sido reportado</b></span>
-                                </div>
                             </span>
+                            <div th:if="${comentario.report}">
+                                <span><b>Este comentario ya ha sido reportado</b></span>
+                            </div>
+                        </span>
                         
+
                     </div>
                 </div>
 

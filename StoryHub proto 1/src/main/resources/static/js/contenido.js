@@ -112,12 +112,6 @@ $(document).ready(function () {
         </a>
         <div class="card-body">
         <span class="card-text comentario-texto" >${response.text}</span>
-        <span>
-        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-        data-bs-target="#reporteModal">
-        🚩
-        </button>
-        </span>
         </div>
         </div></div>`;
     }

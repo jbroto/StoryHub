@@ -15,7 +15,6 @@
   <div class="reportes">
     <h3>Reportes de comentarios</h3>
     <div th:if="${#lists.isEmpty(reportes)}">
-
       <p>No hay reportes disponibles.</p>
     </div>
     <div th:each="comentario : ${reportes}" class="comment">
@@ -56,14 +55,12 @@
             <div class="modal-body">
               <!-- Formulario -->
               <p>¿Qué quieres hacer con este comentario?</p>
-              <form th:action="@{/admin/__${user.id}__/eliminarComentario}"
+              <form th:action="@{/admin/__${comentario.id}__/eliminarComentario}"
                   th:object="${comentario}" method="post">
-                  <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
                   <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
-              <form th:action="@{/admin/__${user.id}__/quitarReporte}"
+              <form th:action="@{/admin/__${comentario.id}__/quitarReporte}"
                   th:object="${comentario}" method="post">
-                  <input type="hidden" name="comentarioId" th:value="${comentario.id}" />
                   <button type="submit" class="btn btn-success">Quitar reporte</button>
               </form>
           </div>

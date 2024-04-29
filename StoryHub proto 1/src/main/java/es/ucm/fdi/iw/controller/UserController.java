@@ -780,6 +780,15 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", id, m, nombreLista);
 
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.put("text", "Se ha añadido "+m.getNombre()+" a la lista " +lista.getName());
+			String json = mapper.writeValueAsString(rootNode);
+
+			for (User u : lista.getSubscribers()) {
+				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
+			}
+
 			// "Elemento agregado correctamente a la lista"
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {

@@ -47,7 +47,7 @@ $(document).ready(function () {
         // Obtener el nombre de la lista basándote en el texto del botón
         let buttonText = $(this).text().toLowerCase();
         url = '/user/' + userId + '/' + estado + '/' + buttonText;
-
+        console.log(url)
         // Llamar a la función para cambiar el color del botón y enviar la solicitud
         cambiarColoryPost($(this), estado, url);
     });

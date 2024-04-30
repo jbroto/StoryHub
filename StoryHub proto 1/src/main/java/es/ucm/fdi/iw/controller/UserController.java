@@ -252,11 +252,11 @@ public class UserController {
 		return "editarPerfil";// redirigimos otra vez a editar perfil
 	}
 
-	@GetMapping("/{id}/busqueda")
-	public String busqueda(@PathVariable long id, @RequestParam("paramBusqueda") String paramBusqueda, Model model) {
+	@GetMapping("/busqueda")
+	public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model, HttpSession session) {
 		System.out.println(paramBusqueda + '\n' + '\n');
-
-		User target = entityManager.find(User.class, id);
+		User a = (User)session.getAttribute("u");
+		User target = entityManager.find(User.class, a.getId());
 
 		TMDBService s = new TMDBService();
 		GoogleBookService s2 = new GoogleBookService();

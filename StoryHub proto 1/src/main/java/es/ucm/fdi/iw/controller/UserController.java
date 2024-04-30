@@ -218,18 +218,24 @@ public class UserController {
 		return "user";
 	}
 
-	@GetMapping("/{id}/editarPerfil")
-	public String verEditarPerfil(@PathVariable long id, Model model) {
-		User user = entityManager.find(User.class, id);
+	@GetMapping("/editarPerfil")
+	public String verEditarPerfil(Model model, HttpSession session) {
+
+		User copia = (User) session.getAttribute("u");
+		
+
+		User user = entityManager.find(User.class, copia.getId());
 		model.addAttribute("user", user);
 		return "editarPerfil";
 	}
 
-	@PostMapping("/{id}/editarPerfil")
+	@PostMapping("/editarPerfil")
 	@Transactional
-	public String solicitudEditarPerfil(@PathVariable long id, @RequestParam("firstName") String nombre,
-			@RequestParam("lastName") String apellidos, Model model) {
-		User user = entityManager.find(User.class, id);// buscamos al usuario
+	public String solicitudEditarPerfil( @RequestParam("firstName") String nombre,
+			@RequestParam("lastName") String apellidos, Model model, HttpSession session) {
+
+				User copia = (User) session.getAttribute("u");		
+		User user = entityManager.find(User.class, copia.getId());// buscamos al usuario
 		// y cambiamos los campos rellenados
 		user.setFirstName(nombre);
 		user.setLastName(apellidos);
@@ -437,11 +443,13 @@ public class UserController {
 
 
 	@GetMapping("/{id}/perfilUsuario")
-	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model) {
+	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model, HttpSession session) {
 		User target = entityManager.createNamedQuery("User.byUsername", User.class)
 				.setParameter("username", param)
 				.getSingleResult();
-		User u = entityManager.find(User.class, id);
+
+				User copia = (User) session.getAttribute("u");		
+		User u = entityManager.find(User.class, copia.getId());
 
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
 
@@ -477,10 +485,13 @@ public class UserController {
 	@GetMapping("/{id}/contenido")
 	@Transactional
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,
-			@RequestParam("idMedia") Long idMedia, Model model) {
+			@RequestParam("idMedia") Long idMedia, Model model, HttpSession session) {
 		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
-		User usuario = entityManager.find(User.class, id);
+
+		User copia = (User) session.getAttribute("u");		
+		
+		User usuario = entityManager.find(User.class, copia.getId());
 
 		Comment comentario = new Comment();
 
@@ -519,7 +530,7 @@ public class UserController {
 				}
 				entityManager.persist(m);
 			}
-			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
+			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 			// CADA VEZ QUE UN USUARIO ACCEDA A NUEVO CONTENIDO CREAMOS LA RELACION CON
 			// VALORACION 0 Y SIN NINGUNA LISTA AÑADIDA
@@ -564,7 +575,9 @@ public class UserController {
 
 	@GetMapping("/{id}/comentario/{idComentario}")
 	public String getLista(@PathVariable long id, @PathVariable long idComentario, Model model, HttpSession session) {
-		User target = entityManager.find(User.class, id);
+		User copia = (User) session.getAttribute("u");		
+		
+		User target = entityManager.find(User.class, copia.getId());
 		Comment coment = entityManager.find(Comment.class, idComentario);
 		List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
 				.setParameter("father", idComentario).getResultList();
@@ -588,7 +601,9 @@ public class UserController {
 			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
 		try {
-			User usuario = entityManager.find(User.class, id);
+			User copia = (User) session.getAttribute("u");		
+		
+			User usuario = entityManager.find(User.class, copia.getId());
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
 
 			model.addAttribute("user", usuario);
@@ -613,7 +628,7 @@ public class UserController {
 
 			model.addAttribute("media", m);
 
-			log.info("Comentario de ", id);
+			log.info("Comentario de ", copia.getId());
 
 			Map<String, String> response = new HashMap<>();
 			response.put("author", coment.getAuthor().getUsername());
@@ -639,6 +654,7 @@ public class UserController {
 			@RequestParam("fatherId") long idComent, @RequestParam("texto") String text,
 			@ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
+				User copia = (User) session.getAttribute("u");		
 		try {
 			User usuario = entityManager.find(User.class, id);
 			model.addAttribute("user", usuario);

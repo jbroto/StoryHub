@@ -27,7 +27,7 @@
             </div>
             <!-- Botón para editar perfil -->
             <div class="edit-profile ml-auto" th:if="${user.id == session.u.id}">
-              <a th:href="@{/user/__${user.id}__/editarPerfil}">
+              <a th:href="@{/user/editarPerfil}">
                 <button class="btn btn-secondary">Editar Perfil <i class="fa-solid fa-gear"></i></button>
               </a>
             </div>

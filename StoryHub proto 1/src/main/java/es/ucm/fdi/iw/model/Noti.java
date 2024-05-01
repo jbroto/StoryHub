@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Entity
 @Data
 @NamedQueries({
-    @NamedQuery(name="Noti.byUser", query="SELECT n FROM Noti n WHERE n.objetivo.id = :user"),
+    @NamedQuery(name="Noti.byUserNoVisto", query="SELECT n FROM Noti n WHERE n.objetivo.id = :user AND n.visto = FALSE"),
     @NamedQuery(name = "Noti.byObejivo", query = "SELECT n FROM Noti n WHERE n.objetivo.id = :objetivo")
 })
 

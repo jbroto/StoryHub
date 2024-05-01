@@ -367,14 +367,14 @@ public class UserController {
 		}
 	}
 
-
+	//CARGAR NOTIFICACIONES NO VISTAS---------------------------------------
 	@GetMapping("/cargarNotis")
 	@ResponseBody
 	public ResponseEntity<String> cargarNotis(Model model, HttpSession session) {
 		User a = (User) session.getAttribute("u");
 		User u = entityManager.find(User.class, a.getId());
 		try {
-			List<Noti> notis = entityManager.createNamedQuery("Noti.byUser", Noti.class)
+			List<Noti> notis = entityManager.createNamedQuery("Noti.byUserNoVisto", Noti.class)
 					.setParameter("user", u.getId())
 					.getResultList();
 			
@@ -830,7 +830,6 @@ public class UserController {
 
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
-				String json = mapper.writeValueAsString(rootNode);
 				Noti n = new Noti();
 				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
 				n.setObjetivo(u);
@@ -840,6 +839,8 @@ public class UserController {
 				u.addNoti(n);
 				entityManager.merge(u);
 				entityManager.flush();
+				rootNode.put("id", n.getId());
+				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}
 
@@ -899,8 +900,6 @@ public class UserController {
 			
 
 			for (User u : lista.getSubscribers()) {
-				rootNode.put("userId", u.getId());
-				String json = mapper.writeValueAsString(rootNode);
 				Noti n = new Noti();
 				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
 				n.setObjetivo(u);
@@ -910,6 +909,9 @@ public class UserController {
 				u.addNoti(n);;
 				entityManager.merge(u);
 				entityManager.flush();
+				rootNode.put("userId", u.getId());
+				rootNode.put("id", n.getId());
+				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}
 

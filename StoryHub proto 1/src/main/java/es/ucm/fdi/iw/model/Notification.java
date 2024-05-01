@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -30,7 +31,7 @@ public class Notification implements Transferable<Notification.Transfer> {
     private String texto;
     private String enlace;
     private Boolean visto;
-    private LocalDateTime dateSent;
+    private LocalDate dateSent;
     
     @Getter
     @AllArgsConstructor

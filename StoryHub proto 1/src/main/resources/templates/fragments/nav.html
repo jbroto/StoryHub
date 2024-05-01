@@ -60,10 +60,8 @@
                                 <span th:text="${session.u.username}">Pepe</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}">Home</a>
-                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}">Peliculas</a>
-                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}">Series</a>
-                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}">Libros</a>
+                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}"><i class="fa-solid fa-house"></i> Home</a>
+                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}"><i class="fa-regular fa-bell"></i> Notificaciones</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">
                                     <form th:action="@{/logout}" method="post">
@@ -89,7 +87,12 @@
                                 <span id="unread" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">0<span class="visually-hidden">unread messages</span></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="notificationDropdown" id="notificationMenu">
-                                <li><a class="dropdown-item" href="#" id="sinNotis">No tienes notificaciones nuevas!!</a></li>
+                                    <li><a class="dropdown-item" href="#" id="sinNotis">No tienes notificaciones nuevas!!</a></li>
+                                    <li>
+                                        <div class="text-center">
+                                            <button id="verTodas" class=" dropdown-item btn btn-primary">Ver todas <i class="fa-regular fa-bell"></i></button>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
   

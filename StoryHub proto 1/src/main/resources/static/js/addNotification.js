@@ -9,34 +9,36 @@ $(document).ready(function(){
                     $('#sinNotis').hide()
                 }
 
-                $('#notificationMenu').append('<li><a data-id="'+m.id+'" class="dropdown-item" href="/user/'+m.userId+'/'+m.listaName+'/'+m.username+'">'+m.text+'</a></li>');
+                $('#notificationMenu').preppend('<li><a data-id="'+m.id+'" class="dropdown-item" href="/user/'+m.userId+'/'+m.listaName+'/'+m.username+'">'+m.text+'</a></li>');
                 sinLeer.text(unreadCount + 1);
     }
     
     $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {
         event.preventDefault();
+        if($(this).data('id') != undefined){
+            var idNoti = $(this).data('id');
 
-        var idNoti = $(this).data('id');
-
-        go('/user/visto/'+idNoti, 'POST').then(response =>{
-            if(response){
-                $(this).hide();
-                var unreadCount = parseInt(sinLeer.text().trim());
-                if(unreadCount != 0){
-                    unreadCount-=1;
+            go('/user/visto/'+idNoti, 'POST').then(response =>{
+                if(response){
+                    $(this).hide();
+                    var unreadCount = parseInt(sinLeer.text().trim());
+                    if(unreadCount != 0){
+                        unreadCount-=1;
+                    }
+                    if(unreadCount == 0){
+                        $('#sinNotis').show()
+                    }
+                    console.log(unreadCount);
+                    sinLeer.text(unreadCount);
                 }
-                if(unreadCount == 0){
-                    $('#sinNotis').show()
-                }
-                console.log(unreadCount);
-                sinLeer.text(unreadCount);
-            }
-        }).catch(error =>{
-            console.error(error);
-        })
+            }).catch(error =>{
+                console.error(error);
+            })
+    
+            // Redirigir a la página especificada en el enlace
+            window.location.href = $(this).attr('href');
+        }
 
-        // Redirigir a la página especificada en el enlace
-        //window.location.href = $(this).attr('href');
     });
 
 })
@@ -50,7 +52,7 @@ function cargarNotis(){
             response.forEach(notification => {
                 // Si la notificación no está vista, agregarla a la bandeja de entrada
                 if (!notification.visto) {
-                    $('#notificationMenu').append('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
+                    $('#notificationMenu').preppend('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
                     cont++;
                 }
             });

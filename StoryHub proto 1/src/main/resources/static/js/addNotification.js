@@ -13,13 +13,30 @@ $(document).ready(function(){
                 sinLeer.text(unreadCount + 1);
     }
     
-    $('#notificationMenu').on('click', '.dropdown-item', function(event) {
+    $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {
         event.preventDefault();
 
         var idNoti = $(this).data('id');
-        
+
+        go('/user/visto/'+idNoti, 'POST').then(response =>{
+            if(response){
+                $(this).hide();
+                var unreadCount = parseInt(sinLeer.text().trim());
+                if(unreadCount != 0){
+                    unreadCount-=1;
+                }
+                if(unreadCount == 0){
+                    $('#sinNotis').show()
+                }
+                console.log(unreadCount);
+                sinLeer.text(unreadCount);
+            }
+        }).catch(error =>{
+            console.error(error);
+        })
+
         // Redirigir a la página especificada en el enlace
-        window.location.href = $(this).attr('href');
+        //window.location.href = $(this).attr('href');
     });
 
 })

@@ -390,9 +390,23 @@ public class UserController {
 		}
 	}
 	
-	
-	
-	
+	//MARCAR COMO VISTA UNA NOTIFICACIÓN
+	@PostMapping("/visto/{noti}")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<Boolean> marcarVisto(@PathVariable long noti, HttpSession session) {
+		try{
+			Noti n = entityManager.find(Noti.class, noti);
+			n.setVisto(true);
+			entityManager.persist(n);
+			entityManager.flush();
+			System.out.println(n.getVisto());
+			return ResponseEntity.ok(true);
+		}
+		catch(Exception e){
+			return ResponseEntity.ok(false);
+		}
+	}
 
 	//SEGUIDORES-------------------------------------------------
 

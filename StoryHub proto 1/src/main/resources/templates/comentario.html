@@ -8,7 +8,7 @@
     <title>Inicio</title>
 </head>
 
-<body th:attr="data-userId=${user.id}, data-fatherId=${coment.id}">
+<body th:attr="data-userId=${user.id}, data-fatherId=${coment.id}, data-mediaId=${coment.media.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="contenido-background" th:style="'background-image: url(' + ${coment.media.backdropImageUrl} + ')'"></div>
     <section class="container comentario-section">
@@ -47,26 +47,72 @@
         <!--Boton para poner un comentario-->
         <h4>Add a comment</h4>
         <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
-        <button id="submitBtn" >Submit</button>
+        <button id="submitBtn">Submit</button>
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">
-                    <a class="card-body cabecera-comentario d-flex align-items-center">
-                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
-                            class="rounded-circle mr-3" width="40" height="40">
+                    <a class="card-body cabecera-comentario d-flex align-items-center"
+                        th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
+                            width="40" height="40">
                         <div>
-                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre</h4>
+                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre
+                            </h4>
                         </div>
                         <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
                     </a>
                     <div class="card-body">
-                        <span class="card-text comentario-texto" th:text="${comentario.text}">Texto</span>
-                        <span>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#reporteModal">
-                                🚩
-                            </button>
+                        <span class="card-text comentario-texto" th:text="${comentario.text}"
+                            th:classappend="${comentario.deleted} ? 'deleted-comment' : ''">
+                            Texto
                         </span>
+
+
+                        <span th:if="${(comentario.author.id != user.id) and (!comentario.deleted)}">
+                            <!--PARA QUE UN USUARIO NO PUEDA NI AUTOREPORTARSE NI QUE SEPA QUE LE HAN REPORTADO-->
+                            <span th:if="${!comentario.report}">
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                    th:data-bs-target="'#reporteModal-' + ${comentario.id}"
+                                    th:id="'flag-' + ${comentario.id}">
+                                    🚩
+                                </button>
+                            </span>
+                            <div th:if="${comentario.report}">
+                                <span><b>Este comentario ya ha sido reportado</b></span>
+                            </div>
+                        </span>
+
+
+                    </div>
+                </div>
+
+                <!--Modal para reportar el comentario-->
+                <div class="modal fade" th:id="'reporteModal-' + ${comentario.id}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Reportar comentario</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Formulario -->
+                                <form
+                                    th:action="@{/user/__${user.id}__/__${comentario.media.id}__/reportarComentario/__${comentario.id}__}"
+                                    method="post">
+                                    <input type="hidden" id="comment-click" th:value="${comentario.id}" />
+                                    <p>¿Estás seguro de reportar este comentario? Lo mandaremos a un administrador para
+                                        que lo
+                                        compruebe</p>
+                                    <button type="submit" class="btn btn-danger btn-report">Reportar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,6 +122,7 @@
     <footer>
         <th:block th:replace="fragments/footer.html :: footer" />
     </footer>
+
     <script th:src="@{/js/comentario.js}"></script>
     <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
 </body>

@@ -5,7 +5,10 @@ function irAtras() {
 $(document).ready(function () {
     let userId = document.body.dataset.userid;
     let fatherId = document.body.dataset.fatherid;
+    let mediaId = document.body.dataset.mediaid;
     let messageDiv = document.getElementById("comments");
+
+    $("#comment-click").hide();
 
     $("#submitBtn").click(function () {
         addComment();
@@ -29,10 +32,37 @@ $(document).ready(function () {
             })
     }
 
+
+    $(".btn-report").on('click', function(e){
+        e.preventDefault();
+        var commentId = $("#comment-click").val();
+        console.log(commentId + " es el fokin coment");
+        let url = '/user/' + userId + '/' + mediaId+ "/reportarComentario/"+commentId;
+        console.log("______________________________");
+        console.log(url);
+        var flag = $('#flag-' + commentId);
+
+        go(url, 'POST').then(response => {
+            if(response){
+
+                $(this).hide();
+                $(this).parent().hide();
+                $(this).parent().parent().text("Se ha reportado correctamente");
+                flag.parent().html("<div><b>Este comentario ya ha sido reportado</b></div>");
+
+            }
+        })
+        .catch(error => {
+                console.error("Error: " + error);
+            });
+        
+    })
+
+
     function renderMsg(response) {
         console.log("rendering: ", response);
         return `<div class="comment"><div class="card mt-4">
-        <a class="card-body cabecera-comentario d-flex align-items-center">
+        <a class="card-body cabecera-comentario d-flex align-items-center" href="/user/`+ response.authorId + `/comentario/` + response.comentId + `">
         <img src="/user/${response.authorId}/pic" alt=""
         class="rounded-circle mr-3" width="40" height="40">
         <div>
@@ -43,12 +73,6 @@ $(document).ready(function () {
         </a>
         <div class="card-body">
         <span class="card-text comentario-texto" >${response.text}</span>
-        <span>
-        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-        data-bs-target="#reporteModal">
-        🚩
-        </button>
-        </span>
         </div>
         </div></div>`;
     }

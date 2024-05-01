@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.aspectj.apache.bcel.generic.ObjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,9 @@ public class AdminController {
 
     @Autowired
 	private EntityManager entityManager;
+
+	@Autowired
+	private SimpMessagingTemplate messagingTemplate;
     
 	@GetMapping("/")
     public String index(Model model, HttpSession session) {
@@ -93,6 +97,9 @@ public class AdminController {
                 c.setDeleted(true);
 				entityManager.persist(c);
 				entityManager.flush();
+
+				
+
 			}
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {

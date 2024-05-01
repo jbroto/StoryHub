@@ -582,12 +582,10 @@ public class UserController {
 		List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
 				.setParameter("father", idComentario).getResultList();
 
-		Comment comentario = new Comment();
 
 		model.addAttribute("comentarios", comentarios);
 		model.addAttribute("coment", coment);
 		model.addAttribute("user", target);
-		model.addAttribute("comentario", comentario);
 
 		return "comentario";
 	}
@@ -664,6 +662,7 @@ public class UserController {
 			coment.setText(text);
 			coment.setDateSent(LocalDate.now());
 			coment.setFather(padre);
+			coment.setMedia(padre.getMedia());
 
 			entityManager.persist(coment);
 			entityManager.flush();

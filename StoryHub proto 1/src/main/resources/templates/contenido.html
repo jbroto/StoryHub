@@ -24,7 +24,6 @@
                 <div class="contenido-info">
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
                     <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
-                    <h3>aqui van los datos del contenido</h3>
                 </div>
                 <div class="row"> <!-- Agregar una fila -->
                     <div class="col-md-12"> <!-- La columna que contiene las acciones -->
@@ -104,30 +103,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Verifica si media.type no es igual a "movie" -->
-    <th:block th:if="${media.tipo != 'movie'}">
-        <h2>Temporadas</h2>
-        <div class="container">
-            <div class="row">
-                <div th:each="item: ${temporadas}" class="col-lg-3 col-md-3 mb-4">
-                    <!--<a href="miPerfil.html">-->
-                    <div class="card">
-                        <img class="card-img-top" th:src="@{img/portada.jpg}" alt="poster">
-                        <div class="card-body text-center">
-                            <h6 class="card-title" th:text="${item}">"S1E1"</h6>
-                        </div>
-                    </div>
-                    <!--</a>-->
-                </div>
-            </div>
-            <hr>
-        </div>
-    </th:block>
-
-
-    </div>
-    </div>
 
     <div class="container mb-2">
         <h2>Comentarios</h2>

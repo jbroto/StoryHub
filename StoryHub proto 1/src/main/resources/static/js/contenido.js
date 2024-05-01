@@ -101,7 +101,7 @@ $(document).ready(function () {
     }
 
 
-    $("#btn-report").on('click', function(e){
+    $(".btn-report").on('click', function(e){
         e.preventDefault();
         var commentId = $("#comment-click").val();
         console.log(commentId + " es el fokin coment");

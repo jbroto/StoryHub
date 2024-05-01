@@ -600,9 +600,9 @@ public class UserController {
 			@RequestParam("texto") String texto,
 			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
+				User copia = (User) session.getAttribute("u");
 		try {
-			User copia = (User) session.getAttribute("u");		
-		
+			
 			User usuario = entityManager.find(User.class, copia.getId());
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
 
@@ -640,7 +640,7 @@ public class UserController {
 			return ResponseEntity.ok().body(response);
 
 		} catch (Exception e) {
-			log.error("Error al comentar " + id, e);
+			log.error("Error al comentar " + copia.getId(), e);
 			Map<String, String> response = new HashMap<>();
 			response.put("error", "Error al agregar el comentario");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -656,7 +656,7 @@ public class UserController {
 			Model model) {
 				User copia = (User) session.getAttribute("u");		
 		try {
-			User usuario = entityManager.find(User.class, id);
+			User usuario = entityManager.find(User.class, copia.getId());
 			model.addAttribute("user", usuario);
 			Comment padre = entityManager.find(Comment.class, idComent);
 			Comment coment = new Comment();
@@ -676,7 +676,7 @@ public class UserController {
 			model.addAttribute("coment", padre);
 			model.addAttribute("user", usuario);
 
-			log.info("Comentario de ", id);
+			log.info("Comentario de ", copia.getId());
 
 			Map<String, String> response = new HashMap<>();
 			response.put("author", coment.getAuthor().getUsername());
@@ -687,7 +687,7 @@ public class UserController {
 
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {
-			log.error("Error al comentar " + id, e);
+			log.error("Error al comentar " + copia.getId(), e);
 			Map<String, String> response = new HashMap<>();
 			response.put("error", "Error al agregar el comentario");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -761,17 +761,18 @@ public class UserController {
 	public ResponseEntity<Boolean> addMediaToLista(@PathVariable long id, @PathVariable String nombreLista,
 			@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
 			HttpSession session, Model model) {
+				User copia = (User) session.getAttribute("u");
 		try {
-			User usuario = entityManager.find(User.class, id);// buscamos al usuario
+			User usuario = entityManager.find(User.class, copia.getId());// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-					.setParameter("name", nombreLista).setParameter("author", id).getSingleResult();
+					.setParameter("name", nombreLista).setParameter("author", copia.getId()).getSingleResult();
 
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
 
 			System.out.println(lista.getName());
 
-			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
+			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
 			r.listasBasicas(nombreLista, true);
@@ -788,7 +789,7 @@ public class UserController {
 
 			model.addAttribute("user", usuario);
 			model.addAttribute("lista", lista);
-			log.info("Usuario, Media y Lista", id, m, nombreLista);
+			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
@@ -805,7 +806,7 @@ public class UserController {
 			// "Elemento agregado correctamente a la lista"
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
-			log.error("Error al crear la lista para el usuario " + id, e);
+			log.error("Error al crear la lista para el usuario " + copia.getId(), e);
 			return ResponseEntity.ok(false);
 		}
 	}
@@ -818,17 +819,18 @@ public class UserController {
 	public ResponseEntity<Boolean> removeMediaFromLista(@PathVariable long id, @PathVariable String nombreLista,
 			@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
 			HttpSession session, Model model) {
+				User copia = (User) session.getAttribute("u");
 		try {
-			User usuario = entityManager.find(User.class, id);// buscamos al usuario
+			User usuario = entityManager.find(User.class, copia.getId());// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-					.setParameter("name", nombreLista).setParameter("author", id).getSingleResult();
+					.setParameter("name", nombreLista).setParameter("author", copia.getId()).getSingleResult();
 
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
 
 			System.out.println(lista.getName());
 
-			MediaUserRelationId rel = new MediaUserRelationId(idMedia, id);
+			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
 			r.listasBasicas(nombreLista, false);
@@ -845,7 +847,7 @@ public class UserController {
 
 			model.addAttribute("user", usuario);
 			model.addAttribute("lista", lista);
-			log.info("Usuario, Media y Lista", id, m, nombreLista);
+			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
@@ -863,7 +865,7 @@ public class UserController {
 			// "Elemento eliminado correctamente a la lista"
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
-			log.error("Error al eliminar de  la lista para el usuario " + id, e);
+			log.error("Error al eliminar de  la lista para el usuario " + copia.getId(), e);
 			return ResponseEntity.ok(false);
 		}
 	}
@@ -873,8 +875,9 @@ public class UserController {
 	@Transactional
 	public ResponseEntity<String> crearLista(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session,
 			Model model) {
+				User copia = (User) session.getAttribute("u");
 		try {
-			User usuario = entityManager.find(User.class, id);
+			User usuario = entityManager.find(User.class, copia.getId());
 			model.addAttribute("user", usuario);
 			Lista nuevaLista = new Lista();
 			model.addAttribute("Lista", nuevaLista);
@@ -891,11 +894,11 @@ public class UserController {
 			List<Lista> listasUs = usuario.getListas();
 			model.addAttribute("Listas", listasUs);
 
-			log.info("Lista creada para el usuario ", id);
+			log.info("Lista creada para el usuario ", copia.getId());
 
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + id).build();
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + copia.getId()).build();
 		} catch (Exception e) {
-			log.error("Error al crear la lista para el usuario " + id, e);
+			log.error("Error al crear la lista para el usuario " + copia.getId(), e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
 		}
 	}
@@ -906,15 +909,16 @@ public class UserController {
 	public ResponseEntity<Boolean> califica(HttpSession session,
 			Model model, @PathVariable long id, @RequestParam("rating") int rating,
 			@RequestParam("mediaTipo") String mediaTipo, @RequestParam("mediaId") long mediaId) {
+				User copia = (User) session.getAttribute("u");
 		try {
-			User usuario = entityManager.find(User.class, id);
+			User usuario = entityManager.find(User.class, copia.getId());
 			Media m = entityManager.find(Media.class, mediaId);// obtenemos el contenido
 
 			model.addAttribute("user", usuario);
 			Comment coment = new Comment();
 			model.addAttribute("comentario", coment);
 
-			MediaUserRelationId rel = new MediaUserRelationId(mediaId, id);
+			MediaUserRelationId rel = new MediaUserRelationId(mediaId, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 
 			r.setCalificacion(rating);
@@ -935,7 +939,7 @@ public class UserController {
 			return ResponseEntity.ok(true);
 
 		} catch (Exception e) {
-			log.error("Error al comentar " + id, e);
+			log.error("Error al comentar " + copia.getId(), e);
 			return ResponseEntity.ok(false);
 		}
 	}

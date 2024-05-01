@@ -60,10 +60,10 @@
               <!-- Formulario -->
               <p>¿Qué quieres hacer con este comentario?</p>
               <form th:action="@{/admin/__${comentario.id}__/eliminarComentario}" method="post">
-                  <button type="submit" class="btn btn-danger" id="delete">Eliminar</button>
+                  <button type="submit" class="btn btn-danger delete">Eliminar</button>
               </form>
               <form th:action="@{/admin/__${comentario.id}__/quitarReporte}" method="post">
-                  <button type="submit" class="btn btn-success" id="no-reported">Quitar reporte</button>
+                  <button type="submit" class="btn btn-success no-reported">Quitar reporte</button>
               </form>
           </div>
             <div class="modal-footer">

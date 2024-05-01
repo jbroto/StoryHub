@@ -321,7 +321,9 @@ public class UserController {
 	@PostMapping("/{id}/suscripcion/{lista}")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> suscribirse(@PathVariable long id, @PathVariable long lista, Model model) {
+	public ResponseEntity<Boolean> suscribirse(@PathVariable long lista, Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		Long id = a.getId();
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
 
@@ -343,7 +345,9 @@ public class UserController {
 	@PostMapping("/{id}/anular/{lista}")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> anularSuscripcion(@PathVariable long id, @PathVariable long lista, Model model) {
+	public ResponseEntity<Boolean> anularSuscripcion(@PathVariable long lista, Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		Long id = a.getId();
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
 

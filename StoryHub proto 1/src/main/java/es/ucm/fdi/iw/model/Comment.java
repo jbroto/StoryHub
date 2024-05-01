@@ -27,7 +27,7 @@ import lombok.Getter;
         @NamedQuery(name = "Comentario.isReported", query = "SELECT c FROM Comment c "
         + "WHERE c.report = true"),
         @NamedQuery(name = "Comentario.byMedia", query = "SELECT c FROM Comment c "
-        + "WHERE c.media.id = :idMedia")
+        + "WHERE c.media.id = :idMedia AND c.father IS NULL")
 })
 public class Comment implements Transferable<Comment.Transfer> {
     @Id

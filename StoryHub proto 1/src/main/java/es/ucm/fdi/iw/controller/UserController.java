@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Notification;
 import es.ucm.fdi.iw.model.TMDBService;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
@@ -321,7 +322,9 @@ public class UserController {
 	@PostMapping("/{id}/suscripcion/{lista}")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> suscribirse(@PathVariable long id, @PathVariable long lista, Model model) {
+	public ResponseEntity<Boolean> suscribirse(@PathVariable long lista, Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		Long id = a.getId();
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
 
@@ -343,7 +346,9 @@ public class UserController {
 	@PostMapping("/{id}/anular/{lista}")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> anularSuscripcion(@PathVariable long id, @PathVariable long lista, Model model) {
+	public ResponseEntity<Boolean> anularSuscripcion(@PathVariable long lista, Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		Long id = a.getId();
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
 
@@ -790,15 +795,27 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
+			String text = "Se ha añadido "+m.getNombre()+" a la lista " +lista.getName();
+
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("text", "Se ha añadido "+m.getNombre()+" a la lista " +lista.getName());
+			rootNode.put("text", text);
 			rootNode.put("listaName", lista.getName());
 			rootNode.put("username", usuario.getUsername());
 
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
 				String json = mapper.writeValueAsString(rootNode);
+				Notification n = new Notification();
+				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
+				n.setTarget(u);
+				n.setTexto(text);
+				n.setVisto(false);
+				n.setDateSent(LocalDate.now());
+				entityManager.persist(n);
+				u.getNotis().add(n);
+				entityManager.merge(u);
+				entityManager.flush();
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}
 
@@ -848,9 +865,11 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
+			String text = "Se ha eliminado "+m.getNombre()+" de la lista " +lista.getName();
+
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("text", "Se ha eliminado "+m.getNombre()+" de la lista " +lista.getName());
+			rootNode.put("text", text);
 			rootNode.put("listaName", lista.getName());
 			rootNode.put("username", usuario.getUsername());
 			
@@ -858,6 +877,16 @@ public class UserController {
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
 				String json = mapper.writeValueAsString(rootNode);
+				Notification n = new Notification();
+				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
+				n.setTarget(u);
+				n.setTexto(text);
+				n.setVisto(false);
+				n.setDateSent(LocalDate.now());
+				entityManager.persist(n);
+				u.getNotis().add(n);
+				entityManager.merge(u);
+				entityManager.flush();
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}
 

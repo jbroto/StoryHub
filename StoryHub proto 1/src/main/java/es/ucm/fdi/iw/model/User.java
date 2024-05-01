@@ -63,6 +63,9 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "author")
     private List<Lista> listas;
 
+    @OneToMany(mappedBy = "target")
+    private List<Notification> notis;
+
     @ManyToMany
     @JoinTable(
         name = "IWUSER_FOLLOWERS",
@@ -97,12 +100,13 @@ public class User implements Transferable<User.Transfer> {
         private String username;
         private int totalReceived;
         private int totalSent;
+        private int totalNotis;
 
     }
 
     @Override
     public Transfer toTransfer() {
-        return new Transfer(id, username, received.size(), sent.size());
+        return new Transfer(id, username, received.size(), sent.size(), notis.size());
     }
 
     @Override

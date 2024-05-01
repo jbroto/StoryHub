@@ -12,3 +12,7 @@ $(document).ready(function(){
                 sinLeer.text(unreadCount + 1);
     }
 })
+
+function cargarNotis(){
+
+}

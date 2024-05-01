@@ -367,6 +367,15 @@ public class UserController {
 		}
 	}
 	
+	//CARGAR LAS NITIFICACIONES
+	@GetMapping("/cargar-notificaciones")
+	@ResponseBody
+	public ResponseEntity<List<Notification>> cargarNotis(Model model, HttpSession session) {
+		User u = (User) session.getAttribute("u");
+		System.out.println(u.getNotis());
+		return ResponseEntity.ok(u.getNotis());
+	}
+	
 	
 
 	//SEGUIDORES-------------------------------------------------

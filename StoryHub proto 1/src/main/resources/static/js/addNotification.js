@@ -15,21 +15,21 @@ $(document).ready(function(){
 })
 
 function cargarNotis(){
-    console.log("CARGO NOTIS")
-    go('/user/cargar-notificaciones', 'GET').then(response =>{
+
+    go('/user/cargarNotis', 'GET').then(response =>{
         //SI NO HAY NOTIS, NO HACEMOS NADA
-        if(response != null){
+        if (response && response.length > 0) {
             var cont = 0;
-            //Recorremos todas las notificaciones
-            response.array.forEach(e => {
-                //Si no esta vista la cargamos en la bandeja de entrada
-                if(!e.visto){
-                    $('#notificationMenu').append('<li><a class="dropdown-item" href="'+e.enlace+'">'+e.texto+'</a></li>');
-                    cont+=1;
+            // Recorrer todas las notificaciones en la respuesta
+            response.forEach(notification => {
+                // Si la notificación no está vista, agregarla a la bandeja de entrada
+                if (!notification.visto) {
+                    $('#notificationMenu').append('<li><a class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
+                    cont++;
                 }
             });
-            //Si se ha cargado alguna notificación nueva actualizamos el contador
-            if(cont > 0){
+            // Si se cargaron nuevas notificaciones, actualizar el contador
+            if (cont > 0) {
                 $('#sinNotis').hide();
                 $('#unread').text(cont);
             }

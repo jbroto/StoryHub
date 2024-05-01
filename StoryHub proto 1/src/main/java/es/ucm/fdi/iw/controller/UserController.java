@@ -2,7 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
-import es.ucm.fdi.iw.model.Notification;
+import es.ucm.fdi.iw.model.Noti;
 import es.ucm.fdi.iw.model.TMDBService;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
@@ -366,15 +366,31 @@ public class UserController {
 			return ResponseEntity.ok(false);
 		}
 	}
-	
-	//CARGAR LAS NITIFICACIONES
-	@GetMapping("/cargar-notificaciones")
+
+
+	@GetMapping("/cargarNotis")
 	@ResponseBody
-	public ResponseEntity<List<Notification>> cargarNotis(Model model, HttpSession session) {
-		User u = (User) session.getAttribute("u");
-		System.out.println(u.getNotis());
-		return ResponseEntity.ok(u.getNotis());
+	public ResponseEntity<String> cargarNotis(Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		User u = entityManager.find(User.class, a.getId());
+		try {
+			List<Noti> notis = entityManager.createNamedQuery("Noti.byUser", Noti.class)
+					.setParameter("user", u.getId())
+					.getResultList();
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonNotis = objectMapper.writeValueAsString(notis);
+	
+			System.out.println("Notificaciones cargadas para el usuario: " + u.getUsername());
+			return ResponseEntity.ok(jsonNotis);
+		} catch (Exception e) {
+			System.out.println("Error al cargar notificaciones para el usuario: " + u.getUsername());
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
+	
+	
 	
 	
 
@@ -815,14 +831,13 @@ public class UserController {
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
 				String json = mapper.writeValueAsString(rootNode);
-				Notification n = new Notification();
+				Noti n = new Noti();
 				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
-				n.setTarget(u);
+				n.setObjetivo(u);
 				n.setTexto(text);
 				n.setVisto(false);
-				n.setDateSent(LocalDate.now());
 				entityManager.persist(n);
-				u.getNotis().add(n);
+				u.addNoti(n);
 				entityManager.merge(u);
 				entityManager.flush();
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
@@ -886,14 +901,13 @@ public class UserController {
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
 				String json = mapper.writeValueAsString(rootNode);
-				Notification n = new Notification();
+				Noti n = new Noti();
 				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
-				n.setTarget(u);
+				n.setObjetivo(u);
 				n.setTexto(text);
 				n.setVisto(false);
-				n.setDateSent(LocalDate.now());
 				entityManager.persist(n);
-				u.getNotis().add(n);
+				u.addNoti(n);;
 				entityManager.merge(u);
 				entityManager.flush();
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);

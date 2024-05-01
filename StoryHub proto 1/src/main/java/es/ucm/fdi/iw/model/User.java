@@ -63,8 +63,8 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "author")
     private List<Lista> listas;
 
-    @OneToMany(mappedBy = "target")
-    private List<Notification> notis;
+    @OneToMany(mappedBy = "objetivo")
+    private List<Noti> notis;
 
     @ManyToMany
     @JoinTable(
@@ -116,6 +116,10 @@ public class User implements Transferable<User.Transfer> {
 
     public void addList(Lista lista) {
         this.listas.add(lista);
+    }
+
+    public void addNoti(Noti n){
+        this.notis.add(n);
     }
 
     public List<Lista> getListas() {

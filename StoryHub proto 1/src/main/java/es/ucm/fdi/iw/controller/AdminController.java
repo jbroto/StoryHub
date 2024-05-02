@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Noti;
 import es.ucm.fdi.iw.model.TMDBService;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
@@ -12,8 +13,6 @@ import es.ucm.fdi.iw.model.GoogleBookService;
 import es.ucm.fdi.iw.model.Media;
 import es.ucm.fdi.iw.model.MediaUserRelation;
 import es.ucm.fdi.iw.model.MediaUserRelationId;
-
-
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -32,6 +31,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,11 +44,10 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 /**
- *  Site administration.
+ * Site administration.
  *
- *  Access to this end-point is authenticated - see SecurityConfig
+ * Access to this end-point is authenticated - see SecurityConfig
  */
 @Controller
 @RequestMapping("admin")
@@ -54,51 +55,63 @@ public class AdminController {
 
 	private static final Logger log = LogManager.getLogger(AdminController.class);
 
-    @Autowired
+	@Autowired
 	private EntityManager entityManager;
 
 	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
-    
-	@GetMapping("/")
-    public String index(Model model, HttpSession session) {
-        User user = ((User)session.getAttribute("u"));
-        long id = user.getId();
-        User target = entityManager.find(User.class, id);
 
-    
+	@GetMapping("/")
+	public String index(Model model, HttpSession session) {
+		User user = ((User) session.getAttribute("u"));
+		long id = user.getId();
+		User target = entityManager.find(User.class, id);
+
 		// Obtenemos la lista de comentarios reportados
 		List<Comment> reports = entityManager.createNamedQuery("Comentario.isReported", Comment.class).getResultList();
 
-
-	
 		model.addAttribute("user", target);
 		model.addAttribute("reportes", reports);
-        
-        //User user = entityManager.find(User.class, );
-        
-    
-        
-        
-        return "admin";
-    }
 
+		// User user = entityManager.find(User.class, );
 
-    @PostMapping("{idComentario}/eliminarComentario")
+		return "admin";
+	}
+
+	@PostMapping("{idComentario}/eliminarComentario")
 	@ResponseBody
 	@Transactional
-    public ResponseEntity<Boolean> eliminar(@PathVariable long idComentario) {
+	public ResponseEntity<Boolean> eliminar(@PathVariable long idComentario) {
 
-        try {
+		try {
 			Comment c = entityManager.find(Comment.class, idComentario);
 			if (c.isReport()) {
+				String texto = c.getText();
 				c.setText("Este comentario ha sido eliminado por infringir las normas");
-                c.setReport(false);
-                c.setDeleted(true);
-				entityManager.persist(c);
+				c.setReport(false);
+				c.setDeleted(true);
+				
+				String text ="Se ha eliminado tu comentario con texto " + texto + " de " +c.getMedia().getTipo()+": " + c.getMedia().getNombre() + " por infringir las normas.";
+
+				Noti n = new Noti();
+				n.setEnlace("/user/"+c.getAuthor().getId()+"/comentario/"+c.getId());
+				n.setObjetivo(c.getAuthor());
+				n.setTexto(text);
+				n.setVisto(false);
+				c.getAuthor().addNoti(n);
+
+				entityManager.persist(n);
+				entityManager.merge(c);
 				entityManager.flush();
 
-				
+
+				ObjectMapper mapper = new ObjectMapper();
+				ObjectNode rootNode = mapper.createObjectNode();
+				rootNode.put("text", text);
+				rootNode.put("commentId", c.getId());
+				rootNode.put("mediaId", c.getMedia().getId());
+				String json = mapper.writeValueAsString(rootNode);
+				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", json);
 
 			}
 			return ResponseEntity.ok(true);
@@ -107,15 +120,14 @@ public class AdminController {
 			return ResponseEntity.ok(false);
 		}
 
-    }
+	}
 
-
-    @PostMapping("{idComentario}/quitarReporte")
+	@PostMapping("{idComentario}/quitarReporte")
 	@ResponseBody
 	@Transactional
-    public ResponseEntity<Boolean> quitarReporte(@PathVariable long idComentario) {
+	public ResponseEntity<Boolean> quitarReporte(@PathVariable long idComentario) {
 
-        try {
+		try {
 			Comment c = entityManager.find(Comment.class, idComentario);
 			if (c.isReport()) {
 				c.setReport(false);
@@ -128,13 +140,13 @@ public class AdminController {
 			return ResponseEntity.ok(false);
 		}
 
-    }
+	}
 
-    @PostMapping("/id/")
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
-    }
-    
+	@PostMapping("/id/")
+	public String postMethodName(@RequestBody String entity) {
+		// TODO: process POST request
+
+		return entity;
+	}
+
 }

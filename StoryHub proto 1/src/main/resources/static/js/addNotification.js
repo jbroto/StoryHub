@@ -9,7 +9,7 @@ $(document).ready(function(){
                     $('#sinNotis').hide()
                 }
 
-                $('#notificationMenu').preppend('<li><a data-id="'+m.id+'" class="dropdown-item" href="/user/'+m.userId+'/'+m.listaName+'/'+m.username+'">'+m.text+'</a></li>');
+                $('#notificationMenu').prepend('<li><a data-id="'+m.id+'" class="dropdown-item" href="/user/'+m.userId+'/'+m.listaName+'/'+m.username+'">'+m.text+'</a></li>');
                 sinLeer.text(unreadCount + 1);
     }
     
@@ -52,7 +52,7 @@ function cargarNotis(){
             response.forEach(notification => {
                 // Si la notificación no está vista, agregarla a la bandeja de entrada
                 if (!notification.visto) {
-                    $('#notificationMenu').preppend('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
+                    $('#notificationMenu').prepend('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
                     cont++;
                 }
             });

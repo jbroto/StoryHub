@@ -1,6 +1,6 @@
 $(document).ready(function(){
     const sinLeer = $("#unread");
-    cargarNotis()
+    cargarNotis();
     
     ws.receive = (m) => {
         var unreadCount = parseInt(sinLeer.text().trim());
@@ -9,9 +9,9 @@ $(document).ready(function(){
                     $('#sinNotis').hide()
                 }
 
-                $('#notificationMenu').prepend('<li><a data-id="'+m.id+'" class="dropdown-item" href="/user/'+m.userId+'/'+m.listaName+'/'+m.username+'">'+m.text+'</a></li>');
+                $('#notificationMenu').prepend('<li><a data-id="'+m.id+'" class="dropdown-item" href="'+m.enlace+'">'+m.text+'</a></li>');
                 sinLeer.text(unreadCount + 1);
-    }
+    };
     
     $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {
         event.preventDefault();
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     });
 
-})
+});
 
 function cargarNotis(){
     go('/user/cargarNotis', 'GET').then(response =>{

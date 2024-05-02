@@ -10,36 +10,42 @@
 
 <body th:attr="data-userId=${user.id}, data-fatherId=${coment.id}, data-mediaId=${coment.media.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
-    <div class="contenido-background" th:style="'background-image: url(' + ${coment.media.backdropImageUrl} + ')'"></div>
+    <div class="contenido-background" th:style="'background-image: url(' + ${coment.media.backdropImageUrl} + ')'">
+    </div>
     <section class="container comentario-section">
-            <div class="row">
-                <div class="col-md-6 mt 4">
-                    <div class="card poster" onclick="irAtras()">
-                        <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${coment.media.coverImageUrl}}"
-                          alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                        <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                        <div class="card-body text-center textocarta">
-                          <h6 class="card-title textocarta" th:text="${coment.media.nombre}">Nombre del contenido</h6>
-                        </div>
-                      </div>
+        <div class="row">
+            <div class="col-md-6 mt 4">
+                <div class="card poster" onclick="irAtras()">
+                    <img class="card-img-top"
+                        th:src="@{'https://image.tmdb.org/t/p/original/' + ${coment.media.coverImageUrl}}" alt="portada"
+                        th:style="'height: 300px; object-fit: cover;'" />
+                    <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                    <div class="card-body text-center textocarta">
+                        <h6 class="card-title textocarta" th:text="${coment.media.nombre}">Nombre del contenido</h6>
+                    </div>
                 </div>
-                <div class="col-sm-5 col-md-6 col-12 pb-4">
-                    <div class="comentario-box">
-                        <div class="comentario-body cabecera-comentario d-flex">
-                            <img th:src="@{/user/__${coment.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40" height="40">
-                            <div>
-                                <h4 class="nombre-comentario mb-1" th:text="${coment.author.username}">Nombre</h4>
-                                <span class="text-muted small mb-2" th:text="${coment.dateSent}">Fecha</span>
-                            </div>
+            </div>
+            <div class="col-sm-5 col-md-6 col-12 pb-4">
+                <div class="comentario-box">
+                    <div class="comentario-body cabecera-comentario d-flex">
+                        <img th:src="@{/user/__${coment.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
+                            height="40">
+                        <div>
+                            <h4 class="nombre-comentario mb-1" th:text="${coment.author.username}">Nombre</h4>
+                            <span class="text-muted small mb-2" th:text="${coment.dateSent}">Fecha</span>
                         </div>
-                        <div class="comentario-body">
-                            <div>
-                                <p class="comentario-texto" th:text="${coment.text}">Texto</p>
-                            </div>
+                    </div>
+                    <div class="comentario-body">
+                        <div>
+                            <p class="card-text comentario-texto" th:text="${coment.text}"
+                                th:classappend="${coment.deleted} ? 'deleted-comment' : ''">
+                                Texto
+                        </p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
     <div class="container mb-2 mt-4">

@@ -108,8 +108,8 @@ public class AdminController {
 				ObjectMapper mapper = new ObjectMapper();
 				ObjectNode rootNode = mapper.createObjectNode();
 				rootNode.put("text", text);
-				rootNode.put("commentId", c.getId());
-				rootNode.put("mediaId", c.getMedia().getId());
+				rootNode.put("enlace", n.getEnlace());
+				rootNode.put("id", n.getId());
 				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", json);
 

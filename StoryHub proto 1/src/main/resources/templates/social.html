@@ -44,8 +44,11 @@
                             <img th:src="@{/user/__${usuario.id}__/pic}" class="rounded-circle" alt="pic" width="45"
                                 height="45"> </a>
                             <div class="person-summary">
-                                <h4 class="title-3"> <a th:href="@{/user/__${usuario.id}__}" class="name">
-                                        <span th:text="${usuario.username}">username</span> </a> </h4>
+                                <form th:action="@{/user/__${usuario.id}__/perfilUsuario}" method="get">
+                                <input type="hidden" name="username" th:value="${usuario.username}">
+                                    <h4 class="title-3"> <button type="submit" class=" btn btn-unstyled name">
+                                        <span th:text="${usuario.username}">username</span> </button> </h4>
+                                    </form>
                             </div>
                         </div>
                     </td>
@@ -113,8 +116,11 @@
                             <img th:src="@{/user/__${usuario.id}__/pic}" class="rounded-circle" alt="pic" width="45"
                                 height="45"> </a>
                             <div class="person-summary">
-                                <h4 class="title-3"> <a th:href="@{/user/__${usuario.id}__}" class="name">
-                                        <span th:text="${usuario.username}">username</span> </a> </h4>
+                                <form th:action="@{/user/__${usuario.id}__/perfilUsuario}" method="get">
+                                    <input type="hidden" name="username" th:value="${usuario.username}">
+                                        <h4 class="title-3"> <button type="submit" class=" btn btn-unstyled name">
+                                            <span th:text="${usuario.username}">username</span> </button> </h4>
+                                        </form>
                             </div>
                         </div>
                     </td>

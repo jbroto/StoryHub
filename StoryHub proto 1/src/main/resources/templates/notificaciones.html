@@ -8,7 +8,7 @@
 </head>
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
-    <div class="container">
+    <div class="container mt-3">
         <h2>Notificaciones</h2>
         <table class="table" th:if="${notificaciones.size() > 0}" id="tabla">
             <thead>
@@ -30,7 +30,7 @@
                     <span th:unless="${notificacion.visto}">No visto</span>
                 </td>
                 <td>
-                    <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}" target="_blank">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
+                    <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
                 </td>
             </tr>
             </tbody>

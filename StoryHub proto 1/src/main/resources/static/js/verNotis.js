@@ -6,7 +6,6 @@ $(document).ready(function(){
 
             go('/user/visto/'+idNoti, 'POST').then(response =>{
                 if(response){
-                    $(this).hide();
                     var unreadCount = parseInt(sinLeer.text().trim());
                     if(unreadCount != 0){
                         unreadCount-=1;
@@ -23,6 +22,9 @@ $(document).ready(function(){
     
             // Redirigir a la página especificada en el enlace
             window.open($(this).attr('href'), '_blank');
+            // Recargar la página actual
+            location.reload();
+
         }
         else{
             console.error("Fallo al ir");

@@ -11,6 +11,12 @@ $(document).ready(function(){
 
                 $('#notificationMenu').prepend('<li><a data-id="'+m.id+'" class="dropdown-item" href="'+m.enlace+'">'+m.text+'</a></li>');
                 sinLeer.text(unreadCount + 1);
+                var newRow = "<tr>" +
+                '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.text+'</span></td>' +
+                '<td>' + (m.visto ? 'Visto' : 'No visto') + '</td>' +
+                '<td><a class="btn btn-success" href="' + m.enlace + '">Ir <i class="fa-solid fa-share" style="color: white;"></i></a></td>' +
+                '</tr>';
+                $("#tabla tbody").prepend(newRow);
     };
     
     $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {

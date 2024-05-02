@@ -253,6 +253,7 @@ public class UserController {
 		return "editarPerfil";// redirigimos otra vez a editar perfil
 	}
 
+	//BUSQUEDA---------------------------------------------------------------
 	@GetMapping("/busqueda")
 	public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model, HttpSession session) {
 		System.out.println(paramBusqueda + '\n' + '\n');
@@ -390,7 +391,7 @@ public class UserController {
 		}
 	}
 	
-	//MARCAR COMO VISTA UNA NOTIFICACIÓN
+	//MARCAR COMO VISTA UNA NOTIFICACIÓN--------------------------------------------------
 	@PostMapping("/visto/{noti}")
 	@ResponseBody
 	@Transactional
@@ -501,9 +502,7 @@ public class UserController {
 		}
 	}
 
-	//EDITAR PERFIL-------------------------------------------------
-
-
+	//MOSTRAR UN USUARIO-------------------------------------------------
 	@GetMapping("/{id}/perfilUsuario")
 	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model, HttpSession session) {
 		User target = entityManager.createNamedQuery("User.byUsername", User.class)

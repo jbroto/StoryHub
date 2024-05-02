@@ -408,6 +408,24 @@ public class UserController {
 		}
 	}
 
+	//MOSTRAR TODAS LAS NOTIFICACIONES---------------------------
+	@GetMapping("/notificaciones")
+	public String mostrarNotificaciones(HttpSession session, Model model) {
+		try{
+			User a = (User) session.getAttribute("u");
+			User u = entityManager.find(User.class, a.getId());
+			List<Noti> ns = entityManager.createNamedQuery("Noti.byObejivo", Noti.class)
+				.setParameter("objetivo", u.getId()).getResultList();
+			model.addAttribute("notificaciones", ns);
+			System.out.println("HOLA"+ns);
+		}
+		catch(Exception e){
+
+		}
+		return "notificaciones";
+	}
+	
+
 	//SEGUIDORES-------------------------------------------------
 
 	@GetMapping("/{id}/social/{paramSocial}")

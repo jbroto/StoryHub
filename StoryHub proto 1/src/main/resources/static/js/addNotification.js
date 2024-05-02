@@ -14,8 +14,8 @@ $(document).ready(function(){
     };
     
     $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {
-        event.preventDefault();
-        if($(this).data('id') != undefined){
+        if($(this).data('id') !== undefined){
+            event.preventDefault();
             var idNoti = $(this).data('id');
 
             go('/user/visto/'+idNoti, 'POST').then(response =>{
@@ -36,6 +36,9 @@ $(document).ready(function(){
             })
     
             // Redirigir a la página especificada en el enlace
+            window.open($(this).attr('href'), '_blank');
+        }
+        else{
             window.location.href = $(this).attr('href');
         }
 

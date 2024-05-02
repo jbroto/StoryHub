@@ -328,6 +328,7 @@ public class UserController {
 		Long id = a.getId();
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
+		User target = entityManager.find(User.class, l.getAuthor().getId());
 
 		try{
 			u.getSuscripciones().add(l);
@@ -336,6 +337,27 @@ public class UserController {
 			entityManager.merge(u);
 			entityManager.merge(l);
 			entityManager.flush();
+
+			String text = a.getUsername() + " se ha suscrito a tu lista: "+ l.getName();
+			String enlace = "/user/"+l.getAuthor().getId()+"/perfilUsuario?username="+u.getUsername();
+
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.put("text", text);
+			rootNode.put("enlace", enlace);
+			
+			Noti n = new Noti();
+			n.setObjetivo(target);
+			n.setTexto(text);
+			n.setVisto(false);
+			n.setEnlace(enlace);
+			entityManager.persist(n);
+			target.addNoti(n);
+			entityManager.merge(u);
+			entityManager.flush();
+			String json = mapper.writeValueAsString(rootNode);
+			messagingTemplate.convertAndSend("/user/"+target.getUsername()+"/queue/updates", json);
+
 			return ResponseEntity.ok(true);
 		}
 		catch(Exception e){

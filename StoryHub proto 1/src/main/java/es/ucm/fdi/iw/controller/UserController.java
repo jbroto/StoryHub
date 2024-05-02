@@ -926,6 +926,7 @@ public class UserController {
 				entityManager.flush();
 				rootNode.put("userId", u.getId());
 				rootNode.put("id", n.getId());
+				rootNode.put("enlace", n.getEnlace());
 				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 			}

@@ -3,12 +3,13 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/social.css}" href="css/social.css" type="text/css" />
     <title>Inicio</title>
 
 </head>
 
-<body th:data-iduser="${user.id}" th:data-paramSocial="${paramSocial}">
+<body th:data-iduser="${user.id}" th:data-paramSocial="${paramSocial}" class="d-flex flex-column">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <section class="container justify-content-center" id="social-cont">

@@ -11,11 +11,6 @@ a, .card, .card-body, span{
   text-decoration: none;
 }
 
-body {
-  background-color: #f8f9fa;
-  font-family: 'Arial', sans-serif;
-}
-
 .navbar {
   border-radius: 0;
 }
@@ -34,16 +29,21 @@ body {
   transform: scale(1.05);
 }
 
-.c-footer {
-  position:relative;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 20px 0;
-  background-color: black;
-  color: white;
+body, html{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: radial-gradient(circle, #fff, #eff6ff);
+  color: #333; /* Color de texto oscuro para contrastar */
+  font-family: Tahoma, Geneva, sans-serif;
 }
 
+.c-footer {
+  margin-top: auto;
+  width: 100%;
+  text-align: start;
+  padding: 20px 0;
+}
 .comment{
   margin: 1em;
 }

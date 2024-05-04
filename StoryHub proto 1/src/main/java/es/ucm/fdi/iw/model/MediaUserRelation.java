@@ -55,13 +55,13 @@ public class MediaUserRelation implements Transferable<MediaUserRelation.Transfe
         boolean listaBasica = true;
 
         switch (nombreLista) {
-            case "favoritos":
+            case "Favoritos":
                 this.favorito = estado;
                 break;
-            case "viendo":
+            case "Viendo":
                 this.viendo = estado;
                 break;
-            case "terminado":
+            case "Terminado":
                 this.ended = estado;
                 break;
             default:

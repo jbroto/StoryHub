@@ -6,7 +6,11 @@
 
 }
 
-
+body{
+    display:block;
+    flex-direction: row;
+    font-family: Tahoma, Geneva, sans-serif;
+}
 .contenido-background {
     position: fixed;
     top: 0;

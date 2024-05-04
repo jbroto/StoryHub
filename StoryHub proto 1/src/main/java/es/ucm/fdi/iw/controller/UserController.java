@@ -132,24 +132,24 @@ public class UserController {
 		User actual = entityManager.find(User.class, copia.getId());
 
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
-		// obtenemos la lista de favoritos, viendo y terminado
+		// obtenemos la lista de Favoritos, viendo y terminado
 
 		List<Lista> listasUs = target.getListas();
 
-		// Obtenemos la lista de favoritos
+		// Obtenemos la lista de Favoritos
 		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "favoritos").setParameter("author", id).getSingleResult();
+				.setParameter("name", "Favoritos").setParameter("author", id).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de estoy viendo
 		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "viendo").setParameter("author", id).getSingleResult();
+				.setParameter("name", "Viendo").setParameter("author", id).getSingleResult();
 		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de terminado
 		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "terminado").setParameter("author", id).getSingleResult();
+				.setParameter("name", "Terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// cambiar
@@ -355,6 +355,7 @@ public class UserController {
 			target.addNoti(n);
 			entityManager.merge(u);
 			entityManager.flush();
+			rootNode.put("id", n.getId());
 			String json = mapper.writeValueAsString(rootNode);
 			messagingTemplate.convertAndSend("/user/"+target.getUsername()+"/queue/updates", json);
 
@@ -541,18 +542,18 @@ public class UserController {
 				.getResultList();
 
 		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "favoritos").setParameter("author", target.getId()).getSingleResult();
+				.setParameter("name", "Favoritos").setParameter("author", target.getId()).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de estoy viendo
 		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "viendo").setParameter("author", target.getId()).getSingleResult();
+				.setParameter("name", "Viendo").setParameter("author", target.getId()).getSingleResult();
 		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		// Obtenemos la lista de terminado
 		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
-				.setParameter("name", "terminado").setParameter("author", target.getId()).getSingleResult();
+				.setParameter("name", "Terminado").setParameter("author", target.getId()).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		model.addAttribute("actual", u);
@@ -821,7 +822,7 @@ public class UserController {
 		User u = entityManager.find(User.class, id);
 		User target = entityManager.createNamedQuery("User.byUsername", User.class).setParameter("username", username).getSingleResult();
 
-		// Obtenemos la lista de favoritos
+		// Obtenemos la lista de Favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
 				.setParameter("name", nombreLista).setParameter("author", target.getId()).getSingleResult();
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)

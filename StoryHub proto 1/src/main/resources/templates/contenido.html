@@ -3,8 +3,8 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <link rel="stylesheet" th:href="@{/css/contenido.css}" href="css/contenido.css" type="text/css" />
     <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/contenido.css}" href="css/contenido.css" type="text/css" />
     <title>Inicio</title>
 </head>
 
@@ -76,7 +76,7 @@
                                             <div th:each="item : ${Listas}" class="mt-2 ">
                                                 <!-- asi no aparecen los botones de favoritos, viendo y terminado -->
                                                 <button
-                                                    th:unless="${item.name == 'favoritos'|| item.name == 'viendo' || item.name == 'terminado' }"
+                                                    th:unless="${item.name == 'Favoritos'|| item.name == 'Viendo' || item.name == 'Terminado' }"
                                                     class="btn botonesBasicos"
                                                     th:class="${item.medias.contains(media)} ? 'btn botonesBasicos  btn-danger' : 'btn botonesBasicos btn-success'"
                                                     th:text="${item.name}">

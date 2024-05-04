@@ -30,11 +30,17 @@ public class Media implements Transferable<Media.Transfer> {
     private String api;
     private String coverImageUrl;
     private String backdropImageUrl;
+
     @Lob
     private String descripcion;// la notacion lob es para datos largos
     @OneToOne
     private Media father;
+
     private Double rating;
+    private int numFavs;
+    private int numVisto;
+    private int numViendo;
+    private int numListas;
 
     @ManyToMany(targetEntity = Lista.class, mappedBy = "medias")
     private List<Lista> listas = new ArrayList<>();

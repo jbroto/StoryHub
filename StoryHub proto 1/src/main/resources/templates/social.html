@@ -46,10 +46,10 @@
                                 height="45"> </a>
                             <div class="person-summary">
                                 <form th:action="@{/user/__${usuario.id}__/perfilUsuario}" method="get">
-                                <input type="hidden" name="username" th:value="${usuario.username}">
+                                    <input type="hidden" name="username" th:value="${usuario.username}">
                                     <h4 class="title-3"> <button type="submit" class=" btn btn-unstyled name">
-                                        <span th:text="${usuario.username}">username</span> </button> </h4>
-                                    </form>
+                                            <span th:text="${usuario.username}">username</span> </button> </h4>
+                                </form>
                             </div>
                         </div>
                     </td>
@@ -70,10 +70,10 @@
                             th:href="@{/user/__${usuario.id}__/Terminado/__${usuario.username}__}">
                             <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
                         </a></td>
-                    <td class="table-stats"><a class="listas"></a>
-                        <i class="fa-solid fa-list">
-                            <span th:text=" ${usuario.listas.size}"> 0</span></a>
-                    </td>
+                    <td class="table-stats"><a class="listas">
+                            <i class="fa-solid fa-list">
+                                <span th:text=" ${usuario.listas.size}"> 0</span>
+                        </a></td>
                     <td class="table-stats"><a class="favoritos"
                             th:href="@{/user/__${usuario.id}__/Favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>
@@ -119,9 +119,9 @@
                             <div class="person-summary">
                                 <form th:action="@{/user/__${usuario.id}__/perfilUsuario}" method="get">
                                     <input type="hidden" name="username" th:value="${usuario.username}">
-                                        <h4 class="title-3"> <button type="submit" class=" btn btn-unstyled name">
+                                    <h4 class="title-3"> <button type="submit" class=" btn btn-unstyled name">
                                             <span th:text="${usuario.username}">username</span> </button> </h4>
-                                        </form>
+                                </form>
                             </div>
                         </div>
                     </td>

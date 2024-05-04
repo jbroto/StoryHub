@@ -71,13 +71,13 @@ INSERT INTO Lista (ID, CATEGORIES, CONTADOR, IS_PUBLIC, NAME, AUTHOR_ID)
 VALUES (100,'', 1, TRUE,'Accion', 1);
 
 --Contenido almacenado en la BD
-INSERT INTO Media (ID, API, COVER_IMAGE_URL, BACKDROP_IMAGE_URL, DESCRIPCION, NOMBRE, RATING, TIPO, FATHER_ID)
+INSERT INTO Media (ID, API, COVER_IMAGE_URL, BACKDROP_IMAGE_URL, DESCRIPCION, NOMBRE, RATING, TIPO, FATHER_ID,NUM_FAVS, NUM_VISTO,NUM_LISTAS,NUM_VIENDO)
 VALUES (66732,'TMDB','https://image.tmdb.org/t/p/original/wHhjZMlYGT9yUEyGpP9jmR6Jq3I.jpg', 'https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
 'A raíz de la desaparición de un niño, un pueblo desvela un misterio relacionado con experimentos secretos, fuerzas sobrenaturales aterradoras y una niña muy extraña.'
-,'Stranger Things',8.613000 , 'tv',null);
+,'Stranger Things',0.0 , 'tv',null,1,1,0,1);
 
 INSERT INTO Media_User_Relation(CALIFICACION, ENDED, FAVORITO, VIENDO, MEDIA_ID, USER_ID)
-VALUES(4, TRUE, TRUE, TRUE, 66732, 2);
+VALUES(0, TRUE, TRUE, TRUE, 66732, 2);
 
 --media en la listas basicas del user 2
 INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (1, 66732);

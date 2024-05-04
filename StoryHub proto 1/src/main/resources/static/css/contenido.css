@@ -1,7 +1,6 @@
 .contenido-section {
     position: relative;
     padding: 50px 0;
-    margin: 0;
     /* Eliminar el margen predeterminado */
 
 }
@@ -29,7 +28,6 @@ body{
 }
 
 .poster {
-    margin-left: 40px;
     /* Ajusta este valor según sea necesario */
     margin-right: auto;
     /* Alinea el poster a la derecha */
@@ -54,6 +52,31 @@ body{
 .descripcion {
     font-size: 16px;
     margin-bottom: 20px;
+}
+
+/* Icono de estrella amarillo */
+.num_Rating .icono_media {
+    color: #ffe234;
+}
+
+/* Icono de viendo en morado */
+.num_Viendo .icono_media {
+    color:darkorchid;
+}
+
+/* Icono de visto en verde */
+.num_Vistos .icono_media {
+    color: #00e054;
+}
+
+/* Icono de listas en azul */
+.num_Listas .icono_media {
+    color:#40bcf4;
+}
+
+/* Icono de favoritos en naranja */
+.num_Favoritos .icono_media {
+    color: orange;
 }
 
 .contenido-info {

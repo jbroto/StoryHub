@@ -92,6 +92,10 @@ public class TMDBService {
         } else {
             m.setBackdropImageUrl("img/portada.jpg");
         }
+        m.setNumFavs(0);
+        m.setNumVisto(0);
+        m.setNumListas(0);
+        m.setNumViendo(0);
         
         return m;
     }

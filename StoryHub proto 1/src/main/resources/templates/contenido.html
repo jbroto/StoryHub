@@ -20,10 +20,52 @@
                     <img class="poster-img w-500" th:src="@{${media.coverImageUrl}}" alt="Poster">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 gap-2">
                 <div class="contenido-info">
                     <h1 class="titulo" th:text="${media.nombre}"></h1>
                     <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
+                    <div class="Media_values d-flex flex-row justify-content-center gap-4">
+                        <div class="num_Rating d-flex gap-2">
+                            <div class="icono_media">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div class="numero_media">
+                                <span th:text="${media.rating}">0</span>
+                            </div>
+                        </div>
+                        <div class="num_Viendo d-flex gap-2">
+                            <div class="icono_media">
+                                <i class="fa-sharp fa-solid fa-hourglass-half"></i>
+                            </div>
+                            <div class="numero_media">
+                                <span th:text="${media.numViendo}">0</span>
+                            </div>
+                        </div>
+                        <div class="num_Vistos d-flex gap-2">
+                            <div class="icono_media">
+                                <i class="fa-regular fa-eye"></i>
+                            </div>
+                            <div class="numero_media">
+                                <span th:text="${media.numVisto}">0</span>
+                            </div>
+                        </div>
+                        <div class="num_Listas d-flex gap-2">
+                            <div class="icono_media">
+                                <i class="fa-solid fa-list-ul"></i>
+                            </div>
+                            <div class="numero_media">
+                                <span th:text="${media.numListas}">0</span>
+                            </div>
+                        </div>
+                        <div class="num_Favoritos d-flex gap-2">
+                            <div class="icono_media">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="numero_media">
+                                <span th:text="${media.numFavs}">0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row"> <!-- Agregar una fila -->
                     <div class="col-md-12"> <!-- La columna que contiene las acciones -->

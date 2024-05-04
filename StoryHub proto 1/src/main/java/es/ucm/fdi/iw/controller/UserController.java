@@ -127,7 +127,8 @@ public class UserController {
 	@GetMapping("{id}")
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
-		//solucion provisional porque no funciona con thymleaf usuario.followers.contains(session.u)
+		// solucion provisional porque no funciona con thymleaf
+		// usuario.followers.contains(session.u)
 		User copia = (User) session.getAttribute("u");
 		User actual = entityManager.find(User.class, copia.getId());
 
@@ -223,7 +224,6 @@ public class UserController {
 	public String verEditarPerfil(Model model, HttpSession session) {
 
 		User copia = (User) session.getAttribute("u");
-		
 
 		User user = entityManager.find(User.class, copia.getId());
 		model.addAttribute("user", user);
@@ -232,10 +232,10 @@ public class UserController {
 
 	@PostMapping("/editarPerfil")
 	@Transactional
-	public String solicitudEditarPerfil( @RequestParam("firstName") String nombre,
+	public String solicitudEditarPerfil(@RequestParam("firstName") String nombre,
 			@RequestParam("lastName") String apellidos, Model model, HttpSession session) {
 
-				User copia = (User) session.getAttribute("u");		
+		User copia = (User) session.getAttribute("u");
 		User user = entityManager.find(User.class, copia.getId());// buscamos al usuario
 		// y cambiamos los campos rellenados
 		user.setFirstName(nombre);
@@ -253,11 +253,11 @@ public class UserController {
 		return "editarPerfil";// redirigimos otra vez a editar perfil
 	}
 
-	//BUSQUEDA---------------------------------------------------------------
+	// BUSQUEDA---------------------------------------------------------------
 	@GetMapping("/busqueda")
 	public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model, HttpSession session) {
 		System.out.println(paramBusqueda + '\n' + '\n');
-		User a = (User)session.getAttribute("u");
+		User a = (User) session.getAttribute("u");
 		User target = entityManager.find(User.class, a.getId());
 
 		TMDBService s = new TMDBService();
@@ -319,7 +319,7 @@ public class UserController {
 
 	}
 
-	//SUSCRIPCIONES----------------------------------------------
+	// SUSCRIPCIONES----------------------------------------------
 	@PostMapping("/{id}/suscripcion/{lista}")
 	@ResponseBody
 	@Transactional
@@ -330,22 +330,22 @@ public class UserController {
 		Lista l = entityManager.find(Lista.class, lista);
 		User target = entityManager.find(User.class, l.getAuthor().getId());
 
-		try{
+		try {
 			u.getSuscripciones().add(l);
 			l.getSubscribers().add(u);
-	
+
 			entityManager.merge(u);
 			entityManager.merge(l);
 			entityManager.flush();
 
-			String text = a.getUsername() + " se ha suscrito a tu lista: "+ l.getName();
-			String enlace = "/user/"+l.getAuthor().getId()+"/perfilUsuario?username="+u.getUsername();
+			String text = a.getUsername() + " se ha suscrito a tu lista: " + l.getName();
+			String enlace = "/user/" + l.getAuthor().getId() + "/perfilUsuario?username=" + u.getUsername();
 
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
 			rootNode.put("text", text);
 			rootNode.put("enlace", enlace);
-			
+
 			Noti n = new Noti();
 			n.setObjetivo(target);
 			n.setTexto(text);
@@ -357,16 +357,15 @@ public class UserController {
 			entityManager.flush();
 			rootNode.put("id", n.getId());
 			String json = mapper.writeValueAsString(rootNode);
-			messagingTemplate.convertAndSend("/user/"+target.getUsername()+"/queue/updates", json);
+			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", json);
 
 			return ResponseEntity.ok(true);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return ResponseEntity.ok(false);
 		}
 	}
 
-	//ANULAR SUSCRIPCIÓN-----------------------------------------
+	// ANULAR SUSCRIPCIÓN-----------------------------------------
 	@PostMapping("/{id}/anular/{lista}")
 	@ResponseBody
 	@Transactional
@@ -376,7 +375,7 @@ public class UserController {
 		User u = entityManager.find(User.class, id);
 		Lista l = entityManager.find(Lista.class, lista);
 
-		try{
+		try {
 			u.getSuscripciones().remove(l);
 			l.getSubscribers().remove(u);
 
@@ -385,13 +384,12 @@ public class UserController {
 			entityManager.flush();
 
 			return ResponseEntity.ok(true);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return ResponseEntity.ok(false);
 		}
 	}
 
-	//CARGAR NOTIFICACIONES NO VISTAS---------------------------------------
+	// CARGAR NOTIFICACIONES NO VISTAS---------------------------------------
 	@GetMapping("/cargarNotis")
 	@ResponseBody
 	public ResponseEntity<String> cargarNotis(Model model, HttpSession session) {
@@ -401,10 +399,10 @@ public class UserController {
 			List<Noti> notis = entityManager.createNamedQuery("Noti.byUserNoVisto", Noti.class)
 					.setParameter("user", u.getId())
 					.getResultList();
-			
+
 			ObjectMapper objectMapper = new ObjectMapper();
 			String jsonNotis = objectMapper.writeValueAsString(notis);
-	
+
 			System.out.println("Notificaciones cargadas para el usuario: " + u.getUsername());
 			return ResponseEntity.ok(jsonNotis);
 		} catch (Exception e) {
@@ -413,52 +411,51 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
-	//MARCAR COMO VISTA UNA NOTIFICACIÓN--------------------------------------------------
+
+	// MARCAR COMO VISTA UNA
+	// NOTIFICACIÓN--------------------------------------------------
 	@PostMapping("/visto/{noti}")
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> marcarVisto(@PathVariable long noti, HttpSession session) {
-		try{
+		try {
 			Noti n = entityManager.find(Noti.class, noti);
 			n.setVisto(true);
 			entityManager.persist(n);
 			entityManager.flush();
 			System.out.println(n.getVisto());
 			return ResponseEntity.ok(true);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return ResponseEntity.ok(false);
 		}
 	}
 
-	//MOSTRAR TODAS LAS NOTIFICACIONES---------------------------
+	// MOSTRAR TODAS LAS NOTIFICACIONES---------------------------
 	@GetMapping("/notificaciones")
 	public String mostrarNotificaciones(HttpSession session, Model model) {
-		try{
+		try {
 			User a = (User) session.getAttribute("u");
 			User u = entityManager.find(User.class, a.getId());
 			List<Noti> ns = entityManager.createNamedQuery("Noti.byObejivo", Noti.class)
-				.setParameter("objetivo", u.getId()).getResultList();
+					.setParameter("objetivo", u.getId()).getResultList();
 			model.addAttribute("notificaciones", ns);
-			System.out.println("HOLA"+ns);
-		}
-		catch(Exception e){
+			System.out.println("HOLA" + ns);
+		} catch (Exception e) {
 
 		}
 		return "notificaciones";
 	}
-	
 
-	//SEGUIDORES-------------------------------------------------
+	// SEGUIDORES-------------------------------------------------
 
 	@GetMapping("/{id}/social/{paramSocial}")
-	public String cargarSocial(@PathVariable long id, @PathVariable String paramSocial, Model model,HttpSession session){
+	public String cargarSocial(@PathVariable long id, @PathVariable String paramSocial, Model model,
+			HttpSession session) {
 		User u = entityManager.find(User.class, id);
-		//solucion provisional porque no funciona con thymleaf usuario.followers.contains(session.u)
+		// solucion provisional porque no funciona con thymleaf
+		// usuario.followers.contains(session.u)
 		User copia = (User) session.getAttribute("u");
 		User actual = entityManager.find(User.class, copia.getId());
-
 
 		model.addAttribute("user", u);
 		model.addAttribute("actual", actual);
@@ -469,19 +466,21 @@ public class UserController {
 
 	@PostMapping("/{id}/follow")
 	@Transactional
-	public ResponseEntity<Boolean> seguirUsuario(@PathVariable long id, Model model, HttpSession session){
+	public ResponseEntity<Boolean> seguirUsuario(@PathVariable long id, Model model, HttpSession session) {
 		try {
 			User target = entityManager.find(User.class, id);// buscamos al usuario
-			//solucion provisional porque no puedo añadir a la lista del user obtenido por la sesion
+			// solucion provisional porque no puedo añadir a la lista del user obtenido por
+			// la sesion
 			User copia = (User) session.getAttribute("u");
 			User user = entityManager.find(User.class, copia.getId());
 
-			//actualizamos la lista de followers del objetivo (el usuario al que seguimos)
+			// actualizamos la lista de followers del objetivo (el usuario al que seguimos)
 			List<User> followers = target.getFollowers();
 			followers.add(user);
 			target.setFollowers(followers);
 
-			//actualizamos nuestra lista de following (añadimos al user que acabamos de seguir)			
+			// actualizamos nuestra lista de following (añadimos al user que acabamos de
+			// seguir)
 			List<User> following = user.getFollowing();
 			following.add(target);
 			user.setFollowing(following);
@@ -498,26 +497,30 @@ public class UserController {
 
 	@PostMapping("/{id}/unfollow")
 	@Transactional
-	public ResponseEntity<Boolean> dejarDeSeguirUsuario(@PathVariable long id, Model model, HttpSession session){
+	public ResponseEntity<Boolean> dejarDeSeguirUsuario(@PathVariable long id, Model model, HttpSession session) {
 		try {
 			User target = entityManager.find(User.class, id);// buscamos al usuario
-			//solucion provisional porque no puedo quitar de la lista del user obtenido por la sesion
+			// solucion provisional porque no puedo quitar de la lista del user obtenido por
+			// la sesion
 			User copia = (User) session.getAttribute("u");
 			User user = entityManager.find(User.class, copia.getId());
 
-			//actualizamos la lista de followers del objetivo (el usuario al que ya no seguimos)
+			// actualizamos la lista de followers del objetivo (el usuario al que ya no
+			// seguimos)
 			List<User> followers = target.getFollowers();
 			followers.remove(user);
 			target.setFollowers(followers);
 
-			//actualizamos nuestra lista de following (quitamos al user que acabamos de dar unfollow)			
+			// actualizamos nuestra lista de following (quitamos al user que acabamos de dar
+			// unfollow)
 			List<User> following = user.getFollowing();
 			following.remove(target);
 			user.setFollowing(following);
 
 			model.addAttribute("user", target);
 			log.info("Usuario :" + user.getUsername() + " Ha dejado de seguir al usuario: " + target.getUsername());
-			// El usuario con sesion activa acaba de dejar de seguir al usuario con el id dado
+			// El usuario con sesion activa acaba de dejar de seguir al usuario con el id
+			// dado
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			log.error("Error al intentar dejar de seguir al usuario con ID: " + id, e);
@@ -525,14 +528,15 @@ public class UserController {
 		}
 	}
 
-	//MOSTRAR UN USUARIO-------------------------------------------------
+	// MOSTRAR UN USUARIO-------------------------------------------------
 	@GetMapping("/{id}/perfilUsuario")
-	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model, HttpSession session) {
+	public String perfilUser(@PathVariable long id, @RequestParam("username") String param, Model model,
+			HttpSession session) {
 		User target = entityManager.createNamedQuery("User.byUsername", User.class)
 				.setParameter("username", param)
 				.getSingleResult();
 
-				User copia = (User) session.getAttribute("u");		
+		User copia = (User) session.getAttribute("u");
 		User u = entityManager.find(User.class, copia.getId());
 
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
@@ -572,9 +576,8 @@ public class UserController {
 			@RequestParam("idMedia") Long idMedia, Model model, HttpSession session) {
 		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
+		User copia = (User) session.getAttribute("u");
 
-		User copia = (User) session.getAttribute("u");		
-		
 		User usuario = entityManager.find(User.class, copia.getId());
 
 		Comment comentario = new Comment();
@@ -634,12 +637,11 @@ public class UserController {
 			}
 
 			// Agregamos los detalles del contenido al modelo
-			
+
 			List<Comment> comentsMedia = entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
-			.setParameter("idMedia", idMedia).getResultList();
+					.setParameter("idMedia", idMedia).getResultList();
 
 			m.setComments(comentsMedia);
-			
 
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("user", usuario);
@@ -659,13 +661,12 @@ public class UserController {
 
 	@GetMapping("/{id}/comentario/{idComentario}")
 	public String getLista(@PathVariable long id, @PathVariable long idComentario, Model model, HttpSession session) {
-		User copia = (User) session.getAttribute("u");		
-		
+		User copia = (User) session.getAttribute("u");
+
 		User target = entityManager.find(User.class, copia.getId());
 		Comment coment = entityManager.find(Comment.class, idComentario);
 		List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
 				.setParameter("father", idComentario).getResultList();
-
 
 		model.addAttribute("comentarios", comentarios);
 		model.addAttribute("coment", coment);
@@ -682,9 +683,9 @@ public class UserController {
 			@RequestParam("texto") String texto,
 			@RequestParam("mediaTipo") String tipo, @ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
-				User copia = (User) session.getAttribute("u");
+		User copia = (User) session.getAttribute("u");
 		try {
-			
+
 			User usuario = entityManager.find(User.class, copia.getId());
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido
 
@@ -736,7 +737,7 @@ public class UserController {
 			@RequestParam("fatherId") long idComent, @RequestParam("texto") String text,
 			@ModelAttribute Comment comentario, HttpSession session,
 			Model model) {
-				User copia = (User) session.getAttribute("u");		
+		User copia = (User) session.getAttribute("u");
 		try {
 			User usuario = entityManager.find(User.class, copia.getId());
 			model.addAttribute("user", usuario);
@@ -781,8 +782,7 @@ public class UserController {
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> reportar(@PathVariable long id, @PathVariable long idMedia,
-	@PathVariable long idComentario) {
-
+			@PathVariable long idComentario) {
 
 		try {
 			Comment c = entityManager.find(Comment.class, idComentario);
@@ -796,7 +796,6 @@ public class UserController {
 			log.error("Error al reportar el comentario con id " + idComentario);
 			return ResponseEntity.ok(false);
 		}
-
 
 	}
 
@@ -818,9 +817,11 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/{nombreLista}/{username}")
-	public String getLista(@PathVariable long id, @PathVariable String nombreLista, @PathVariable String username, Model model, HttpSession session) {
+	public String getLista(@PathVariable long id, @PathVariable String nombreLista, @PathVariable String username,
+			Model model, HttpSession session) {
 		User u = entityManager.find(User.class, id);
-		User target = entityManager.createNamedQuery("User.byUsername", User.class).setParameter("username", username).getSingleResult();
+		User target = entityManager.createNamedQuery("User.byUsername", User.class).setParameter("username", username)
+				.getSingleResult();
 
 		// Obtenemos la lista de Favoritos
 		Lista l = entityManager.createNamedQuery("Lista.byName", Lista.class)
@@ -844,7 +845,7 @@ public class UserController {
 	public ResponseEntity<Boolean> addMediaToLista(@PathVariable long id, @PathVariable String nombreLista,
 			@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
 			HttpSession session, Model model) {
-				User copia = (User) session.getAttribute("u");
+		User copia = (User) session.getAttribute("u");
 		try {
 			User usuario = entityManager.find(User.class, copia.getId());// buscamos al usuario
 
@@ -860,13 +861,31 @@ public class UserController {
 
 			r.listasBasicas(nombreLista, true);
 
+			// modificamos los contadores
+			int numVar = 0;
+			if (nombreLista.equalsIgnoreCase("Favoritos")) {
+				numVar = m.getNumFavs() + 1;
+				m.setNumFavs(numVar);
+			} else if (nombreLista.equalsIgnoreCase("Terminado")) {
+				numVar = m.getNumVisto() + 1;
+				m.setNumVisto(numVar);
+			} else if (nombreLista.equalsIgnoreCase("Viendo")) {
+				numVar = m.getNumViendo() + 1;
+				m.setNumViendo(numVar);
+			} else {// en cualquier otro caso de que no sea una lista basica
+				numVar = m.getNumListas() + 1;
+				m.setNumListas(numVar);
+			}
+
 			List<Media> lMedias = lista.getMedias();
 			lMedias.add(m);
+
 			int cont = lista.getContador() + 1;// aumentamos el contador
 			lista.setContador(cont);
 			lista.setMedias(lMedias);
 
 			entityManager.persist(lista);
+
 			entityManager.merge(usuario);
 			entityManager.flush();
 
@@ -874,7 +893,7 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = "Se ha añadido "+m.getNombre()+" a la lista " +lista.getName();
+			String text = "Se ha añadido " + m.getNombre() + " a la lista " + lista.getName();
 
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
@@ -885,7 +904,7 @@ public class UserController {
 			for (User u : lista.getSubscribers()) {
 				rootNode.put("userId", u.getId());
 				Noti n = new Noti();
-				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
+				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
 				n.setTexto(text);
 				n.setVisto(false);
@@ -896,7 +915,7 @@ public class UserController {
 				rootNode.put("id", n.getId());
 				rootNode.put("enlace", n.getEnlace());
 				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}
 
 			// "Elemento agregado correctamente a la lista"
@@ -915,7 +934,7 @@ public class UserController {
 	public ResponseEntity<Boolean> removeMediaFromLista(@PathVariable long id, @PathVariable String nombreLista,
 			@RequestParam("mediaId") long idMedia, @RequestParam("mediaTipo") String tipoMedia,
 			HttpSession session, Model model) {
-				User copia = (User) session.getAttribute("u");
+		User copia = (User) session.getAttribute("u");
 		try {
 			User usuario = entityManager.find(User.class, copia.getId());// buscamos al usuario
 
@@ -931,6 +950,22 @@ public class UserController {
 
 			r.listasBasicas(nombreLista, false);
 
+			// modificamos los contadores
+			int numVar = 0;
+			if (nombreLista.equalsIgnoreCase("Favoritos")) {
+				numVar = m.getNumFavs() - 1;
+				m.setNumFavs(numVar);
+			} else if (nombreLista.equalsIgnoreCase("Terminado")) {
+				numVar = m.getNumVisto() - 1;
+				m.setNumVisto(numVar);
+			} else if (nombreLista.equalsIgnoreCase("Viendo")) {
+				numVar = m.getNumViendo() - 1;
+				m.setNumViendo(numVar);
+			} else {// en cualquier otro caso de que no sea una lista basica
+				numVar = m.getNumListas() - 1;
+				m.setNumListas(numVar);
+			}
+
 			List<Media> lMedias = lista.getMedias();
 			lMedias.remove(m);
 			int cont = lista.getContador() - 1;// disminuimos el contador
@@ -945,35 +980,37 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = "Se ha eliminado "+m.getNombre()+" de la lista " +lista.getName();
+			String text = "Se ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
 
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
 			rootNode.put("text", text);
 			rootNode.put("listaName", lista.getName());
 			rootNode.put("username", usuario.getUsername());
-			
 
 			for (User u : lista.getSubscribers()) {
 				Noti n = new Noti();
-				n.setEnlace("/user/"+u.getId()+"/"+lista.getName()+"/"+usuario.getUsername());
+				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
 				n.setTexto(text);
 				n.setVisto(false);
 				entityManager.persist(n);
-				u.addNoti(n);;
+				u.addNoti(n);
+				;
 				entityManager.merge(u);
 				entityManager.flush();
 				rootNode.put("userId", u.getId());
 				rootNode.put("id", n.getId());
 				rootNode.put("enlace", n.getEnlace());
 				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}
 
 			// "Elemento eliminado correctamente a la lista"
 			return ResponseEntity.ok(true);
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			log.error("Error al eliminar de  la lista para el usuario " + copia.getId(), e);
 			return ResponseEntity.ok(false);
 		}
@@ -984,7 +1021,7 @@ public class UserController {
 	@Transactional
 	public ResponseEntity<String> crearLista(@PathVariable long id, @ModelAttribute Lista lista, HttpSession session,
 			Model model) {
-				User copia = (User) session.getAttribute("u");
+		User copia = (User) session.getAttribute("u");
 		try {
 			User usuario = entityManager.find(User.class, copia.getId());
 			model.addAttribute("user", usuario);
@@ -1005,7 +1042,8 @@ public class UserController {
 
 			log.info("Lista creada para el usuario ", copia.getId());
 
-			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + copia.getId()).build();
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/user/" + copia.getId())
+					.build();
 		} catch (Exception e) {
 			log.error("Error al crear la lista para el usuario " + copia.getId(), e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la lista");
@@ -1018,7 +1056,7 @@ public class UserController {
 	public ResponseEntity<Boolean> califica(HttpSession session,
 			Model model, @PathVariable long id, @RequestParam("rating") int rating,
 			@RequestParam("mediaTipo") String mediaTipo, @RequestParam("mediaId") long mediaId) {
-				User copia = (User) session.getAttribute("u");
+		User copia = (User) session.getAttribute("u");
 		try {
 			User usuario = entityManager.find(User.class, copia.getId());
 			Media m = entityManager.find(Media.class, mediaId);// obtenemos el contenido

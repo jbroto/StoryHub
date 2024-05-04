@@ -848,7 +848,7 @@ public class UserController {
 			User usuario = entityManager.find(User.class, copia.getId());// buscamos al usuario
 
 			Lista lista = entityManager.createNamedQuery("Lista.byName", Lista.class)
-					.setParameter("name", nombreLista).setParameter("author", copia.getId()).getSingleResult();
+					.setParameter("name", nombreLista).setParameter("author", usuario.getId()).getSingleResult();
 
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
 

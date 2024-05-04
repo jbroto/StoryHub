@@ -17,7 +17,14 @@ $(document).ready(function () {
             '&mediaId=' + mediaId;
 
         go(dataURL, "POST").then(response => {
-            console.log("Solicitud enviada con éxito");
+            if(response){
+                console.log("Solicitud enviada con éxito");
+
+            }
+            else{
+                console.log("No se pudo tratar su solicitud");
+
+            }
         })
             .catch(error => {
                 console.error("Error al añadir o quitar contenido de " + dataURL + " " + error);

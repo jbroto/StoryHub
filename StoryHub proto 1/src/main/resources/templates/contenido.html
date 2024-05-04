@@ -72,13 +72,12 @@
 
                                         <div class="dropdown-menu dropdown-menu-dark w-100 "
                                             aria-labelledby="dropdownMenuButton">
-
                                             <!-- Iterar sobre las listas y mostrarlas como checkboxes en el dropdown -->
                                             <div th:each="item : ${Listas}" class="mt-2 ">
                                                 <!-- asi no aparecen los botones de favoritos, viendo y terminado -->
                                                 <button
                                                     th:unless="${item.name == 'favoritos'|| item.name == 'viendo' || item.name == 'terminado' }"
-                                                    class="btn "
+                                                    class="btn botonesBasicos"
                                                     th:class="${item.medias.contains(media)} ? 'btn botonesBasicos  btn-danger' : 'btn botonesBasicos btn-success'"
                                                     th:text="${item.name}">
                                                 </button>

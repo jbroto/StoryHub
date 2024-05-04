@@ -50,7 +50,7 @@
 
     <div class="container mb-2 mt-4">
         <div class="contenido-comentarios">
-            <h2><i class="fa-solid fa-comments"></i> Respuestas</h2>
+            <h2><i class="fa-regular fa-comments"></i> Respuestas</h2>
             <!--Boton para poner un comentario-->
             <h4>Responde al comentario de <span  th:text="${coment.author.username}">author</span></h4>
             <textarea type="text" id="commentText" placeholder="Escribe aquí tu respuesta"></textarea><br>
@@ -82,7 +82,7 @@
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
                                     th:data-bs-target="'#reporteModal-' + ${comentario.id}"
                                     th:id="'flag-' + ${comentario.id}">
-                                    🚩
+                                    <i class="fa-solid fa-flag"></i>
                                 </button>
                             </span>
                             <div th:if="${comentario.report}">

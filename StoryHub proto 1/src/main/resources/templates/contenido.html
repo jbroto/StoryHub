@@ -75,23 +75,53 @@
                                 <!-- Acciones que puede realizar el usuario con las listas basicas -->
                                 <div class="d-grid gap-2">
 
-                                    <div class="rate">
-                                        <input type="radio" id="star5" class="star" name="rate" value="5"
-                                            th:checked="${relacion.calificacion == 5}" />
-                                        <label for="star5" title="text">5 stars</label>
-                                        <input type="radio" id="star4" class="star" name="rate" value="4"
-                                            th:checked="${relacion.calificacion == 4}" />
-                                        <label for="star4" title="text">4 stars</label>
-                                        <input type="radio" id="star3" class="star" name="rate" value="3"
-                                            th:checked="${relacion.calificacion == 3}" />
-                                        <label for="star3" title="text">3 stars</label>
-                                        <input type="radio" id="star2" class="star" name="rate" value="2"
-                                            th:checked="${relacion.calificacion == 2}" />
-                                        <label for="star2" title="text">2 stars</label>
-                                        <input type="radio" id="star1" class="star" name="rate" value="1"
-                                            th:checked="${relacion.calificacion == 1}" />
-                                        <label for="star1" title="text">1 star</label>
+
+                                    <div class="contenido-rating d-flex flex-row justify-content-center gap-4">
+                                        <div class="text-rating d-flex align-items-center">
+                                            <div class="text">
+                                                <p>Tu valoración: </p>
+                                            </div>
+                                            <div class="number">
+                                                <p id="rating-value"> <span th:text="${relacion.calificacion}">0</span>
+                                            </div>
+                                            </p>
+                                        </div>
+                                        <div class="rating">
+                                            <input type="radio" id="star5" class="star" name="rating" value="5"
+                                                th:checked="${relacion.calificacion == 5}" /><label for="star5"
+                                                class="full" title="Te ha encantado"></label>
+                                            <input type="radio" id="star4.5" class="star" name="rating" value="4.5"
+                                                th:checked="${relacion.calificacion == 4.5}" /><label for="star4.5"
+                                                class="half"></label>
+                                            <input type="radio" id="star4" class="star" name="rating" value="4"
+                                                th:checked="${relacion.calificacion == 4}" /><label for="star4"
+                                                class="full"></label>
+                                            <input type="radio" id="star3.5" class="star" name="rating" value="3.5"
+                                                th:checked="${relacion.calificacion == 3.5}" /><label for="star3.5"
+                                                class="half"></label>
+                                            <input type="radio" id="star3" class="star" name="rating" value="3"
+                                                th:checked="${relacion.calificacion == 3}" /><label for="star3"
+                                                class="full"></label>
+                                            <input type="radio" id="star2.5" class="star" name="rating" value="2.5"
+                                                th:checked="${relacion.calificacion == 2.5}" /><label for="star2.5"
+                                                class="half"></label>
+                                            <input type="radio" id="star2" class="star" name="rating" value="2"
+                                                th:checked="${relacion.calificacion == 2}" /><label for="star2"
+                                                class="full"></label>
+                                            <input type="radio" id="star1.5" class="star" name="rating" value="1.5"
+                                                th:checked="${relacion.calificacion == 1.5}" /><label for="star1.5"
+                                                class="half"></label>
+                                            <input type="radio" id="star1" class="star" name="rating" value="1"
+                                                th:checked="${relacion.calificacion == 1}" /><label for="star1"
+                                                class="full"></label>
+                                            <input type="radio" id="star0.5" class="star" name="rating" value="0.5"
+                                                th:checked="${relacion.calificacion == 0.5}" /><label for="star0.5"
+                                                class="half"></label>
+
+                                        </div>
+
                                     </div>
+
 
                                     <button class="btn"
                                         th:class="${relacion.favorito} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
@@ -106,8 +136,9 @@
 
                                     <div class="dropdown ">
                                         <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                            data-bs-auto-close="outside" aria-expanded="false">
+                                            title="Selecciona tus listas personalizadas" id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                            aria-expanded="false">
                                             <i class="fa-solid fa-list"></i> Seleccionar lista
                                         </button>
                                         <!-- Iterar sobre la lista de elementos y mostrar cada uno -->
@@ -147,13 +178,13 @@
 
     <div class="container mb-2">
         <div class="contenido-comentarios">
-            <h2><i class="fa-solid fa-comments"></i> Comentarios</h2>
+            <h2><i class="fa-regular fa-comments"></i> Comentarios</h2>
             <!--Boton para poner un comentario-->
             <h4>Añade un comentario</h4>
             <textarea type="text" id="commentText" placeholder="Escribe tu comentario aquí"></textarea><br>
             <button id="submitBtn"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
         </div>
-       
+
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">

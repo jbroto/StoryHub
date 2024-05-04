@@ -28,7 +28,7 @@
             <!-- Botón para editar perfil -->
             <div class="edit-profile ml-auto" th:if="${user.id == session.u.id}">
               <a th:href="@{/user/editarPerfil}">
-                <button class="btn btn-secondary">Editar Perfil <i class="fa-solid fa-gear"></i></button>
+                <button class="btn btn-secondary"><i class="fa-solid fa-gear"></i> Editar Perfil</button>
               </a>
             </div>
             <div class="follow-profile ml-auto" th:unless="${user.id == session.u.id}">
@@ -47,7 +47,7 @@
         <div class="col-md-6 mt-3">
           <div class="stats d-flex flex-row justify-content-end">
             <!-- Contador de contenido visto -->
-            <a th:href="@{/user/__${user.id}__/Terminado/__${user.username}__}">
+            <a th:href="@{/user/__${user.id}__/Terminado/__${user.username}__}" title="Todo el contenido que has visto">
               <div class="content-viewed d-flex flex-column align-items-center">
                 <div class="text">
                   <h4>Visto</h4>
@@ -59,7 +59,7 @@
               </div>
             </a>
             <!-- Contador de seguidores -->
-            <a th:href="@{/user/__${user.id}__/social/followers}">
+            <a th:href="@{/user/__${user.id}__/social/followers}" title="Tus seguidores">
               <div class="followers d-flex flex-column align-items-center mr-2">
                 <div class="text">
                   <h4>Seguidores</h4>
@@ -73,7 +73,7 @@
             </a>
 
             <!-- Contador de usuarios seguidos -->
-            <a th:href="@{/user/__${user.id}__/social/following}">
+            <a th:href="@{/user/__${user.id}__/social/following}" title="Usuarios a los que sigues" >
               <div class="following d-flex flex-column align-items-center">
                 <div class="text">
                   <h4>Siguiendo</h4>
@@ -99,14 +99,14 @@
         <div class="col-md-6 mt-3">
           <div class="mostrarListas d-flex">
             <a class="btn btn-success mb-2  " data-bs-toggle="collapse" href="#collapseNombreListas" role="button"
-              aria-expanded="false" aria-controls="collapseNombreListas">
+              aria-expanded="false" aria-controls="collapseNombreListas" title="Aquí están tus listas">
               <i class="fa-solid fa-list"></i>
               Listas
             </a>
             <!--Boton para crear una nueva lista-->
             <button th:if="${user.id == session.u.id}" type="button" class="btn btn-outline-primary mb-2 "
               data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
-              Añadir Lista <i class="fa-solid fa-plus"></i>
+              <i class="fa-solid fa-plus"></i> Añadir Lista
             </button>
           </div>
         </div>
@@ -175,7 +175,7 @@
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
             <input type="hidden" name="idMedia" th:value="${media.id}" />
             <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card">
+              <div class="card" title="Acceder al contenido">
                 <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
                   alt="portada" th:style="'height: 300px; object-fit: cover;'" />
                 <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
@@ -201,7 +201,7 @@
             <input type="hidden" name="tipo" th:value="${media.tipo}" />
             <input type="hidden" name="idMedia" th:value="${media.id}" />
             <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card">
+              <div class="card" title="Acceder al contenido">
                 <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
                   alt="portada" th:style="'height: 300px; object-fit: cover;'" />
                 <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->

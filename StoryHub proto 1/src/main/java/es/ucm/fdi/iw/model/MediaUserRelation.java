@@ -10,12 +10,17 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
+@NamedQueries({
+    @NamedQuery(
+            name = "MediaUserRelation.calcularPromedioRatingPorMedia",
+            query = "SELECT ROUND(AVG(r.calificacion), 1) FROM MediaUserRelation r WHERE r.media.id = :mediaId")
+})
 public class MediaUserRelation implements Transferable<MediaUserRelation.Transfer> {
     @EmbeddedId
     private MediaUserRelationId id;
 
     private boolean favorito;
-    private int calificacion;
+    private double calificacion;
     private boolean viendo;
     private boolean ended;
 
@@ -33,7 +38,7 @@ public class MediaUserRelation implements Transferable<MediaUserRelation.Transfe
     public static class Transfer {
         private MediaUserRelationId id;
         private boolean favorito;
-        private int calificacion;
+        private double calificacion;
         private boolean viendo;
         private boolean ended;
         private String media;

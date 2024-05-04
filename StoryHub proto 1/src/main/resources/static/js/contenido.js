@@ -59,7 +59,7 @@ $(document).ready(function () {
         cambiarColoryPost($(this), estado, url);
     });
 
-    const rateInputs = $('.rate .star');
+    const rateInputs = $('.rating .star');
     rateInputs.on('change', function () {
         submitRating($(this).val());
     });

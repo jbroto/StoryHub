@@ -1054,7 +1054,7 @@ public class UserController {
 	@ResponseBody
 	@Transactional
 	public ResponseEntity<Boolean> califica(HttpSession session,
-			Model model, @PathVariable long id, @RequestParam("rating") int rating,
+			Model model, @PathVariable long id, @RequestParam("rating") double rating,
 			@RequestParam("mediaTipo") String mediaTipo, @RequestParam("mediaId") long mediaId) {
 		User copia = (User) session.getAttribute("u");
 		try {
@@ -1070,6 +1070,13 @@ public class UserController {
 
 			r.setCalificacion(rating);
 			entityManager.merge(r);
+
+			Double promedioRating = entityManager.createNamedQuery("MediaUserRelation.calcularPromedioRatingPorMedia",Double.class)
+        	.setParameter("mediaId", mediaId)
+       		.getSingleResult();
+			
+			m.setRating(promedioRating);
+
 			entityManager.flush();
 			model.addAttribute("myRating", r.getCalificacion());
 

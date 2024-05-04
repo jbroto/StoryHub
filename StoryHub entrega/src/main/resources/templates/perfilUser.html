@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <th:block th:replace="fragments/head :: header" />
+  <link rel="stylesheet" th:href="@{/css/user.css}" href="css/user.css" type="text/css" />
+  <title>Inicio</title>
+
+</head>
+
+<body th:data-iduser="${resultado.id}">
+  <header th:replace="fragments/nav.html :: nav"></header>
+  <main class="flex-shrink-0">
+    <div class="container overview">
+      <div class="row">
+        <!-- Columna izquierda: Foto de perfil, nombre de usuario y botón de editar perfil -->
+        <div class="col-md-6">
+          <div class="profile-info d-flex align-items-center">
+            <!-- Foto de usuario -->
+            <div class="profile-picture mr-3">
+              <img th:src="@{/user/__${resultado.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
+                class="rounded-circle" style="width: 100px; height: 100px;">
+            </div>
+            <!-- Nombre de usuario -->
+            <div class="username">
+              <h3><span th:text="${resultado.username}">Default</span></h3>
+            </div>
+            <!-- Botón para seguir perfil -->
+            <div class="btn ml-auto">
+              <a>
+                <button class="btn btn-success">Seguir</button>
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <!-- Columna derecha: Contadores de contenido seguidores y usuarios seguidos -->
+        <div class="col-md-6 mt-3">
+          <div class="stats d-flex flex-row justify-content-end">
+            <!-- Contador de seguidores -->
+            <div class="followers d-flex flex-column align-items-center mr-2">
+              <div class="text">
+                <h4>Seguidores</h4>
+              </div>
+
+              <div class="number">
+                <p>500</p>
+              </div>
+            </div>
+            <!-- Contador de usuarios seguidos -->
+            <div class="following d-flex flex-column align-items-center">
+              <div class="text">
+                <h4>Siguiendo</h4>
+              </div>
+
+              <div class="number">
+                <p>300</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="container contenidoPerfil">
+
+    <!-- Listas públicas del usuario -->
+    <section id="listasPublicas" class="crearLista">
+      <h2>Listas de <span th:text="${resultado.username}"></span></h2>
+      <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${listasPublicas}">
+             <form th:action="@{/user/__${user.id}__/__${item.name}__/__${resultado.username}__}" method="get">
+                <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6><b><span th:text="${item.name}"></span></b></h6>
+                        </div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </section>
+  </div>
+    <th:block th:replace="fragments/footer.html :: footer" />
+
+</body>
+
+</html>

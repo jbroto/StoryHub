@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Nav fragment - rest intentionally left empty</title>
+    <script th:src="@{/js/bootstrap.bundle-5.1.3.js}" src="js/bootstrap.bundle-5.1.3.js"></script>
+
+</head>
+
+<body class="d-flex flex-column h-100">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- barra de navegación bootstrap 5 -->
+    <header th:fragment="nav">
+        <!--NAVBAR-->
+
+        <!-- <nav class="navbar navbar-dark bg-dark p-1 align-items-center align-text-center"> -->
+
+        <nav id="navbar"class="navbar navbar-expand-md navbar-dark bg-dark">
+
+            <!-- LOGOTIPO -->
+            <th:block th:if="${session.u}">
+                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/user/{id}(id=${session.u.id})}" style="margin-left: 10px;">
+                    <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
+                    <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
+                </a>
+            </th:block>
+
+            <th:block th:unless="${session.u}">
+                <a class="navbar-logo me-2 d-flex align-items-center" th:href="@{/}" style="margin-left: 10px;">
+                    <img src = "/img/StoryHubLogoW.png" alt="LOGO" display:block  width:100% height="40">
+                    <span class="navbar-brand" style="font-size: 25px;">StoryHub</span>
+                </a>
+            </th:block>
+
+            <th:block th:if="${session.u}">
+                   <!-- menu hamburguesa si no cabe todo -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <!-- ADMIN -->
+                        <li class="nav-item mx-3">
+                            <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}">Administrar</a>
+                        </li>
+                        <!-- DROPDOWN DEL PERFIL" -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+                                <span th:text="${session.u.username}">Pepe</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}"><i class="fa-solid fa-house"></i> Home</a>
+                                <a class="dropdown-item" th:href="@{/user/notificaciones}"><i class="fa-regular fa-bell"></i> Notificaciones</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm ">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                            logout</button>
+                                    </form>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item "><a class="nav-link" th:href="@{/user/{id}/social/followers(id=${session.u.id})}">
+                            <i class="fa-solid fa-users"></i> Social</a></li>
+                        <!--<li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li> YO QUITARIA LA PESTAÑA DEL LOGIN --> 
+                        <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">
+                            <i class="fa-solid fa-flag"></i> Reportar</a></li>
+                        <!--<li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>-->
+                        <li class="nav-item align-self-center me-4">
+                            <!-- Dropdown -->
+                            <div class="dropdown">
+                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Tus notificaciones">
+                                <i class="fa-solid fa-envelope"></i>
+                                <!-- ✉️ -->
+                                <span id="unread" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">0<span class="visually-hidden">unread messages</span></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="notificationDropdown" id="notificationMenu">
+                                    <li><a class="dropdown-item" href="#" id="sinNotis">No tienes notificaciones nuevas!!</a></li>
+                                    <li>
+                                        <div class="text-center">
+                                            <button id="verTodas" th:href="@{/user/notificaciones}" class=" dropdown-item btn btn-success">Ver todas <i class="fa-regular fa-bell"></i></button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+  
+                        </li>
+                        <!--/*
+                            Esto es un comentario "thymeleaf" - no se verá en el HTML
+                            El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
+                                (ver StartupConfig.java para ver cómo se lee de la configuración
+                                y luego se escribe a ${application.debug})
+                        */-->   
+    
+                    </ul>
+                    <form class="d-flex ms-auto me-3" th:action="@{/user/busqueda}" method="GET" role="search">
+                        <input class="form-control me-2" name="paramBusqueda" type="search" placeholder="Buscar" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit" id="btn-busqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>   
+                </div>
+            </th:block>
+
+            <th:block th:unless="${session.u}">
+
+
+                <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                    <form class="d-flex" th:action="@{/login}" method="post">
+                        <input type="hidden" name="username" value="a">
+                        <input type="hidden" name="password" value="aa">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Admin</button>
+                    </form>
+                </li>
+                <li class="nav-item debug align-self-center" th:if="${application.debug}">
+                    <form class="d-flex" th:action="@{/login}" method="post">
+                        <input type="hidden" name="username" value="b">
+                        <input type="hidden" name="password" value="aa">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">User</button>
+                    </form>
+                </li>
+            </th:block>
+
+
+        </nav>
+
+    </header>
+
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+</body>
+
+</html>

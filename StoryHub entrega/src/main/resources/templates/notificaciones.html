@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/social.css}" href="css/social.css" type="text/css" />
+    <title>Notificaciones</title>
+</head>
+<body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <div class="container mt-3">
+        <h2>Notificaciones</h2>
+        <table class="table" th:if="${notificaciones.size() > 0}" id="tabla">
+            <thead>
+            <tr>
+                <th>Notificación</th>
+                <th>Visto</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notificacion : ${notificaciones}">
+                <td>
+                    <span th:if="${notificacion.visto}"></span>
+                    <span th:unless="${notificacion.visto}" style="color: red;" ><i class="fa-solid fa-circle"></i></span>
+                    <span th:text="${notificacion.texto}"></span>
+                </td>
+                <td>
+                    <span th:if="${notificacion.visto}">Visto</span>
+                    <span th:unless="${notificacion.visto}">No visto</span>
+                </td>
+                <td>
+                    <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="mt-2 mb-3" th:if="${notificaciones.size() == 0}">
+            <span>No tienes notificaciones.</span>
+        </div>
+    </div>
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+    <script th:src="@{/js/verNotis.js}" src="js/verNotis.js"></script>
+</body>
+</html>

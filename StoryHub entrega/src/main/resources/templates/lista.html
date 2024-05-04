@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Inicio</title>
+  </head>
+
+  <body th:attr="data-userId=${user.id}, data-listaId=${lista.id}">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <div class="container contenidoLista">
+        <div class="row d-flex mt-3">
+            <div class="col-md-6">
+                <h1 class="mb-0"><span th:text="${lista.name.toUpperCase()}">default</span></h1>
+                <p>Lista creada por: <span th:text="${lista.author.getUsername()}">default</span></p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+                <!-- Botón alineado a la derecha de la columna -->
+                <div th:unless="${lista.author.getUsername() eq user.username}">
+                    <div  id="btn-div" th:classappend="${suscrito} ? 'd-none' : ''">
+                        <form th:action="@{/user/__${user.id}__/suscripcion/__${lista.id}__}" method="post">
+                            <button class="btn btn-success" type="submit" id="suscripcion-btn">Suscribirse</button>
+                        </form>
+                    </div>
+                    <div th:classappend="${suscrito} ? '' : 'd-none'" id="av-div">
+                        <form action="">
+                            <button class="btn btn-danger" type="submit" id="anular-btn">Anular suscripcion</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+                     <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                        <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                        <input type="hidden" name="idMedia" th:value="${item.id}" />
+                        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                            <div class="card">
+                                <img class="card-img w-500" th:src="@{'https://image.tmdb.org/t/p/original/' + ${item.coverImageUrl}}" alt="Cover">
+                                <div class="card-body">
+                                    <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                                    <h6><span th:text="${item.tipo}"></span></h6>
+                                </div>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+        </div>
+    </div>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/suscripcion.js}"></script>
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+  </body>
+</html>

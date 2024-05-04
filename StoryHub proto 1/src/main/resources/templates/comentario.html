@@ -49,11 +49,13 @@
     </section>
 
     <div class="container mb-2 mt-4">
-        <h2>Comentarios</h2>
-        <!--Boton para poner un comentario-->
-        <h4>Add a comment</h4>
-        <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
-        <button id="submitBtn">Submit</button>
+        <div class="contenido-comentarios">
+            <h2><i class="fa-solid fa-comments"></i> Respuestas</h2>
+            <!--Boton para poner un comentario-->
+            <h4>Responde al comentario de <span  th:text="${coment.author.username}">author</span></h4>
+            <textarea type="text" id="commentText" placeholder="Escribe aquí tu respuesta"></textarea><br>
+            <button id="submitBtn"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+        </div>
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">

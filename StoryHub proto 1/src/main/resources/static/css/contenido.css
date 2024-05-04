@@ -33,14 +33,13 @@ body{
     /* Alinea el poster a la derecha */
     max-width: 100%;
     /* Asegura que el poster no se extienda más allá del contenedor */
+    
 }
 
 .poster-img {
     max-width: 80%;
     border-radius: 10px;
     /*border: 2px solid #ccc;*/
-
-
 }
 
 .titulo {
@@ -80,7 +79,7 @@ body{
 }
 
 .contenido-info {
-    background: radial-gradient(circle, #2a2a2a, #2c2c2c);
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
     /* Color de fondo oscuro */
     color: #fff;
     /* Color de texto blanco para contrastar */
@@ -98,7 +97,7 @@ body{
 .acciones {
     margin-top: 20px;
 
-    background: radial-gradient(circle, #2a2a2a, #2c2c2c);
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
     /* Color de fondo oscuro */
     color: #fff;
     /* Color de texto blanco para contrastar */
@@ -109,6 +108,22 @@ body{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* Efecto de sombra */
 
+    padding: 20px;
+    /* Añade un relleno para separar el contenido del borde */
+}
+
+.contenido-comentarios {
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
+    /* Color de fondo oscuro */
+    color: #fff;
+    /* Color de texto blanco para contrastar */
+    border: 2px solid #ccc;
+    /* Grosor del borde */
+    border-radius: 10px;
+    /* Radio de redondeo de las esquinas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Efecto de sombra */
+    
     padding: 20px;
     /* Añade un relleno para separar el contenido del borde */
 }

@@ -146,11 +146,14 @@
     </section>
 
     <div class="container mb-2">
-        <h2>Comentarios</h2>
-        <!--Boton para poner un comentario-->
-        <h4>Add a comment</h4>
-        <textarea type="text" id="commentText" placeholder="Type your comment here"></textarea><br>
-        <button id="submitBtn">Submit</button>
+        <div class="contenido-comentarios">
+            <h2><i class="fa-solid fa-comments"></i> Comentarios</h2>
+            <!--Boton para poner un comentario-->
+            <h4>Añade un comentario</h4>
+            <textarea type="text" id="commentText" placeholder="Escribe tu comentario aquí"></textarea><br>
+            <button id="submitBtn"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+        </div>
+       
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">
@@ -177,7 +180,7 @@
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
                                     th:data-bs-target="'#reporteModal-' + ${comentario.id}"
                                     th:id="'flag-' + ${comentario.id}">
-                                    🚩
+                                    <i class="fa-solid fa-flag"></i>
                                 </button>
                             </span>
                             <div th:if="${comentario.report}">

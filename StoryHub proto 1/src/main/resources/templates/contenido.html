@@ -79,7 +79,7 @@
                                     <div class="contenido-rating d-flex flex-row justify-content-center gap-4">
                                         <div class="text-rating d-flex align-items-center">
                                             <div class="text">
-                                                <p>Tu valoración: </p>
+                                                <p>Valoración: </p>
                                             </div>
                                             <div class="number">
                                                 <p id="rating-value"> <span th:text="${relacion.calificacion}">0</span>
@@ -117,8 +117,12 @@
                                             <input type="radio" id="star0.5" class="star" name="rating" value="0.5"
                                                 th:checked="${relacion.calificacion == 0.5}" /><label for="star0.5"
                                                 class="half"></label>
+                                            <input type="radio" id="star0" class="star" name="rating" value="0"
+                                                th:checked="${relacion.calificacion == 0}" />
+                                            <label for="star0" class="full" title="Eliminar valoración"></label>
 
                                         </div>
+                                      
 
                                     </div>
 

@@ -177,6 +177,15 @@ body{
 	display: none;
 }
 
+/* Estilo para la estrella de quitar valoración */
+.rating > input[value="0"] + label:before {
+    content: '\f057'; /* Usamos 'X' para representar la opción de quitar valoración */
+    margin: 7px;
+    font-size: 1.5rem;
+    display: inline-block;
+    cursor: pointer;
+}
+
 .rating > label:before{
 	content: '\f005';
 	font-family: FontAwesome;

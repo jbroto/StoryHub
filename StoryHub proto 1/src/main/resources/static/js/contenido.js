@@ -62,6 +62,8 @@ $(document).ready(function () {
     const rateInputs = $('.rating .star');
     rateInputs.on('change', function () {
         submitRating($(this).val());
+        // Actualizamos el valor de rating-value
+        $('#rating-value').text($(this).val());
     });
 
     function submitRating(rating) {
@@ -70,6 +72,7 @@ $(document).ready(function () {
             '?rating=' + encodeURIComponent(rating) +
             '&mediaTipo=' + encodeURIComponent(mediaTipo) +
             '&mediaId=' + encodeURIComponent(mediaId);
+
 
         console.log("URL: " + url);
 

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NamedQueries({
     @NamedQuery(
             name = "MediaUserRelation.calcularPromedioRatingPorMedia",
-            query = "SELECT ROUND(AVG(r.calificacion), 1) FROM MediaUserRelation r WHERE r.media.id = :mediaId")
+            query = "SELECT ROUND(AVG(r.calificacion), 1) FROM MediaUserRelation r WHERE r.media.id = :mediaId AND r.calificacion > 0")
 })
 public class MediaUserRelation implements Transferable<MediaUserRelation.Transfer> {
     @EmbeddedId

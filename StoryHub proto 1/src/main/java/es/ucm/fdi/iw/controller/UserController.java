@@ -1071,10 +1071,15 @@ public class UserController {
 			r.setCalificacion(rating);
 			entityManager.merge(r);
 
-			Double promedioRating = entityManager.createNamedQuery("MediaUserRelation.calcularPromedioRatingPorMedia",Double.class)
-        	.setParameter("mediaId", mediaId)
-       		.getSingleResult();
-			
+			Double promedioRating = entityManager
+					.createNamedQuery("MediaUserRelation.calcularPromedioRatingPorMedia", Double.class)
+					.setParameter("mediaId", mediaId)
+					.getSingleResult();
+
+			if (promedioRating == null) {
+				promedioRating = 0.0;
+			}
+
 			m.setRating(promedioRating);
 
 			entityManager.flush();

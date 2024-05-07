@@ -1,16 +1,30 @@
+.fondo{
+    background-image: url('../img/pattern1.jpg');
+    background-size: 300px; 
+    background-repeat: repeat; /* Repetir la imagen en ambas direcciones */
+}
+
 .profile-info {
     display: flex;
     align-items: center;
 }
 
-.profile-picture {
-    margin-right: 20px;
+#profileForm {
+    margin-top: 20px; 
 }
 
-.change-picture {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.profile-username{
+    margin-top: 20px; 
+    color: #fff;
+
+}
+
+.profile-picture {
+    margin-right: 40px;
+}
+
+.change-picture{
+    margin-top: 20px; 
 }
 
 .custom-file-upload {
@@ -30,8 +44,12 @@
     background-color: #0056b3;
 }
 
-.btn-primary {
-    margin-top: 10px;
+.botones-accion{
+    margin-top: 20px;
+}
+
+.advertencia{
+    color:red;
 }
 
 .editProfile-message{
@@ -39,8 +57,11 @@
 }
 
 .container {
-    margin-top: 20px;
-    margin-bottom:20px;
+    margin-top: 30px;
+    margin-bottom:30px;
+    background: rgba(42, 42, 42, 0.9);
+    /* Color de fondo oscuro */
+    /* Color de texto blanco para contrastar */
     border: 2px solid #ccc; /* Grosor del borde */
     border-radius: 10px; /* Radio de redondeo de las esquinas */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
@@ -48,5 +69,4 @@
     padding-left: 50px; 
     padding-right: 50px; 
     padding-bottom: 20px; 
-
-  }
+}

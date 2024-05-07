@@ -30,9 +30,5 @@ $(document).ready(function () {
         });
     }
 
-    // Verificar si hay un mensaje de editar perfil presente
-    if ($('.editProfile-message').length > 0) {
-        // Mostrar una alerta con el mensaje de error
-        alert($('.editProfile-message').text());
-    }
+
 });

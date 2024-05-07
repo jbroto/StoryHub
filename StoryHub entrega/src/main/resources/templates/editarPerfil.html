@@ -7,48 +7,93 @@
     <title>Perfil de Usuario</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="fondo d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
         <div class="container">
-            <h1>Perfil de  <span th:text="${user.username}">default</span></h1>
-            <p th:if="${EditarExitoso}" class="editProfile-message" th:text="${EditarExitoso}">Perfil editado correctamente</p>
-            <div class="profile-info">
-                <div class="profile-picture">
-                    <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
-                        class="rounded-end" style="width: 200px; height: 200px;">
-                </div>
-                <div class="change-picture">
-                    <!--contenedor para la vista previa de la nueva imagen -->
-                    <div id="newProfilePicPreview" style="display: none;">
-                        <h5>Nueva Foto de Perfil</h5>
-                        <img id="newProfilePicPreviewImg" class="rounded-end" alt="Nueva foto" style="width: 200px; height: 200px;">
+            <h4 th:if="${EditarExitoso}" class="editProfile-message mt-2" th:text="${EditarExitoso}">Perfil editado
+                correctamente</h4>
+
+            <div class="row">
+                <!-- Primera columna -->
+                <div class="col-md-6 col-sm-12">
+                    <div class="profile-info d-grid">
+                        <div class="profile-username">
+                            <h1>Perfil de <span th:text="${user.username}">default</span></h1>
+                        </div>
+                        <div class="pictures-avatar d-flex">
+                            <div class="profile-picture">
+                                <img th:src="@{/user/__${user.id}__/pic}" alt="Foto de Perfil" id="currentProfilePic"
+                                    class="rounded-end" style="width: 200px; height: 200px;">
+                            </div>
+                            <!--contenedor para la vista previa de la nueva imagen -->
+                            <div id="newProfilePicPreview" style="display: none;">
+                                <img id="newProfilePicPreviewImg" class="rounded-end" alt="Nueva foto"
+                                    style="width: 200px; height: 200px;">
+                            </div>
+                        </div>
+                        <div class="change-picture d-flex">
+                            <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post">
+                                <input type="file" id="newProfilePic" name="photo" accept="image/*">
+                                <button id="postProfilePic" type="submit" class="btn btn-sm btn-warning">
+                                    <i class="fa-solid fa-camera"></i> Cambiar Foto</button>
+                            </form>
+                        </div>
                     </div>
-                    <form id="changeProfilePicForm" th:action="@{/user/__${user.id}__/pic}" method="post">
-                        <input type="file" id="newProfilePic" name="photo" accept="image/*">
-                        <button id="postProfilePic" type="submit" class="btn btn-sm btn-warning">Cambiar Foto</button>
+                </div>
+                <!-- Segunda columna -->
+                <div class="col-md-6 col-sm-12">
+                    <form id="profileForm" th:object="${user}" method="post" th:action="@{/user/editarPerfil}">
+                        <p>
+                            <label for="firstName">Nombre</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control"
+                                th:value="${user.firstName}">
+                        </p>
+                        <p>
+                            <label for="lastName">Apellidos</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control"
+                                th:value="${user.lastName}">
+                        </p>
+                        <p>
+                            <label for="username">Nombre de Usuario</label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                th:value="${user.username}" readonly>
+                        </p>
+                        <div class="botones-accion d-flex justify-content-between">
+                            <button class="btn btn-success" type="submit">Guardar Cambios</button>
+                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmarBajaModal">Darse de baja</button>
+                        </div>
                     </form>
                 </div>
             </div>
-            <form id="profileForm" th:object="${user}" method="post" th:action="@{/user/__${user.id}__/editarPerfil}">
-                <p>
-                    <label for="firstName">Nombre</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}">
-                </p>
-                <p>
-                    <label for="lastName">Apellidos</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}">
-                </p>
-                <p>
-                    <label for="username">Nombre de Usuario</label>
-                    <input type="text" id="username" name="username" class="form-control" th:value="${user.username}" readonly>
-                </p>
-                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-            </form>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-danger "> Darse de baja</button>
+
+            <!--Modal para reportar el comentario-->
+            <div class="modal fade" id="confirmarBajaModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><strong>Darse de Baja</strong></h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de qué quieres darte de baja? Mandaremos tu solicitud al <strong>administrador</strong>
+                                 para que la evalúe.
+                            </p>
+                            <strong class="advertencia">UNA VEZ ENVIADA NO PUEDE SER CANCELADA.</strong>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="submit" class="btn btn-danger btn-baja">Darse de baja</button>
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </main>
 

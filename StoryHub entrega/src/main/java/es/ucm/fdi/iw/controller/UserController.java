@@ -924,6 +924,7 @@ public class UserController {
 				rootNode.set("noti", mapper.valueToTree(n));
 				Media.Transfer transfer = new Media.Transfer(m);
 				rootNode.set("media", mapper.valueToTree(transfer));
+				rootNode.put("type", "add");
 				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}
@@ -1005,6 +1006,9 @@ public class UserController {
 				entityManager.merge(u);
 				entityManager.flush();
 				rootNode.set("noti", mapper.valueToTree(n));
+				Media.Transfer transfer = new Media.Transfer(m);
+				rootNode.set("media", mapper.valueToTree(transfer));
+				rootNode.put("type", "remove");
 				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}

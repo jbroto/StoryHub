@@ -484,9 +484,9 @@ public class UserController {
 
 			Noti n = new Noti();
 			n.setObjetivo(target);
-			n.setText(user.getUsername()+" ha comenzado a seguirte.");
+			n.setText(user.getUsername() + " ha comenzado a seguirte.");
 			n.setVisto(false);
-			n.setEnlace("/user/"+target.getId()+"/perfilUsuario?username="+user.getUsername());
+			n.setEnlace("/user/" + target.getId() + "/perfilUsuario?username=" + user.getUsername());
 			entityManager.persist(n);
 			target.addNoti(n);
 			entityManager.merge(target);
@@ -497,7 +497,6 @@ public class UserController {
 			String json = mapper.writeValueAsString(rootNode);
 			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", json);
 
-			
 			// El usuario con sesion activa acaba de seguir al usuario con el id dado
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
@@ -1069,10 +1068,15 @@ public class UserController {
 			r.setCalificacion(rating);
 			entityManager.merge(r);
 
-			Double promedioRating = entityManager.createNamedQuery("MediaUserRelation.calcularPromedioRatingPorMedia",Double.class)
-        	.setParameter("mediaId", mediaId)
-       		.getSingleResult();
-			
+			Double promedioRating = entityManager
+					.createNamedQuery("MediaUserRelation.calcularPromedioRatingPorMedia", Double.class)
+					.setParameter("mediaId", mediaId)
+					.getSingleResult();
+
+			if (promedioRating == null) {
+				promedioRating = 0.0;
+			}
+
 			m.setRating(promedioRating);
 
 			entityManager.flush();

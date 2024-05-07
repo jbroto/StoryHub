@@ -103,8 +103,11 @@ public class AdminController {
 				entityManager.persist(n);
 				entityManager.merge(c);
 				entityManager.flush();
-				
-				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", n);
+				ObjectMapper mapper = new ObjectMapper();
+				ObjectNode rootNode = mapper.createObjectNode();
+				rootNode.set("noti", mapper.valueToTree(n));
+				String json = mapper.writeValueAsString(rootNode);
+				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", json);
 
 			}
 			return ResponseEntity.ok(true);

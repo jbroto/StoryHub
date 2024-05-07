@@ -6,6 +6,7 @@ $(document).ready(function(){
         if(unreadCount == 0){
             $('#sinNotis').hide()
         }
+        console.log(m.noti)
         $('#notificationMenu').prepend('<li><a data-id="'+m.noti.id+'" class="dropdown-item" href="'+m.noti.enlace+'">'+m.noti.text+'</a></li>');
         sinLeer.text(unreadCount + 1);
 

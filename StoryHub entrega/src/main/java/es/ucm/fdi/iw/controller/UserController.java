@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.controller.UserController.NoEsTuPerfilException;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Noti;
 import es.ucm.fdi.iw.model.TMDBService;
@@ -490,7 +491,11 @@ public class UserController {
 			target.addNoti(n);
 			entityManager.merge(target);
 			entityManager.flush();
-			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", n);
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.set("noti", mapper.valueToTree(n));
+			String json = mapper.writeValueAsString(rootNode);
+			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", json);
 
 			
 			// El usuario con sesion activa acaba de seguir al usuario con el id dado
@@ -901,8 +906,9 @@ public class UserController {
 
 			String text = "Se ha añadido " + m.getNombre() + " a la lista " + lista.getName();
 
-
 			for (User u : lista.getSubscribers()) {
+				ObjectMapper mapper = new ObjectMapper();
+				ObjectNode rootNode = mapper.createObjectNode();
 				Noti n = new Noti();
 				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
@@ -912,7 +918,9 @@ public class UserController {
 				u.addNoti(n);
 				entityManager.merge(u);
 				entityManager.flush();
-				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", n);
+				rootNode.set("noti", mapper.valueToTree(n));
+				String json = mapper.writeValueAsString(rootNode);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}
 
 			// "Elemento agregado correctamente a la lista"
@@ -980,6 +988,8 @@ public class UserController {
 			String text = "Se ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
 
 			for (User u : lista.getSubscribers()) {
+				ObjectMapper mapper = new ObjectMapper();
+				ObjectNode rootNode = mapper.createObjectNode();
 				Noti n = new Noti();
 				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
@@ -989,7 +999,9 @@ public class UserController {
 				u.addNoti(n);
 				entityManager.merge(u);
 				entityManager.flush();
-				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", n);
+				rootNode.set("noti", mapper.valueToTree(n));
+				String json = mapper.writeValueAsString(rootNode);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}
 
 			// "Elemento eliminado correctamente a la lista"

@@ -14,7 +14,6 @@ $(document).ready(function(){
                     if(unreadCount == 0){
                         $('#sinNotis').show()
                     }
-                    console.log(unreadCount);
                     sinLeer.text(unreadCount);
                 }
             }).catch(error =>{
@@ -33,7 +32,8 @@ $(document).ready(function(){
 
     });
 
-    $('.form-check-input').change(function(){
+    // Supongamos que '#tabla' es el identificador de la tabla a la que estás agregando elementos
+    $('#tabla').on('change', 'input[type="checkbox"]', function() {
         if($(this).is(':checked')){
             ch += 1;
             $('#seleccionadas').removeClass('d-none').fadeIn(200);
@@ -44,6 +44,19 @@ $(document).ready(function(){
             }
         }
     });
+
+
+/*     $('.form-check-input').change(function(){
+        if($(this).is(':checked')){
+            ch += 1;
+            $('#seleccionadas').removeClass('d-none').fadeIn(200);
+        } else {
+            ch -= 1;
+            if(ch == 0){
+                $('#seleccionadas').fadeOut(200);
+            }
+        }
+    }); */
 
     $('#todas').on('click', function(e){
         e.preventDefault();

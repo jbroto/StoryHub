@@ -14,7 +14,7 @@ $(document).ready(function(){
         const notis = document.querySelector('#tabla');
         if(notis){
             var newRow = "<tr>" +
-            '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.text+'</span></td>' +
+            '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.noti.text+'</span></td>' +
             '<td>' + (m.noti.visto ? 'Visto' : 'No visto') + '</td>' +
             '<td><a class="btn btn-success" href="' + m.noti.enlace + '">Ir <i class="fa-solid fa-share" style="color: white;"></i></a></td>' +
             '</tr>';

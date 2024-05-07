@@ -13,11 +13,23 @@ $(document).ready(function(){
 
         const notis = document.querySelector('#tabla');
         if(notis){
-            var newRow = "<tr>" +
-            '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.noti.text+'</span></td>' +
-            '<td>' + (m.noti.visto ? 'Visto' : 'No visto') + '</td>' +
-            '<td><a class="btn btn-success" href="' + m.noti.enlace + '">Ir <i class="fa-solid fa-share" style="color: white;"></i></a></td>' +
-            '</tr>';
+            var newRow = `<tr class="${m.noti.visto ? 'noti' : 'sin-ver noti'}">
+            <td style="margin: 0;">
+                <div>
+                    <input class="form-check-input" type="checkbox" value="${m.noti.id}" id="${m.noti.id}">
+                </div>
+            </td>
+            <td>
+                <span>${m.noti.text}</span>
+            </td>
+            <td>
+                <span class="${m.noti.visto ? '' : 'no-visto'}" >${m.noti.visto ? 'Visto' : 'No visto'}</span>
+            </td>
+            <td>
+                <a class="btn btn-success" data-id="${m.noti.id}" href="${m.noti.enlace}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
+            </td>
+        </tr>`;
+        
             $("#tabla tbody").prepend(newRow);
         }
 

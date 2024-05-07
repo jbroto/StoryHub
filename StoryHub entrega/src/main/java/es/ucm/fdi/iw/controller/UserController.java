@@ -444,6 +444,27 @@ public class UserController {
 		return "notificaciones";
 	}
 
+	//MARCAR TODAS LAS NOTIFICACIONES COMO LEIDAS------------------
+	@PostMapping("/leer-todas")
+	@Transactional
+	public ResponseEntity<Boolean> leerTodas(HttpSession session) {
+		try{
+			User u = (User) session.getAttribute("u");
+			List<Noti> ns = entityManager.createNamedQuery("Noti.byObejivo", Noti.class)
+					.setParameter("objetivo", u.getId()).getResultList();
+					for(Noti n: ns){
+						n.setVisto(true);
+						entityManager.persist(n);
+					}
+			entityManager.flush();
+			return ResponseEntity.ok().body(true);
+		}
+		catch(Exception e){
+			return ResponseEntity.status(500).body(false);
+		}
+	}
+	
+
 	// SEGUIDORES-------------------------------------------------
 
 	@GetMapping("/{id}/social/{paramSocial}")
@@ -907,7 +928,7 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = "Se ha añadido " + m.getNombre() + " a la lista " + lista.getName();
+			String text = usuario.getUsername()+" ha añadido " + m.getNombre() + " a la lista " + lista.getName();
 
 			for (User u : lista.getSubscribers()) {
 				ObjectMapper mapper = new ObjectMapper();
@@ -991,7 +1012,7 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = "Se ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
+			String text = usuario.getUsername()+" ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
 
 			for (User u : lista.getSubscribers()) {
 				ObjectMapper mapper = new ObjectMapper();

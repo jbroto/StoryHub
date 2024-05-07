@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NamedQueries({
     @NamedQuery(name="Noti.byUserNoVisto", query="SELECT n FROM Noti n WHERE n.objetivo.id = :user AND n.visto = FALSE"),
-    @NamedQuery(name = "Noti.byObejivo", query = "SELECT n FROM Noti n WHERE n.objetivo.id = :objetivo ORDER BY n.visto ASC")
+    @NamedQuery(name = "Noti.byObejivo", query = "SELECT n FROM Noti n WHERE n.objetivo.id = :objetivo ORDER BY 1 DESC")
 })
 
 public class Noti implements Transferable<Noti.Transfer> {

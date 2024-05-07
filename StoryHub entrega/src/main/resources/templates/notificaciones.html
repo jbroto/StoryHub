@@ -9,30 +9,43 @@
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container mt-3">
-        <h2>Notificaciones</h2>
+        <div class="row d-flex flex-column justify-content-between">
+            <h2>Notificaciones</h2>
+            <div id="botones" class="text-end">
+                <button id="seleccionadas" class="btn btn-outline-danger d-none">Leer seleccionadas</button>
+                <button id="todas" class="btn btn-danger">Leer todas</button>
+            </div>
+        </div>
+        
         <table class="table" th:if="${notificaciones.size() > 0}" id="tabla">
             <thead>
             <tr>
+                <th></th>
                 <th>Notificación</th>
                 <th>Visto</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="notificacion : ${notificaciones}">
-                <td>
-                    <span th:if="${notificacion.visto}"></span>
-                    <span th:unless="${notificacion.visto}" style="color: #198754;" ><i class="fa-solid fa-circle"></i></span>
-                    <span th:text="${notificacion.text}"></span>
-                </td>
-                <td>
-                    <span th:if="${notificacion.visto}">Visto</span>
-                    <span th:unless="${notificacion.visto}">No visto</span>
-                </td>
-                <td>
-                    <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
-                </td>
-            </tr>
+                <form method="post">
+                    <tr th:each="notificacion : ${notificaciones}" th:class="${notificacion.visto} ? 'noti':'sin-ver noti'">
+                        <td style="margin: 0;">
+                            <div>
+                                <input class="form-check-input" type="checkbox" value="${notificacion.id}" th:id="${notificacion.id}">
+                            </div>
+                        </td>
+                        <td>
+                            <span th:text="${notificacion.text}"></span>
+                        </td>
+                        <td>
+                            <span th:if="${notificacion.visto}">Visto</span>
+                            <span class="no-visto" th:unless="${notificacion.visto}">No visto</span>
+                        </td>
+                        <td>
+                            <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
+                        </td>
+                    </tr>
+                </form>
             </tbody>
         </table>
         <div class="mt-2 mb-3" th:if="${notificaciones.size() == 0}">

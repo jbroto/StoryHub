@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    let ch = 0;
     $('#tabla').on('click', 'a', function(event) {
         if($(this).data('id') !== undefined){
             event.preventDefault();
@@ -30,5 +31,31 @@ $(document).ready(function(){
             console.error("Fallo al ir");
         }
 
+    });
+
+    $('.form-check-input').change(function(){
+        if($(this).is(':checked')){
+            ch += 1;
+            $('#seleccionadas').removeClass('d-none').fadeIn(200);
+        } else {
+            ch -= 1;
+            if(ch == 0){
+                $('#seleccionadas').fadeOut(200);
+            }
+        }
+    });
+
+    $('#todas').on('click', function(e){
+        e.preventDefault();
+
+        go('/user/leer-todas', 'post').then(response =>{
+            if (response) {
+                $('.no-visto').text("Visto");
+                $('.no-visto').parent().parent().removeClass('sin-ver');
+                $('.no-visto').removeClass('no-visto');
+            }
+        }).catch(error =>{
+
+        })
     });
 });

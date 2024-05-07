@@ -45,19 +45,6 @@ $(document).ready(function(){
         }
     });
 
-
-/*     $('.form-check-input').change(function(){
-        if($(this).is(':checked')){
-            ch += 1;
-            $('#seleccionadas').removeClass('d-none').fadeIn(200);
-        } else {
-            ch -= 1;
-            if(ch == 0){
-                $('#seleccionadas').fadeOut(200);
-            }
-        }
-    }); */
-
     $('#todas').on('click', function(e){
         e.preventDefault();
 

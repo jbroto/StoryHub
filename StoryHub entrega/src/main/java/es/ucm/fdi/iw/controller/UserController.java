@@ -341,23 +341,16 @@ public class UserController {
 			String text = a.getUsername() + " se ha suscrito a tu lista: " + l.getName();
 			String enlace = "/user/" + l.getAuthor().getId() + "/perfilUsuario?username=" + u.getUsername();
 
-			ObjectMapper mapper = new ObjectMapper();
-			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("text", text);
-			rootNode.put("enlace", enlace);
-
 			Noti n = new Noti();
 			n.setObjetivo(target);
-			n.setTexto(text);
+			n.setText(text);
 			n.setVisto(false);
 			n.setEnlace(enlace);
 			entityManager.persist(n);
 			target.addNoti(n);
 			entityManager.merge(u);
 			entityManager.flush();
-			rootNode.put("id", n.getId());
-			String json = mapper.writeValueAsString(rootNode);
-			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", json);
+			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", n);
 
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
@@ -895,27 +888,18 @@ public class UserController {
 
 			String text = "Se ha añadido " + m.getNombre() + " a la lista " + lista.getName();
 
-			ObjectMapper mapper = new ObjectMapper();
-			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("text", text);
-			rootNode.put("listaName", lista.getName());
-			rootNode.put("username", usuario.getUsername());
 
 			for (User u : lista.getSubscribers()) {
-				rootNode.put("userId", u.getId());
 				Noti n = new Noti();
 				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
-				n.setTexto(text);
+				n.setText(text);
 				n.setVisto(false);
 				entityManager.persist(n);
 				u.addNoti(n);
 				entityManager.merge(u);
 				entityManager.flush();
-				rootNode.put("id", n.getId());
-				rootNode.put("enlace", n.getEnlace());
-				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", n);
 			}
 
 			// "Elemento agregado correctamente a la lista"
@@ -982,28 +966,18 @@ public class UserController {
 
 			String text = "Se ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
 
-			ObjectMapper mapper = new ObjectMapper();
-			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("text", text);
-			rootNode.put("listaName", lista.getName());
-			rootNode.put("username", usuario.getUsername());
-
 			for (User u : lista.getSubscribers()) {
 				Noti n = new Noti();
 				n.setEnlace("/user/" + u.getId() + "/" + lista.getName() + "/" + usuario.getUsername());
 				n.setObjetivo(u);
-				n.setTexto(text);
+				n.setText(text);
 				n.setVisto(false);
 				entityManager.persist(n);
 				u.addNoti(n);
 				;
 				entityManager.merge(u);
 				entityManager.flush();
-				rootNode.put("userId", u.getId());
-				rootNode.put("id", n.getId());
-				rootNode.put("enlace", n.getEnlace());
-				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
+				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", n);
 			}
 
 			// "Elemento eliminado correctamente a la lista"

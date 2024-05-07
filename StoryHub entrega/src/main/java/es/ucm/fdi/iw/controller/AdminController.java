@@ -96,22 +96,15 @@ public class AdminController {
 				Noti n = new Noti();
 				n.setEnlace("/user/"+c.getAuthor().getId()+"/comentario/"+c.getId());
 				n.setObjetivo(c.getAuthor());
-				n.setTexto(text);
+				n.setText(text);
 				n.setVisto(false);
 				c.getAuthor().addNoti(n);
 
 				entityManager.persist(n);
 				entityManager.merge(c);
 				entityManager.flush();
-
-
-				ObjectMapper mapper = new ObjectMapper();
-				ObjectNode rootNode = mapper.createObjectNode();
-				rootNode.put("text", text);
-				rootNode.put("enlace", n.getEnlace());
-				rootNode.put("id", n.getId());
-				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", json);
+				
+				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", n);
 
 			}
 			return ResponseEntity.ok(true);

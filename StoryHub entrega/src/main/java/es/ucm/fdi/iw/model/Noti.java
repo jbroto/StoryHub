@@ -28,13 +28,13 @@ public class Noti implements Transferable<Noti.Transfer> {
 
     private String enlace;
     private Boolean visto;
-    private String texto;
+    private String text;
 
 
-    public Noti(User user, Boolean visto, String texto, String enlace){
+    public Noti(User user, Boolean visto, String text, String enlace){
         this.objetivo = user;
         this.visto = visto;
-        this.texto = texto;
+        this.text = text;
         this.enlace = enlace;
     }
 
@@ -47,21 +47,21 @@ public class Noti implements Transferable<Noti.Transfer> {
         private String objetivo;
         private String enlace;
         private Boolean visto;
-        private String texto;
+        private String text;
         private long id;
 
         public Transfer(Noti n) {
             this.objetivo = n.getObjetivo().getUsername();
             this.enlace = n.getEnlace();
             this.visto = n.getVisto();
-            this.texto = n.getTexto();
+            this.text = n.getText();
             this.id = n.getId();
         }
     }
 
     @Override
     public Transfer toTransfer() {
-        return new Transfer(objetivo.getUsername(), enlace, visto, texto, id);
+        return new Transfer(objetivo.getUsername(), enlace, visto, text, id);
     }
 
     @Override

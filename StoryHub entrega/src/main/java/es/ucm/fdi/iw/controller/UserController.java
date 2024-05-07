@@ -480,6 +480,19 @@ public class UserController {
 
 			model.addAttribute("user", target);
 			log.info("Usuario :" + user.getUsername() + " Comienza a seguir a usuario: " + target.getUsername());
+
+			Noti n = new Noti();
+			n.setObjetivo(target);
+			n.setText(user.getUsername()+" ha comenzado a seguirte.");
+			n.setVisto(false);
+			n.setEnlace("/user/"+target.getId()+"/perfilUsuario?username="+user.getUsername());
+			entityManager.persist(n);
+			target.addNoti(n);
+			entityManager.merge(target);
+			entityManager.flush();
+			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", n);
+
+			
 			// El usuario con sesion activa acaba de seguir al usuario con el id dado
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
@@ -974,7 +987,6 @@ public class UserController {
 				n.setVisto(false);
 				entityManager.persist(n);
 				u.addNoti(n);
-				;
 				entityManager.merge(u);
 				entityManager.flush();
 				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", n);

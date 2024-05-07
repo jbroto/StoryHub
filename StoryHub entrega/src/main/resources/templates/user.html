@@ -167,53 +167,60 @@
     <!-- LISTA DE ESTAS VIENDO -->
     <h2><i class="fa-sharp fa-solid fa-hourglass-half"></i> Viendo </h2>
     <p>Tus peliculas, series y libros</p>
-    <div class="row">
+<!-- Contenedor scrollable -->
+<div class="scrollable-container">
+  <div class="row">
       <!-- Iterar sobre los medios y mostrarlos -->
       <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
-        <div th:each="media : ${viendo}" class="mr-2">
-          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-            <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="idMedia" th:value="${media.id}" />
-            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card" title="Acceder al contenido">
-                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                  alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                <div class="card-body text-center">
-                  <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                </div>
-              </div>
-            </button>
-          </form>
-        </div>
+          <div th:each="media : ${viendo}" class="mr-2">
+              <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                  <input type="hidden" name="tipo" th:value="${media.tipo}" />
+                  <input type="hidden" name="idMedia" th:value="${media.id}" />
+                  <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                      <div class="card" title="Acceder al contenido">
+                          <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                              alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                          <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                          <div class="card-body text-center">
+                              <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                          </div>
+                      </div>
+                  </button>
+              </form>
+          </div>
       </div>
-    </div>
+  </div>
+</div>
 
     <hr />
-    <!-- LISTA DE FAVORITOS -->
-    <h2><i class="fa-solid fa-heart"></i> Favoritos </h2>
-    <p>Ve más series, películas o libros para rellenar este espacio.</p>
+    <!-- Encabezado fuera del contenedor scrollable -->
+<h2><i class="fa-solid fa-heart"></i> Favoritos </h2>
+
+<!-- Contenedor scrollable -->
+<div class="scrollable-container">
     <div class="row">
-      <!-- Iterar sobre los medios y mostrarlos -->
-      <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
-        <div th:each="media : ${favoritos}" class="mr-2">
-          <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-            <input type="hidden" name="tipo" th:value="${media.tipo}" />
-            <input type="hidden" name="idMedia" th:value="${media.id}" />
-            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-              <div class="card" title="Acceder al contenido">
-                <img class="card-img-top" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                  alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                <div class="card-body text-center">
-                  <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                </div>
-              </div>
-            </button>
-          </form>
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
+            <div th:each="media : ${favoritos}" class="mr-2">
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                    <input type="hidden" name="tipo" th:value="${media.tipo}" />
+                    <input type="hidden" name="idMedia" th:value="${media.id}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card" title="Acceder al contenido">
+                            <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                            <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                            <div class="card-body text-center">
+                                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
 
     <hr />
   </div>

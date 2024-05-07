@@ -7,7 +7,7 @@
 
   <body th:attr="data-userId=${user.id}, data-listaId=${lista.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
-    <div class="container contenidoLista">
+    <div id="lista-contenido" class="container contenidoLista">
         <div class="row d-flex mt-3">
             <div class="col-md-6">
                 <h1 class="mb-0"><span th:text="${lista.name.toUpperCase()}">default</span></h1>

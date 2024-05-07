@@ -1,22 +1,28 @@
 $(document).ready(function(){
     const sinLeer = $("#unread");
     cargarNotis();
-    
     ws.receive = (m) => {
-        var unreadCount = parseInt(sinLeer.text().trim());
-        console.log(unreadCount)
-        		if(unreadCount == 0){
-                    $('#sinNotis').hide()
-                }
+        const unreadCount = parseInt(sinLeer.text().trim());
+        if(unreadCount == 0){
+            $('#sinNotis').hide()
+        }
+        $('#notificationMenu').prepend('<li><a data-id="'+m.noti.id+'" class="dropdown-item" href="'+m.noti.enlace+'">'+m.noti.text+'</a></li>');
+        sinLeer.text(unreadCount + 1);
 
-                $('#notificationMenu').prepend('<li><a data-id="'+m.id+'" class="dropdown-item" href="'+m.enlace+'">'+m.text+'</a></li>');
-                sinLeer.text(unreadCount + 1);
-                var newRow = "<tr>" +
-                '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.text+'</span></td>' +
-                '<td>' + (m.visto ? 'Visto' : 'No visto') + '</td>' +
-                '<td><a class="btn btn-success" href="' + m.enlace + '">Ir <i class="fa-solid fa-share" style="color: white;"></i></a></td>' +
-                '</tr>';
-                $("#tabla tbody").prepend(newRow);
+        const notis = document.querySelector('#tabla');
+        if(notis){
+            var newRow = "<tr>" +
+            '<td><span style="color: red;" ><i class="fa-solid fa-circle"></i></span> <span>'+m.text+'</span></td>' +
+            '<td>' + (m.noti.visto ? 'Visto' : 'No visto') + '</td>' +
+            '<td><a class="btn btn-success" href="' + m.noti.enlace + '">Ir <i class="fa-solid fa-share" style="color: white;"></i></a></td>' +
+            '</tr>';
+            $("#tabla tbody").prepend(newRow);
+        }
+
+        const lista = document.querySelector("#lista-contenido");
+        if (lista) {
+
+        }
     };
     
     $('#notificationMenu').on('click', 'li .dropdown-item', function(event) {

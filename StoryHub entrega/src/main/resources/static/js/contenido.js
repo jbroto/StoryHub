@@ -63,7 +63,7 @@ $(document).ready(function () {
     rateInputs.on('change', function () {
         submitRating($(this).val());
         // Actualizamos el valor de rating-value
-        $('#rating-value').text($(this).val());
+        
     });
 
     function submitRating(rating) {
@@ -79,6 +79,8 @@ $(document).ready(function () {
             .then(response => {
                 console.log("La calificacion se ha enviado correctamente");
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+                $('#media-rating').text(response)
+                $('#rating-value').text(rating);
             })
             .catch(error => {
                 console.error("Error al enviar calificacion: " + error);

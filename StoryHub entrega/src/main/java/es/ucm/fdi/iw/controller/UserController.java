@@ -1039,7 +1039,7 @@ public class UserController {
 	@PostMapping("/{id}/califica")
 	@ResponseBody
 	@Transactional
-	public ResponseEntity<Boolean> califica(HttpSession session,
+	public ResponseEntity<Double> califica(HttpSession session,
 			Model model, @PathVariable long id, @RequestParam("rating") double rating,
 			@RequestParam("mediaTipo") String mediaTipo, @RequestParam("mediaId") long mediaId) {
 		User copia = (User) session.getAttribute("u");
@@ -1076,11 +1076,11 @@ public class UserController {
 
 			log.info("Comentario de " + id + " CON UN RATING DE :" + rating);
 
-			return ResponseEntity.ok(true);
+			return ResponseEntity.ok(promedioRating);
 
 		} catch (Exception e) {
 			log.error("Error al comentar " + copia.getId(), e);
-			return ResponseEntity.ok(false);
+			return ResponseEntity.ok(0.00);
 		}
 	}
 

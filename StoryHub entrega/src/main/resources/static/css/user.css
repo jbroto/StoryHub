@@ -49,3 +49,13 @@
   margin-bottom: 20px; /* Puedes ajustar el valor según la separación deseada */
 }
 
+.scrollable-container {
+  overflow-x: auto; /* Hacer que sea scrollable horizontalmente */
+  white-space: nowrap; /* Evitar que los elementos se envuelvan */
+}
+
+.scrollable-container .row {
+  display: inline-flex; /* Mostrar elementos de forma flexible en línea */
+}
+
+

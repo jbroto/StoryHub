@@ -68,7 +68,7 @@ function cargarNotis(){
             response.forEach(notification => {
                 // Si la notificación no está vista, agregarla a la bandeja de entrada
                 if (!notification.visto) {
-                    $('#notificationMenu').prepend('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.texto + '</a></li>');
+                    $('#notificationMenu').prepend('<li><a data-id="'+notification.id+'" class="dropdown-item" href="' + notification.enlace + '">' + notification.text + '</a></li>');
                     cont++;
                 }
             });

@@ -22,7 +22,7 @@
             <tr th:each="notificacion : ${notificaciones}">
                 <td>
                     <span th:if="${notificacion.visto}"></span>
-                    <span th:unless="${notificacion.visto}" style="color: red;" ><i class="fa-solid fa-circle"></i></span>
+                    <span th:unless="${notificacion.visto}" style="color: #198754;" ><i class="fa-solid fa-circle"></i></span>
                     <span th:text="${notificacion.text}"></span>
                 </td>
                 <td>

@@ -1,22 +1,25 @@
-.fondo{
+/* .fondo{
     background-image: url('../img/pattern1.jpg');
     background-size: 300px; 
-    background-repeat: repeat; /* Repetir la imagen en ambas direcciones */
+    background-repeat: repeat;
 }
+ */
 
 .profile-info {
     display: flex;
     align-items: center;
+    color: #fff;
+
 }
 
 #profileForm {
     margin-top: 20px; 
+    color: #fff;
+
 }
 
 .profile-username{
     margin-top: 20px; 
-    color: #fff;
-
 }
 
 .profile-picture {

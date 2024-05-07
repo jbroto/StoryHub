@@ -9,10 +9,11 @@
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class="container mt-3">
+        <form method="post">
         <div class="row d-flex flex-column justify-content-between">
             <h2>Notificaciones</h2>
             <div id="botones" class="text-end">
-                <button id="seleccionadas" class="btn btn-outline-danger d-none">Leer seleccionadas</button>
+                <button id="seleccionadas" type="sumbit" class="btn btn-outline-danger d-none">Leer seleccionadas</button>
                 <button id="todas" class="btn btn-danger">Leer todas</button>
             </div>
         </div>
@@ -27,7 +28,6 @@
             </tr>
             </thead>
             <tbody>
-                <form method="post">
                     <tr th:each="notificacion : ${notificaciones}" th:class="${notificacion.visto} ? 'noti':'sin-ver noti'">
                         <td style="margin: 0;">
                             <div>
@@ -45,12 +45,13 @@
                             <a class="btn btn-success" th:attr="data-id=${notificacion.id}" th:href="@{${notificacion.enlace}}">Ir <i class="fa-solid fa-share" style="color: white;"></i></a>
                         </td>
                     </tr>
-                </form>
+                
             </tbody>
         </table>
         <div class="mt-2 mb-3" th:if="${notificaciones.size() == 0}">
             <span>No tienes notificaciones.</span>
         </div>
+        </form>
     </div>
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>

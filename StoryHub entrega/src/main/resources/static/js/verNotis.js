@@ -1,5 +1,6 @@
 $(document).ready(function(){
     let ch = 0;
+    const sinLeer = $('#unread')
     $('#tabla').on('click', 'a', function(event) {
         if($(this).data('id') !== undefined){
             event.preventDefault();
@@ -32,7 +33,6 @@ $(document).ready(function(){
 
     });
 
-    // Supongamos que '#tabla' es el identificador de la tabla a la que estás agregando elementos
     $('#tabla').on('change', 'input[type="checkbox"]', function() {
         if($(this).is(':checked')){
             ch += 1;
@@ -53,9 +53,35 @@ $(document).ready(function(){
                 $('.no-visto').text("Visto");
                 $('.no-visto').parent().parent().removeClass('sin-ver');
                 $('.no-visto').removeClass('no-visto');
+                sinLeer.text(0);
+                $('#notificationMenu').children().not('#sinNotis, #id-boton').hide();
+
+
             }
         }).catch(error =>{
 
         })
+    });
+
+    $('#seleccionar').click(function(e) {
+        e.preventDefault();
+
+        var idsSeleccionados = [];
+        $('#tabla input:checked').each(function() {
+            idsSeleccionados.push($(this).val());
+        });
+
+        $.ajax({
+            url: '/user/leer-seleccionadas',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(idsSeleccionados),
+            success: function(response) {
+                // Manejar la respuesta del servidor si es necesario
+            },
+            error: function(xhr, status, error) {
+                // Manejar el error si es necesario
+            }
+        });
     });
 });

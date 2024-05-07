@@ -463,6 +463,17 @@ public class UserController {
 			return ResponseEntity.status(500).body(false);
 		}
 	}
+
+	//MARCAR COMO VISTAS LA SELECCION
+	@PostMapping("/leer-seleccionadas")
+	@Transactional
+    public void leerSeleccionadas(@RequestBody List<Long> idsSeleccionados) {
+        // Aquí puedes manejar los IDs de las notificaciones seleccionadas
+        for (Long id : idsSeleccionados) {
+            System.out.println("ID de notificación seleccionada: " + id);
+            // Realizar acciones necesarias con cada ID, por ejemplo, marcar como leídas
+        }
+    }
 	
 
 	// SEGUIDORES-------------------------------------------------

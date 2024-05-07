@@ -30,8 +30,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
+        <div id="media-display" class="row">
+            <div  class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
                      <form th:action="@{/user/__${user.id}__/contenido}" method="get">
                         <input type="hidden" name="tipo" th:value="${item.tipo}" />

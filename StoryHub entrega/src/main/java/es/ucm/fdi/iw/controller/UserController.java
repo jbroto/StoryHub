@@ -351,7 +351,11 @@ public class UserController {
 			target.addNoti(n);
 			entityManager.merge(u);
 			entityManager.flush();
-			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", n);
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.set("noti", mapper.valueToTree(n));
+			String json = mapper.writeValueAsString(rootNode);
+			messagingTemplate.convertAndSend("/user/" + target.getUsername() + "/queue/updates", json);
 
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
@@ -918,6 +922,8 @@ public class UserController {
 				entityManager.merge(u);
 				entityManager.flush();
 				rootNode.set("noti", mapper.valueToTree(n));
+				Media.Transfer transfer = new Media.Transfer(m);
+				rootNode.set("media", mapper.valueToTree(transfer));
 				String json = mapper.writeValueAsString(rootNode);
 				messagingTemplate.convertAndSend("/user/" + u.getUsername() + "/queue/updates", json);
 			}

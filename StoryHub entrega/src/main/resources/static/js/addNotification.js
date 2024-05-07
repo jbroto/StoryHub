@@ -1,12 +1,13 @@
 $(document).ready(function(){
+    const userId = document.body.dataset.userid;
     const sinLeer = $("#unread");
     cargarNotis();
     ws.receive = (m) => {
+        console.log(m.noti)
         const unreadCount = parseInt(sinLeer.text().trim());
         if(unreadCount == 0){
             $('#sinNotis').hide()
         }
-        console.log(m.noti)
         $('#notificationMenu').prepend('<li><a data-id="'+m.noti.id+'" class="dropdown-item" href="'+m.noti.enlace+'">'+m.noti.text+'</a></li>');
         sinLeer.text(unreadCount + 1);
 
@@ -22,7 +23,23 @@ $(document).ready(function(){
 
         const lista = document.querySelector("#lista-contenido");
         if (lista) {
-
+            
+            const render = ` <div class="col-lg-3 col-md-4 mt-3 d-flex">
+            <form action="/user/${userId}/contenido" method="get">
+            <input type="hidden" name="tipo" value="${m.media.tipo}" />
+            <input type="hidden" name="idMedia" value="${m.media.id}" />
+            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                <div class="card">
+                    <img class="card-img w-500" src="${m.media.cover}" alt="Cover">
+                    <div class="card-body">
+                        <h6><b><span>${m.media.nombre}</span></b></h6>
+                        <h6><span>${m.media.tipo}</span></h6>
+                    </div>
+                </div>
+            </button>
+        </form>
+        </div>`
+        $('#media-display').prepend(render);
         }
     };
     

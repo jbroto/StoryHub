@@ -21,9 +21,12 @@ a, .card, .card-body, span{
 
 .card {
   border: none;
+  border-radius: 10px;
   transition: transform 0.2s;
-  color: black;
+  background: rgba(42, 42, 42, 0.9);
+  color:#ccc;
 }
+
 
 .card:hover {
   transform: scale(1.05);
@@ -46,4 +49,29 @@ body{
 }
 .comment{
   margin: 1em;
+}
+
+/* Icono de estrella amarillo */
+.num_Rating .icono_media {
+  color: #ffe234;
+}
+
+/* Icono de viendo en morado */
+.num_Viendo .icono_media {
+  color:darkorchid;
+}
+
+/* Icono de visto en verde */
+.num_Vistos .icono_media {
+  color: #00e054;
+}
+
+/* Icono de listas en azul */
+.num_Listas .icono_media {
+  color:#40bcf4;
+}
+
+/* Icono de favoritos en naranja */
+.num_Favoritos .icono_media {
+  color: orange;
 }

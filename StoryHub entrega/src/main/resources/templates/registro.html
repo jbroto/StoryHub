@@ -11,50 +11,54 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
-        <div class="background-image">
-            <div class="container">
+        <div class="container">
             <!-- Mostrar mensaje de error -->
-            <p th:if="${error}" class="error-message" th:text="${error}">Error al registrar el usuario. Por favor, inténtalo de nuevo.</p>
-                <form class="form-signin" th:object="${User}" method="post" th:action="@{/registro}" >
-                    <h2 class="form-signin-heading">Regístrate</h2>
-                    <p th:if="${#request.getQueryString() == 'error'}" class="error">
-                        Error en el registro. Por favor, revisa los campos.
-                    </p>
-                    <p>
-                        <label for="firstName" class="visually-hidden">Nombre</label>
-                        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Nombre"  th:field="*{firstName}">
-                    </p>
-                    <p>
-                        <label for="lastName" class="visually-hidden">Apellidos</label>
-                        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Apellidos"  th:field="*{lastName}">
-                    </p>
-    
-                    <p>
-                        <label for="username" class="visually-hidden">Nombre de Usuario</label>
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de Usuario" required="required" 
-                        th:field="*{username}"> 
-                        <div id="username-error"></div>
-                    </p>
-                    <p class="password-container">
-                        <label for="password" class="visually-hidden">Contraseña</label>
-                        <div class="input-group">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" 
-                            required="required" th:field="*{password}">
-                            <div class="input-group-append">
-                                <button type="button" id="mostrarPassword" class="btn btn-outline-secondary toggle-password-btn">Mostrar</button>
-                            </div>
-                        </div>
-                        <div id="password-error"></div>
-                    </p>
-                    <p>
-                        <label for="confirmPassword" class="visually-hidden">Confirmar Contraseña</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirmar Contraseña" required="required">
-                        <div id="confirmPassword-error"></div>
-                    </p>
-                   
-                    <button id="registerButton" class="btn btn-lg btn-primary btn-block" type="submit" disabled>Registrarse</button>
-                </form>
-            </div>
+            <p th:if="${error}" class="error-message" th:text="${error}">Error al registrar el usuario. Por favor,
+                inténtalo de nuevo.</p>
+            <form class="form-signin" th:object="${User}" method="post" th:action="@{/registro}">
+                <h2 class="form-signin-heading">Regístrate</h2>
+                <p th:if="${#request.getQueryString() == 'error'}" class="error">
+                    Error en el registro. Por favor, revisa los campos.
+                </p>
+                <p>
+                    <label for="firstName" class="visually-hidden">Nombre</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Nombre"
+                        th:field="*{firstName}">
+                </p>
+                <p>
+                    <label for="lastName" class="visually-hidden">Apellidos</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Apellidos"
+                        th:field="*{lastName}">
+                </p>
+
+                <p>
+                    <label for="username" class="visually-hidden">Nombre de Usuario</label>
+                    <input type="text" id="username" name="username" class="form-control"
+                        placeholder="Nombre de Usuario" required="required" th:field="*{username}">
+                <div id="username-error"></div>
+                </p>
+                <p class="password-container">
+                    <label for="password" class="visually-hidden">Contraseña</label>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña"
+                        required="required" th:field="*{password}">
+                    <div class="input-group-append">
+                        <button type="button" id="mostrarPassword"
+                            class="btn btn-outline-secondary toggle-password-btn">Mostrar</button>
+                    </div>
+                </div>
+                <div id="password-error"></div>
+                </p>
+                <p>
+                    <label for="confirmPassword" class="visually-hidden">Confirmar Contraseña</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                        placeholder="Confirmar Contraseña" required="required">
+                <div id="confirmPassword-error"></div>
+                </p>
+
+                <button id="registerButton" class="btn btn-lg btn-primary btn-block" type="submit"
+                    disabled>Registrarse</button>
+            </form>
         </div>
 
     </main>

@@ -2,60 +2,97 @@
   margin-top: 30px;
   /*background: radial-gradient(circle, #2a2a2a, #2c2c2c); /* Color de fondo oscuro */
   /*color: #fff; /* Color de texto blanco para contrastar */
-  border: 2px solid #ccc; /* Grosor del borde */
-  border-radius: 10px; /* Radio de redondeo de las esquinas */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+  border: 2px solid #ccc;
+  /* Grosor del borde */
+  border-radius: 10px;
+  /* Radio de redondeo de las esquinas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Efecto de sombra */
 
-  padding: 20px; /* Añade un relleno para separar el contenido del borde */
+  padding: 20px;
+  /* Añade un relleno para separar el contenido del borde */
 }
 
-.container.crearLista{
-  border: 2px solid #ccc; /* Grosor del borde */
-  border-radius: 10px; /* Radio de redondeo de las esquinas */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+.container.crearLista {
+  border: 2px solid #ccc;
+  /* Grosor del borde */
+  border-radius: 10px;
+  /* Radio de redondeo de las esquinas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Efecto de sombra */
   padding: 20px;
 }
 
-.mostrarListas{
-  gap:20px;
+.mostrarListas {
+  gap: 20px;
 }
 
-.botonLista{
-  gap:20px;
+.botonLista {
+  gap: 20px;
 }
 
 .contenidoPerfil {
-  padding-top: 20px; /* Añade un relleno en la parte superior del div "contenidoPerfil" para compensar el espacio ocupado por el div "overview" */
+  padding-top: 20px;
+  /* Añade un relleno en la parte superior del div "contenidoPerfil" para compensar el espacio ocupado por el div "overview" */
 }
 
 .number p {
-  font-size: 20px; /* Tamaño de fuente deseado */
+  font-size: 20px;
+  /* Tamaño de fuente deseado */
 }
 
 .profile-info {
-  gap:25px;
+  gap: 25px;
 }
 
-.stats{
-  gap:25px;
+.stats {
+  gap: 25px;
 }
 
-.conjuntoPosters{
-  gap:20px;
+.conjuntoPosters {
+  gap: 20px;
 
 }
 
 .row {
-  margin-bottom: 20px; /* Puedes ajustar el valor según la separación deseada */
+  margin-bottom: 20px;
+  /* Puedes ajustar el valor según la separación deseada */
+}
+
+.visto{
+  color: green;
+}
+
+.listas {
+  color:#40bcf4;
+}
+
+.viendo {
+  color: darkorchid;
+}
+
+.favoritos{
+  color: orange;
+}
+
+/* Icono de estrella amarillo */
+.num_Rating .icono_media {
+  color: #ffe234;
+}
+
+/* Icono de visto en verde */
+.num_Vistos .icono_media {
+  color: #00e054;
 }
 
 .scrollable-container {
-  overflow-x: auto; /* Hacer que sea scrollable horizontalmente */
-  white-space: nowrap; /* Evitar que los elementos se envuelvan */
+  overflow-x: auto;
+  /* Hacer que sea scrollable horizontalmente */
+  white-space: nowrap;
+  /* Evitar que los elementos se envuelvan */
 }
 
 .scrollable-container .row {
-  display: inline-flex; /* Mostrar elementos de forma flexible en línea */
+  display: inline-flex;
+  /* Mostrar elementos de forma flexible en línea */
 }
-
-

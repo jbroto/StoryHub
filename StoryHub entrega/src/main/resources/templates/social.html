@@ -142,10 +142,10 @@
                             th:href="@{/user/__${usuario.id}__/Terminado/__${usuario.username}__}">
                             <i class="fa-solid fa-eye"></i> <span th:text=" ${usuario.listas[2].medias.size}"> 1</span>
                         </a></td>
-                    <td class="table-stats"><a class="listas"></a>
-                        <i class="fa-solid fa-list">
-                            <span th:text=" ${usuario.listas.size}"> 0</span></a>
-                    </td>
+                    <td class="table-stats"><a class="listas">
+                            <i class="fa-solid fa-list">
+                                <span th:text=" ${usuario.listas.size}"> 0</span>
+                        </a></td>
                     <td class="table-stats"><a class="favoritos"
                             th:href="@{/user/__${usuario.id}__/Favoritos/__${usuario.username}__}">
                             <i class="fa-solid fa-heart"></i>

@@ -22,7 +22,16 @@
             </div>
             <div class="col-md-6 gap-2">
                 <div class="contenido-info">
-                    <h1 class="titulo" th:text="${media.nombre}"></h1>
+                    <div class="titulo d-flex justify-content-start gap-4">
+                        <div class="type_icon"> 
+                            <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
+                            <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
+                            <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
+                            <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
+                        </div>
+                        <p  th:text="${media.nombre}"></p>
+
+                    </div>
                     <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
                     <div class="Media_values d-flex flex-row justify-content-center gap-4">
                         <div class="num_Rating d-flex gap-2">

@@ -1,9 +1,8 @@
-/* .fondo{
-    background-image: url('../img/pattern1.jpg');
-    background-size: 300px; 
-    background-repeat: repeat;
+.fondo{
+    background-image: url('../img/portada.jpg');
+    background-size: cover; 
 }
- */
+
 
 .profile-info {
     display: flex;

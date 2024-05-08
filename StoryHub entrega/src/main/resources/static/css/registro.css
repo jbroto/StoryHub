@@ -1,3 +1,9 @@
+body{
+    background-image: url('../img/portada.jpg'); /* Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+}
+
 .error-message {
     color: red;
 }
@@ -8,9 +14,7 @@
 
 .background-image {
     /* Establecer la imagen de fondo */
-    background-image: url('../img/portada.jpg'); /* Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen */
-    background-size: cover;
-    background-position: center;
+   
     background-attachment: fixed; /* La imagen de fondo permanece fija */
     height: 80vh;
     display: flex;
@@ -19,6 +23,7 @@
 }
 
 .container {
+    margin-top: 50px;
     background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
     padding: 20px;
     border-radius: 10px;

@@ -48,7 +48,7 @@
           <div class="stats d-flex flex-row justify-content-end">
             <!-- Contador de contenido visto -->
             <a th:href="@{/user/__${user.id}__/Terminado/__${user.username}__}" title="Todo el contenido que has visto">
-              <div class="content-viewed d-flex flex-column align-items-center">
+              <div class="visto content-viewed d-flex flex-column align-items-center">
                 <div class="text">
                   <h4>Visto</h4>
                 </div>
@@ -73,7 +73,7 @@
             </a>
 
             <!-- Contador de usuarios seguidos -->
-            <a th:href="@{/user/__${user.id}__/social/following}" title="Usuarios a los que sigues" >
+            <a th:href="@{/user/__${user.id}__/social/following}" title="Usuarios a los que sigues">
               <div class="following d-flex flex-column align-items-center">
                 <div class="text">
                   <h4>Siguiendo</h4>
@@ -165,71 +165,118 @@
 
     <hr />
     <!-- LISTA DE ESTAS VIENDO -->
-    <h2><i class="fa-sharp fa-solid fa-hourglass-half"></i> Viendo </h2>
-    <p>Tus peliculas, series y libros</p>
-<!-- Contenedor scrollable -->
-<div class="scrollable-container">
-  <div class="row">
-      <!-- Iterar sobre los medios y mostrarlos -->
-      <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
+    <h2 class="viendo"><i class="fa-sharp fa-solid fa-hourglass-half"></i> Viendo </h2>
+    <!-- Contenedor scrollable -->
+    <div class="scrollable-container">
+      <div class="row">
+        <!-- Iterar sobre los medios y mostrarlos -->
+        <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
           <div th:each="media : ${viendo}" class="mr-2">
-              <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-                  <input type="hidden" name="tipo" th:value="${media.tipo}" />
-                  <input type="hidden" name="idMedia" th:value="${media.id}" />
-                  <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                      <div class="card" title="Acceder al contenido">
-                          <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                              alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                          <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                          <div class="card-body text-center">
-                              <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                          </div>
+            <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+              <input type="hidden" name="tipo" th:value="${media.tipo}" />
+              <input type="hidden" name="idMedia" th:value="${media.id}" />
+              <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                <div class="card" title="Acceder al contenido">
+                  <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                    alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                  <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                  <div class="card-body text-center">
+                    <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
+                    <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                      <div class="type_icon">
+                        <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
+                        <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
+                        <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
+                        <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
                       </div>
-                  </button>
-              </form>
+                      <div class="num_Rating d-flex gap-1">
+                        <div class="icono_media">
+                          <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="numero_media">
+                          <span id="media-rating" th:text="${media.rating}">0</span>
+                        </div>
+                      </div>
+                      <div class="num_Vistos d-flex gap-2">
+                        <div class="icono_media">
+                          <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <div class="numero_media">
+                          <span th:text="${media.numVisto}">0</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </form>
           </div>
+        </div>
       </div>
-  </div>
-</div>
+    </div>
 
     <hr />
     <!-- Encabezado fuera del contenedor scrollable -->
-<h2><i class="fa-solid fa-heart"></i> Favoritos </h2>
+    <h2 class="favoritos"><i class="fa-solid fa-heart"></i> Favoritos </h2>
 
-<!-- Contenedor scrollable -->
-<div class="scrollable-container">
-    <div class="row">
+    <!-- Contenedor scrollable -->
+    <div class="scrollable-container">
+      <div class="row">
         <!-- Iterar sobre los medios y mostrarlos -->
         <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
-            <div th:each="media : ${favoritos}" class="mr-2">
-                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-                    <input type="hidden" name="tipo" th:value="${media.tipo}" />
-                    <input type="hidden" name="idMedia" th:value="${media.id}" />
-                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                        <div class="card" title="Acceder al contenido">
-                            <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                                alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                            <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                            <div class="card-body text-center">
-                                <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6>
-                            </div>
+          <div th:each="media : ${favoritos}" class="mr-2">
+            <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+              <input type="hidden" name="tipo" th:value="${media.tipo}" />
+              <input type="hidden" name="idMedia" th:value="${media.id}" />
+              <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                <div class="card" title="Acceder al contenido">
+                  <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                    alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                  <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                  <div class="card-body text-center">
+                    <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
+                    <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                      <div class="type_icon">
+                        <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
+                        <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
+                        <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
+                        <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
+                      </div>
+                      <div class="num_Rating d-flex gap-1">
+                        <div class="icono_media">
+                          <i class="fa-solid fa-star"></i>
                         </div>
-                    </button>
-                </form>
-            </div>
+                        <div class="numero_media">
+                          <span id="media-rating" th:text="${media.rating}">0</span>
+                        </div>
+                      </div>
+                      <div class="num_Vistos d-flex gap-2">
+                        <div class="icono_media">
+                          <i class="fa-regular fa-eye"></i>
+                        </div>
+                        <div class="numero_media">
+                          <span th:text="${media.numVisto}">0</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
 
     <hr />
   </div>
 
-    <footer>
-      <th:block th:replace="fragments/footer.html :: footer" />
-    </footer>
-    <script th:src="@{/js/user.js}" src="js/user.js"></script>
-    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+  <footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
+  </footer>
+  <script th:src="@{/js/user.js}" src="js/user.js"></script>
+  <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
 </body>
 
 </html>

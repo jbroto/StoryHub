@@ -12,9 +12,9 @@
         <form method="post">
         <div class="row d-flex flex-column justify-content-between">
             <h2>Notificaciones</h2>
-            <div id="botones" class="text-end">
-                <button id="seleccionadas" type="sumbit" class="btn btn-outline-danger d-none">Leer seleccionadas</button>
-                <button id="todas" class="btn btn-danger">Leer todas</button>
+            <div id="botones" class="text-end" th:if="${notificaciones.size() > 0}">
+                <button id="seleccionadas" type="sumbit" class="btn btn-outline-danger d-none">Marcar como leído la selección</button>
+                <button id="todas" class="btn btn-danger">Marcar todo como leído</button>
             </div>
         </div>
         

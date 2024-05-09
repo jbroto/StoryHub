@@ -54,11 +54,15 @@ $(document).ready(function(){
                 $('.no-visto').parent().parent().removeClass('sin-ver');
                 $('.no-visto').removeClass('no-visto');
                 sinLeer.text(0);
-                $('#notificationMenu').children().not('#sinNotis, #id-boton').hide();
-
-
+                const elementosConDataId = $('#notificationMenu').find('[data-id]');
+                // Filtrar los elementos para excluir los que tienen el ID 'sinNotis'
+                var elementosFiltrados = elementosConDataId.filter(function() {
+                    return $(this).attr('id') !== 'sinNotis';
+                })
+                elementosFiltrados.hide();
+                $('#sinNotis').show();
             }
-        }).catch(error =>{
+}).catch(error =>{
 
         })
     });

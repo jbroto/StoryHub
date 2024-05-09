@@ -49,10 +49,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
-                        <!-- ADMIN -->
-                        <li class="nav-item mx-3">
-                            <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}">Administrar</a>
-                        </li>
                         <!-- DROPDOWN DEL PERFIL" -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,8 +56,10 @@
                                 <span th:text="${session.u.username}">Pepe</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <a th:if="${session.u.hasRole('ADMIN')}" class="dropdown-item" th:href="@{/admin/}"><i class="fa-solid fa-ban"></i></i> Reportes de comentarios</a>
                                 <a class="dropdown-item" th:href="@{/user/{id}(id=${session.u.id})}"><i class="fa-solid fa-house"></i> Home</a>
                                 <a class="dropdown-item" th:href="@{/user/notificaciones}"><i class="fa-regular fa-bell"></i> Notificaciones</a>
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">
                                     <form th:action="@{/logout}" method="post">
@@ -72,11 +70,19 @@
                                 </a>
                             </div>
                         </li>
+                        <!--OPCIONES DEL ADMINISTRADOR-->
+                        <li th:if="${session.u.hasRole('ADMIN')}"  class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="admin-options" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span>Opciones del administrador</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="admin-options">
+                                <a class="dropdown-item" th:href="@{/admin/}"><i class="fa-solid fa-ban"></i></i> Reportes de comentarios</a>
+                        </li>
                         <li class="nav-item "><a class="nav-link" th:href="@{/user/{id}/social/followers(id=${session.u.id})}">
                             <i class="fa-solid fa-users"></i> Social</a></li>
                         <!--<li class="nav-item "><a class="nav-link" th:href="@{/login}">Login</a></li> YO QUITARIA LA PESTAÑA DEL LOGIN --> 
-                        <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">
-                            <i class="fa-solid fa-flag"></i> Reportar</a></li>
+<!--                         <li class="nav-item "><a class="nav-link" th:href="@{/adminreport}">
+                            <i class="fa-solid fa-flag"></i> Reportar</a></li> -->
                         <!--<li class="nav-item "><a class="nav-link" th:href="@{/contenido}">Contenido</a></li>-->
                         <li class="nav-item align-self-center me-4">
                             <!-- Dropdown -->

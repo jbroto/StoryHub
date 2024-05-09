@@ -51,7 +51,7 @@
                                         <i th:if="${item.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
                                     </div>
     
-                                    <div class="num_Rating d-flex gap-2">
+                                    <div class="num_Rating d-flex gap-1">
                                         <div class="icono_media">
                                             <i class="fa-solid fa-star"></i>
                                         </div>
@@ -59,7 +59,7 @@
                                             <span id="media-rating" th:text="${item.rating}">0</span>
                                         </div>
                                     </div>
-                                    <div class="num_Viendo d-flex gap-2">
+                                    <div class="num_Viendo d-flex gap-1">
                                         <div class="icono_media">
                                             <i class="fa-sharp fa-solid fa-hourglass-half"></i>
                                         </div>
@@ -67,7 +67,7 @@
                                             <span th:text="${item.numViendo}">0</span>
                                         </div>
                                     </div>
-                                    <div class="num_Vistos d-flex gap-2">
+                                    <div class="num_Vistos d-flex gap-1">
                                         <div class="icono_media">
                                             <i class="fa-regular fa-eye"></i>
                                         </div>
@@ -75,7 +75,7 @@
                                             <span th:text="${item.numVisto}">0</span>
                                         </div>
                                     </div>
-                                    <div class="num_Listas d-flex gap-2">
+                                    <div class="num_Listas d-flex gap-1">
                                         <div class="icono_media">
                                             <i class="fa-solid fa-list-ul"></i>
                                         </div>
@@ -83,7 +83,7 @@
                                             <span th:text="${item.numListas}">0</span>
                                         </div>
                                     </div>
-                                    <div class="num_Favoritos d-flex gap-2">
+                                    <div class="num_Favoritos d-flex gap-1">
                                         <div class="icono_media">
                                             <i class="fa-solid fa-heart"></i>
                                         </div>
@@ -91,6 +91,14 @@
                                             <span th:text="${item.numFavs}">0</span>
                                         </div>
                                     </div>
+                                    <div class="num_Comments d-flex gap-1">
+                                        <div class="icono_media">
+                                          <i class="fa-solid fa-comment"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                          <span th:text="${item.comments.size}">0</span>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </div>

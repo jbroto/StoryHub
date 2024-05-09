@@ -191,7 +191,7 @@
 
     <div class="container mb-2">
         <div class="contenido-comentarios">
-            <h2><i class="fa-regular fa-comments"></i> Comentarios</h2>
+            <h2><i class="fa-regular fa-comments"></i> <span th:text="${media.comments.size}"> 0</span> Comentarios</h2>
             <!--Boton para poner un comentario-->
             <h4>Añade un comentario</h4>
             <textarea type="text" id="commentText" placeholder="Escribe tu comentario aquí"></textarea><br>
@@ -210,6 +210,7 @@
                             </h4>
                         </div>
                         <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+
                     </a>
                     <div class="card-body">
                         <span class="card-text comentario-texto" th:text="${comentario.text}"

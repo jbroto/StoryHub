@@ -197,12 +197,20 @@
                           <span id="media-rating" th:text="${media.rating}">0</span>
                         </div>
                       </div>
-                      <div class="num_Vistos d-flex gap-2">
+                      <div class="num_Vistos d-flex gap-1">
                         <div class="icono_media">
                           <i class="fa-regular fa-eye"></i>
                         </div>
                         <div class="numero_media">
                           <span th:text="${media.numVisto}">0</span>
+                        </div>
+                      </div>
+                      <div class="num_Comments d-flex gap-1">
+                        <div class="icono_media">
+                          <i class="fa-solid fa-comment"></i>
+                        </div>
+                        <div class="numero_media">
+                          <span th:text="${media.comments.size}">0</span>
                         </div>
                       </div>
                     </div>
@@ -250,12 +258,20 @@
                           <span id="media-rating" th:text="${media.rating}">0</span>
                         </div>
                       </div>
-                      <div class="num_Vistos d-flex gap-2">
+                      <div class="num_Vistos d-flex gap-1">
                         <div class="icono_media">
                           <i class="fa-regular fa-eye"></i>
                         </div>
                         <div class="numero_media">
                           <span th:text="${media.numVisto}">0</span>
+                        </div>
+                      </div>
+                      <div class="num_Comments d-flex gap-1">
+                        <div class="icono_media">
+                          <i class="fa-solid fa-comment"></i>
+                        </div>
+                        <div class="numero_media">
+                          <span th:text="${media.comments.size}">0</span>
                         </div>
                       </div>
                     </div>

@@ -6,7 +6,8 @@
 }
 
 .comentario-box {
-    background-color: #f0f0f0;
+    background: rgba(42, 42, 42, 0.9);
+    color:#ccc;
     border: 2px solid #ccc;
     border-radius: 10px;
     padding: 20px;
@@ -108,6 +109,14 @@
 
 .cabecera-comentario{
     gap: 20px;
+}
+
+.nombre-comentario{
+    color:#fff;
+}
+
+.nombre-comentario:hover{
+    color:#ddd;
 }
 
 *{

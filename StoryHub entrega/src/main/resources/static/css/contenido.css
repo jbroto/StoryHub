@@ -147,6 +147,15 @@ body{
     word-wrap: break-word;
 }
 
+.nombre-comentario{
+    color:#fff;
+}
+
+.nombre-comentario:hover{
+    color:#ddd;
+}
+
+
 .cabecera-comentario {
     gap: 20px;
 }

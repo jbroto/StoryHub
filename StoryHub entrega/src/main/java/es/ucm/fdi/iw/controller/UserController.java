@@ -257,7 +257,7 @@ public class UserController {
 	// BUSQUEDA---------------------------------------------------------------
 	@GetMapping("/busqueda")
 	public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model, HttpSession session) {
-		System.out.println(paramBusqueda + '\n' + '\n');
+		log.info(paramBusqueda + '\n' + '\n');
 		User a = (User) session.getAttribute("u");
 		User target = entityManager.find(User.class, a.getId());
 
@@ -271,7 +271,7 @@ public class UserController {
 				.getResultList();
 
 		model.addAttribute("users", users);
-		System.out.println("ESTOY ENTRANDO AQUÍ" + target.getId());
+		log.info("ESTOY ENTRANDO AQUÍ" + target.getId());
 
 		try {
 			// lo parseamos tipo JSON
@@ -289,7 +289,7 @@ public class UserController {
 
 			// Iterar sobre los elementos de la matriz "results"
 			for (JsonNode resultNode : resultsNodeTMDB) {
-				System.out.println(resultNode.get("id").asLong());
+				log.info(resultNode.get("id").asLong());
 				// parseamos los datos de la API TMDB
 				Media m = s.parseTMDBtoMedia(resultNode);
 
@@ -301,7 +301,7 @@ public class UserController {
 				listaBooks.add(m);
 			}
 
-			System.out.println(listaAudiovisual);
+			log.info(listaAudiovisual);
 			model.addAttribute("user", target);
 			model.addAttribute("resultado", listaAudiovisual);
 			model.addAttribute("result", resultTMDB);
@@ -401,10 +401,10 @@ public class UserController {
 			ObjectMapper objectMapper = new ObjectMapper();
 			String jsonNotis = objectMapper.writeValueAsString(notis);
 
-			System.out.println("Notificaciones cargadas para el usuario: " + u.getUsername());
+			log.info("Notificaciones cargadas para el usuario: " + u.getUsername());
 			return ResponseEntity.ok(jsonNotis);
 		} catch (Exception e) {
-			System.out.println("Error al cargar notificaciones para el usuario: " + u.getUsername());
+			log.info("Error al cargar notificaciones para el usuario: " + u.getUsername());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
@@ -421,7 +421,7 @@ public class UserController {
 			n.setVisto(true);
 			entityManager.persist(n);
 			entityManager.flush();
-			System.out.println(n.getVisto());
+			log.info(n.getVisto());
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			return ResponseEntity.ok(false);
@@ -437,7 +437,7 @@ public class UserController {
 			List<Noti> ns = entityManager.createNamedQuery("Noti.byObejivo", Noti.class)
 					.setParameter("objetivo", u.getId()).getResultList();
 			model.addAttribute("notificaciones", ns);
-			System.out.println("HOLA" + ns);
+			log.info("HOLA" + ns);
 		} catch (Exception e) {
 
 		}
@@ -627,7 +627,7 @@ public class UserController {
 	@Transactional
 	public String contenido(@PathVariable long id, @RequestParam("tipo") String tipo,
 			@RequestParam("idMedia") Long idMedia, Model model, HttpSession session) {
-		System.out.println(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
+		log.info(tipo + '\n' + idMedia + '\n'); // quitar, solo para comprobar en debug
 
 		User copia = (User) session.getAttribute("u");
 
@@ -886,7 +886,7 @@ public class UserController {
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
 		model.addAttribute("suscrito", u.getSuscripciones().contains(l));
-		System.out.println(u.getSuscripciones().contains(l));
+		log.info( u.getSuscripciones().contains(l));
 		return "lista";
 	}
 
@@ -907,7 +907,7 @@ public class UserController {
 
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
 
-			System.out.println(lista.getName());
+			log.info(lista.getName());
 
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
@@ -993,7 +993,7 @@ public class UserController {
 
 			Media m = entityManager.find(Media.class, idMedia);// obtenemos el contenido si esta en BD
 
-			System.out.println(lista.getName());
+			log.info(lista.getName());
 
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);

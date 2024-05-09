@@ -63,7 +63,7 @@ $(document).ready(function(){
         })
     });
 
-    $('#seleccionar').click(function(e) {
+    $('#seleccionadas').on('click', function(e) {
         e.preventDefault();
 
         var idsSeleccionados = [];
@@ -71,17 +71,14 @@ $(document).ready(function(){
             idsSeleccionados.push($(this).val());
         });
 
-        $.ajax({
-            url: '/user/leer-seleccionadas',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(idsSeleccionados),
-            success: function(response) {
-                // Manejar la respuesta del servidor si es necesario
-            },
-            error: function(xhr, status, error) {
-                // Manejar el error si es necesario
+        go('leer-seleccionadas', 'post', idsSeleccionados).then(response =>{
+            if(response){
+                $('#tabla input:checked').parent().parent().parent().removeClass('sin-ver');
+                $('#tabla input:checked').each(function() {
+                    $(this).closest('tr').find('.no-visto').text('Visto').removeClass('no-visto');
+                    $(this).prop('checked', false); // Deseleccionar el checkbox
+                });
             }
-        });
+        })
     });
 });

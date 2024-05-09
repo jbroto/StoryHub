@@ -77,6 +77,7 @@ $(document).ready(function(){
                 $('#tabla input:checked').each(function() {
                     $(this).closest('tr').find('.no-visto').text('Visto').removeClass('no-visto');
                     $(this).prop('checked', false); // Deseleccionar el checkbox
+                    $('#seleccionadas').fadeOut(200);
                 });
             }
         })

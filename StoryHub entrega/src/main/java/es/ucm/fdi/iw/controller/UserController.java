@@ -693,7 +693,7 @@ public class UserController {
 
 			List<Comment> comentsMedia = entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
 					.setParameter("idMedia", idMedia).getResultList();
-
+ 
 			m.setComments(comentsMedia);
 
 			model.addAttribute("comentario", comentario);
@@ -795,20 +795,20 @@ public class UserController {
 			User usuario = entityManager.find(User.class, copia.getId());
 			model.addAttribute("user", usuario);
 			Comment padre = entityManager.find(Comment.class, idComent);
-			Comment coment = new Comment();
-			coment.setAuthor(usuario);
-			coment.setText(text);
-			coment.setDateSent(LocalDate.now());
-			coment.setFather(padre);
-			coment.setMedia(padre.getMedia());
+			Comment respuesta = new Comment();
+			respuesta.setAuthor(usuario);
+			respuesta.setText(text);
+			respuesta.setDateSent(LocalDate.now());
+			respuesta.setMedia(padre.getMedia());
+			padre.addReply(respuesta);
 
-			entityManager.persist(coment);
+			entityManager.persist(respuesta);
 			entityManager.flush();
 
 			List<Comment> comentarios = entityManager.createNamedQuery("Comentario.byFather", Comment.class)
 					.setParameter("father", idComent).getResultList();
 
-			model.addAttribute("comentario", coment);
+			model.addAttribute("comentario", respuesta);
 			model.addAttribute("comentarios", comentarios);
 			model.addAttribute("coment", padre);
 			model.addAttribute("user", usuario);
@@ -816,11 +816,11 @@ public class UserController {
 			log.info("Comentario de ", copia.getId());
 
 			Map<String, String> response = new HashMap<>();
-			response.put("author", coment.getAuthor().getUsername());
-			response.put("authorId", String.valueOf(coment.getAuthor().getId()));
-			response.put("dateSent", coment.getDateSent().toString());
-			response.put("text", coment.getText());
-			response.put("comentId", String.valueOf(coment.getId()));
+			response.put("author", respuesta.getAuthor().getUsername());
+			response.put("authorId", String.valueOf(respuesta.getAuthor().getId()));
+			response.put("dateSent", respuesta.getDateSent().toString());
+			response.put("text", respuesta.getText());
+			response.put("comentId", String.valueOf(respuesta.getId()));
 
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {

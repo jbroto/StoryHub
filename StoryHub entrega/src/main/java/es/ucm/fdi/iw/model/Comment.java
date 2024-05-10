@@ -3,7 +3,10 @@ package es.ucm.fdi.iw.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
@@ -38,13 +40,29 @@ public class Comment implements Transferable<Comment.Transfer> {
     private User author;
     @ManyToOne
     private Media media;
-    @OneToOne
-    private Comment father;
+
+    @ManyToOne
+    private Comment father; //columna padre
+    
+    @OneToMany(mappedBy = "father", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> replies = new ArrayList<>(); // Lista de respuestas que usan la columna padre
 
     private String text;
     private LocalDate dateSent;
     private boolean report;
     private boolean deleted;
+
+
+    public void addReply(Comment reply) {
+        replies.add(reply);
+        reply.setFather(this);
+    }
+
+    public void removeReply(Comment reply) {
+        replies.remove(reply);
+        reply.setFather(null);
+    }
+
 
     @Getter
     @AllArgsConstructor

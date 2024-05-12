@@ -5,7 +5,7 @@ $(document).ready(function () {
     let messageDiv = document.getElementById("comments");
 
     $("#comment-click").hide();
-    
+
     console.log("ID DEL USUARIO: " + userId + " MEDIA CON ID: " + mediaId + " Y DE TIPO: " + mediaTipo)
 
     // Función para enviar una solicitud AJAX al controlador
@@ -17,11 +17,11 @@ $(document).ready(function () {
             '&mediaId=' + mediaId;
 
         go(dataURL, "POST").then(response => {
-            if(response){
+            if (response) {
                 console.log("Solicitud enviada con éxito");
 
             }
-            else{
+            else {
                 console.log("No se pudo tratar su solicitud");
 
             }
@@ -63,7 +63,7 @@ $(document).ready(function () {
     rateInputs.on('change', function () {
         submitRating($(this).val());
         // Actualizamos el valor de rating-value
-        
+
     });
 
     function submitRating(rating) {
@@ -103,6 +103,10 @@ $(document).ready(function () {
         go(url, 'POST')
             .then(response => {
                 console.log("El comentario se ha enviado correctamente");
+                // Aumentamos el número de comentarios en el HTML
+                let comTotales = document.querySelector('.comentarios-totales');
+                let numComents = parseInt(comTotales.textContent);
+                comTotales.textContent = numComents + 1;
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
                 messageDiv.insertAdjacentHTML("beforebegin", renderMsg(response));
             })
@@ -112,17 +116,17 @@ $(document).ready(function () {
     }
 
 
-    $(".btn-report").on('click', function(e){
+    $(".btn-report").on('click', function (e) {
         e.preventDefault();
         var commentId = $("#comment-click").val();
         console.log(commentId + " es el fokin coment");
-        let url = '/user/' + userId + '/' + mediaId+ "/reportarComentario/"+commentId;
+        let url = '/user/' + userId + '/' + mediaId + "/reportarComentario/" + commentId;
         console.log("______________________________");
         console.log(url);
         var flag = $('#flag-' + commentId);
 
         go(url, 'POST').then(response => {
-            if(response){
+            if (response) {
 
                 $(this).hide();
                 $(this).parent().hide();
@@ -131,10 +135,10 @@ $(document).ready(function () {
 
             }
         })
-        .catch(error => {
+            .catch(error => {
                 console.error("Error: " + error);
             });
-        
+
     })
 
 

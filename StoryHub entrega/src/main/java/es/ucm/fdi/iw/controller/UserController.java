@@ -255,6 +255,7 @@ public class UserController {
 	}
 
 	// BUSQUEDA---------------------------------------------------------------
+	@Transactional
 	@GetMapping("/busqueda")
 	public String busqueda(@RequestParam("paramBusqueda") String paramBusqueda, Model model, HttpSession session) {
 		log.info(paramBusqueda + '\n' + '\n');
@@ -289,11 +290,19 @@ public class UserController {
 
 			// Iterar sobre los elementos de la matriz "results"
 			for (JsonNode resultNode : resultsNodeTMDB) {
-				log.info(resultNode.get("id").asLong());
-				// parseamos los datos de la API TMDB
-				Media m = s.parseTMDBtoMedia(resultNode);
+				long mediaId = resultNode.get("id").asLong();
+				String tipo = resultNode.get("media_type").asText();
+				log.info("Contenido con ID: " + mediaId + " y de TIPO: " + tipo);
 
-				listaAudiovisual.add(m);
+				if (tipo.equalsIgnoreCase("tv") || tipo.equalsIgnoreCase("movie")) { //solo peliculas o series
+					// buscamos el contenido en la BD
+					Media m = entityManager.find(Media.class, mediaId);
+					if (m == null) {// si no esta lo añadimos
+						m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
+						entityManager.persist(m);
+					}
+					listaAudiovisual.add(m);
+				}
 			}
 
 			for (JsonNode resultNode : resultsNodeBooks) {
@@ -316,8 +325,7 @@ public class UserController {
 		model.addAttribute("paramBusqueda", paramBusqueda);
 		model.addAttribute("user", target);
 
-		return "busqueda"; // Asegúrate de devolver un valor en caso de que la lógica no llegue al return
-
+		return "busqueda";
 	}
 
 	// SUSCRIPCIONES----------------------------------------------
@@ -444,31 +452,30 @@ public class UserController {
 		return "notificaciones";
 	}
 
-	//MARCAR TODAS LAS NOTIFICACIONES COMO LEIDAS------------------
+	// MARCAR TODAS LAS NOTIFICACIONES COMO LEIDAS------------------
 	@PostMapping("/leer-todas")
 	@Transactional
 	public ResponseEntity<Boolean> leerTodas(HttpSession session) {
-		try{
+		try {
 			User u = (User) session.getAttribute("u");
 			List<Noti> ns = entityManager.createNamedQuery("Noti.byObejivo", Noti.class)
 					.setParameter("objetivo", u.getId()).getResultList();
-					for(Noti n: ns){
-						n.setVisto(true);
-						entityManager.persist(n);
-					}
+			for (Noti n : ns) {
+				n.setVisto(true);
+				entityManager.persist(n);
+			}
 			entityManager.flush();
 			return ResponseEntity.ok().body(true);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(false);
 		}
 	}
 
-	//MARCAR COMO VISTAS LA SELECCION
+	// MARCAR COMO VISTAS LA SELECCION
 	@PostMapping("/leer-seleccionadas")
 	@Transactional
-    public ResponseEntity<Boolean> leerSeleccionadas(@RequestBody List<Long> idsSeleccionados) {
-		try{
+	public ResponseEntity<Boolean> leerSeleccionadas(@RequestBody List<Long> idsSeleccionados) {
+		try {
 			for (Long id : idsSeleccionados) {
 				Noti n = entityManager.find(Noti.class, id);
 				n.setVisto(true);
@@ -476,12 +483,10 @@ public class UserController {
 			}
 			entityManager.flush();
 			return ResponseEntity.ok().body(true);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return ResponseEntity.status(500).body(false);
 		}
-    }
-	
+	}
 
 	// SEGUIDORES-------------------------------------------------
 
@@ -693,7 +698,7 @@ public class UserController {
 
 			List<Comment> comentsMedia = entityManager.createNamedQuery("Comentario.byMedia", Comment.class)
 					.setParameter("idMedia", idMedia).getResultList();
- 
+
 			m.setComments(comentsMedia);
 
 			model.addAttribute("comentario", comentario);
@@ -886,7 +891,7 @@ public class UserController {
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
 		model.addAttribute("suscrito", u.getSuscripciones().contains(l));
-		log.info( u.getSuscripciones().contains(l));
+		log.info(u.getSuscripciones().contains(l));
 		return "lista";
 	}
 
@@ -946,7 +951,7 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = usuario.getUsername()+" ha añadido " + m.getNombre() + " a la lista " + lista.getName();
+			String text = usuario.getUsername() + " ha añadido " + m.getNombre() + " a la lista " + lista.getName();
 
 			for (User u : lista.getSubscribers()) {
 				ObjectMapper mapper = new ObjectMapper();
@@ -1030,7 +1035,7 @@ public class UserController {
 			model.addAttribute("lista", lista);
 			log.info("Usuario, Media y Lista", copia.getId(), m, nombreLista);
 
-			String text = usuario.getUsername()+" ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
+			String text = usuario.getUsername() + " ha eliminado " + m.getNombre() + " de la lista " + lista.getName();
 
 			for (User u : lista.getSubscribers()) {
 				ObjectMapper mapper = new ObjectMapper();

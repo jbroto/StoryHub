@@ -23,13 +23,13 @@
             <div class="col-md-6 gap-2">
                 <div class="contenido-info">
                     <div class="titulo d-flex justify-content-start gap-4">
-                        <div class="type_icon"> 
+                        <div class="type_icon">
                             <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
                             <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
                             <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
                             <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
                         </div>
-                        <p  th:text="${media.nombre}"></p>
+                        <p th:text="${media.nombre}"></p>
 
                     </div>
                     <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
@@ -131,7 +131,7 @@
                                             <label for="star0" class="full" title="Eliminar valoración"></label>
 
                                         </div>
-                                      
+
 
                                     </div>
 
@@ -191,7 +191,7 @@
 
     <div class="container mb-2">
         <div class="contenido-comentarios">
-            <h2><i class="fa-regular fa-comments"></i> <span th:text="${media.comments.size}"> 0</span> Comentarios</h2>
+            <h2><i class="fa-regular fa-comments"></i> <span class="comentarios-totales" th:text="${media.comments.size}"> 0</span> Comentarios</h2>
             <!--Boton para poner un comentario-->
             <h4>Añade un comentario</h4>
             <textarea type="text" id="commentText" placeholder="Escribe tu comentario aquí"></textarea><br>
@@ -200,25 +200,40 @@
 
         <div id="comments">
             <div th:each="comentario : ${comentarios}" class="comment">
-                <div class="card mt-4">
-                    <a class="card-body cabecera-comentario d-flex align-items-center"
-                        th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
-                        <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
-                            width="40" height="40">
-                        <div>
-                            <h4 class="card-title nombre-comentario mb-1" th:text="${comentario.author.username}">Nombre
-                            </h4>
-                        </div>
-                        <span class="text-muted small mb-2" th:text="${comentario.dateSent}">Fecha</span>
+                <div class="card mt-4 d-flex">
+                    <div class="card-body  cabecera-comentario d-flex align-items-center">
+                        <a class="cabecera-comentario d-flex align-items-center gap-2"
+                            th:href="@{/user/{id}/(id=${comentario.author.id})}">
+                            <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
+                                width="40" height="40">
+                            
+                                <span class="text-muted small mb-1">Escrito por</span>
 
-                    </a>
+                                <h4 class="card-title nombre-comentario" th:text="${comentario.author.username}">Nombre
+                                </h4>
+                            
+                        </a>
+                        <a class="cabecera-comentario d-flex align-items-center"
+                            th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+
+                            <span class="text-muted small mb-1" th:text="${comentario.dateSent}">Fecha</span>
+                            <div class="comment-num-replies d-flex gap-1">
+                                <div class="icono_comment">
+                                    <i class="fa-regular fa-comment"></i>
+                                </div>
+                                <div class="numero_comment">
+                                    <span th:text="${comentario.replies.size}">0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                     <div class="card-body">
-                        <span class="card-text comentario-texto" th:text="${comentario.text}"
-                            th:classappend="${comentario.deleted} ? 'deleted-comment' : ''">
-                            Texto
-                        </span>
-
-
+                        <a th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                            <span class="card-text comentario-texto" th:text="${comentario.text}"
+                                th:classappend="${comentario.deleted} ? 'deleted-comment' : ''">
+                                Texto
+                            </span>
+                        </a>
                         <span th:if="${(comentario.author.id != user.id) and (!comentario.deleted)}">
                             <!--PARA QUE UN USUARIO NO PUEDA NI AUTOREPORTARSE NI QUE SEPA QUE LE HAN REPORTADO-->
                             <span th:if="${!comentario.report}">

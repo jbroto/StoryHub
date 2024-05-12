@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     function addComment() {
 
-        let url =  fatherId + '/nuevaRespuesta' +
+        let url = fatherId + '/nuevaRespuesta' +
             '?texto=' + $('#commentText').val() +
             '&fatherId=' + encodeURIComponent(fatherId);
 
@@ -24,6 +24,10 @@ $(document).ready(function () {
         go(url, 'POST')
             .then(response => {
                 console.log("El comentario se ha enviado correctamente");
+                // Aumentamos el número de comentarios en el HTML
+                let comTotales = document.querySelector('.comentarios-totales');
+                let numComents = parseInt(comTotales.textContent);
+                comTotales.textContent = numComents + 1;
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
                 messageDiv.insertAdjacentHTML("beforebegin", renderMsg(response));
             })
@@ -33,17 +37,17 @@ $(document).ready(function () {
     }
 
 
-    $(".btn-report").on('click', function(e){
+    $(".btn-report").on('click', function (e) {
         e.preventDefault();
         var commentId = $("#comment-click").val();
         console.log(commentId + " es el fokin coment");
-        let url = '/user/' + userId + '/' + mediaId+ "/reportarComentario/"+commentId;
+        let url = '/user/' + userId + '/' + mediaId + "/reportarComentario/" + commentId;
         console.log("______________________________");
         console.log(url);
         var flag = $('#flag-' + commentId);
 
         go(url, 'POST').then(response => {
-            if(response){
+            if (response) {
 
                 $(this).hide();
                 $(this).parent().hide();
@@ -52,10 +56,10 @@ $(document).ready(function () {
 
             }
         })
-        .catch(error => {
+            .catch(error => {
                 console.error("Error: " + error);
             });
-        
+
     })
 
 

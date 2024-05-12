@@ -176,20 +176,20 @@
               <input type="hidden" name="tipo" th:value="${media.tipo}" />
               <input type="hidden" name="idMedia" th:value="${media.id}" />
               <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                <div class="card" title="Acceder al contenido">
+                <div class="card">
                   <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
                     alt="portada" th:style="'height: 300px; object-fit: cover;'" />
                   <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                   <div class="card-body text-center">
                     <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
                     <div class="card-media-data d-flex flex-row justify-content-center gap-3">
-                      <div class="type_icon">
+                      <div class="type_icon" th:title="${media.tipo}">
                         <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
                         <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
                         <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
                         <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
                       </div>
-                      <div class="num_Rating d-flex gap-1">
+                      <div class="num_Rating d-flex gap-1" title="Valoración media">
                         <div class="icono_media">
                           <i class="fa-solid fa-star"></i>
                         </div>
@@ -197,7 +197,7 @@
                           <span id="media-rating" th:text="${media.rating}">0</span>
                         </div>
                       </div>
-                      <div class="num_Vistos d-flex gap-1">
+                      <div class="num_Vistos d-flex gap-1" title="Vistos">
                         <div class="icono_media">
                           <i class="fa-regular fa-eye"></i>
                         </div>
@@ -205,7 +205,7 @@
                           <span th:text="${media.numVisto}">0</span>
                         </div>
                       </div>
-                      <div class="num_Comments d-flex gap-1">
+                      <div class="num_Comments d-flex gap-1" title="Comentarios">
                         <div class="icono_media">
                           <i class="fa-solid fa-comment"></i>
                         </div>
@@ -237,20 +237,20 @@
               <input type="hidden" name="tipo" th:value="${media.tipo}" />
               <input type="hidden" name="idMedia" th:value="${media.id}" />
               <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                <div class="card" title="Acceder al contenido">
+                <div class="card">
                   <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
                     alt="portada" th:style="'height: 300px; object-fit: cover;'" />
                   <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                   <div class="card-body text-center">
                     <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
                     <div class="card-media-data d-flex flex-row justify-content-center gap-3">
-                      <div class="type_icon">
+                      <div class="type_icon" th:title="${media.tipo}">
                         <i th:if="${media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
                         <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
                         <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
                         <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
                       </div>
-                      <div class="num_Rating d-flex gap-1">
+                      <div class="num_Rating d-flex gap-1" title="Valoración media">
                         <div class="icono_media">
                           <i class="fa-solid fa-star"></i>
                         </div>
@@ -258,7 +258,7 @@
                           <span id="media-rating" th:text="${media.rating}">0</span>
                         </div>
                       </div>
-                      <div class="num_Vistos d-flex gap-1">
+                      <div class="num_Vistos d-flex gap-1" title="Vistos">
                         <div class="icono_media">
                           <i class="fa-regular fa-eye"></i>
                         </div>
@@ -266,7 +266,7 @@
                           <span th:text="${media.numVisto}">0</span>
                         </div>
                       </div>
-                      <div class="num_Comments d-flex gap-1">
+                      <div class="num_Comments d-flex gap-1" title="Comentarios">
                         <div class="icono_media">
                           <i class="fa-solid fa-comment"></i>
                         </div>

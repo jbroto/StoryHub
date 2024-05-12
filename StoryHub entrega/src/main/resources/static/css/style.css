@@ -75,3 +75,17 @@ body{
 .num_Favoritos .icono_media {
   color: orange;
 }
+
+/* COMENTARIOS------------------------------------------------- */
+.comentario-texto {
+  word-wrap: break-word;
+  color:#fff;
+}
+
+.nombre-comentario, .comment-num-replies{
+  color:#fff;
+}
+
+.nombre-comentario:hover, .comment-num-replies:hover, .comentario-texto:hover{
+  color:#ddd;
+}

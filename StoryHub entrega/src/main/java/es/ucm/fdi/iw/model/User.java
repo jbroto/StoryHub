@@ -80,7 +80,8 @@ public class User implements Transferable<User.Transfer> {
     @ManyToMany(mappedBy = "subscribers")
     private List<Lista> suscripciones;
 
-
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comentarios = new ArrayList<>();
 
     /**
      * Checks whether this user has a given role.

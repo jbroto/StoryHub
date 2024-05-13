@@ -18,75 +18,26 @@
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
                 <button class="btn btn-outline-dark" id="user-search"> <i class="fa-solid fa-user"></i>
                     Usuarios (<span id="resultadosUser" th:text="${users.size()}">0</span>)</button>
-                <button class="btn btn-dark" id="media-search">
-                    <span><i class="fa-solid fa-film"></i> + <i class="fa-solid fa-tv"></i></span>
-                    Audiovisual (<span id="resultadosAudiovisual" th:text="${resultado.size()}">0</span>)</button>
+                <button class="btn btn-outline-dark btn-block" id="series-search">
+                    <i class="fa-solid fa-tv"></i> Series (<span id="resultadosSeries"
+                        th:text="${resultadoSeries.size}">0</span>)
+                </button>
+                <button class="btn btn-outline-dark btn-block" id="movies-search">
+                    <i class="fa-solid fa-film"></i> Películas (<span id="resultadosPeliculas"
+                        th:text="${resultadoPeliculas.size}">0</span>)
+                </button>
                 <button class="btn btn-outline-dark" id="book-search"> <i class="fa-solid fa-book"></i>
                     Libros (<span id="resultadosBook" th:text="${resultadoBooks.size()}">0</span>)</button>
             </div>
         </div>
 
         <h2 class="mt-5">Resultados para: <span id="searchParam" th:text="${paramBusqueda}"></span> </h2>
-        <div id="resultado-audiovisual" class="row mb-2">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
-                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
-
-                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
-                    <input type="hidden" name="idMedia" th:value="${item.id}" />
-                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                        <div class="card">
-                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
-                            <div class="card-body">
-                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
-
-                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
-                                    <div class="type_icon" th:title="${item.tipo}">
-                                        <i th:if="${item.tipo == 'tv'}" class="fa-solid fa-tv"></i>
-                                        <i th:if="${item.tipo == 'movie'}" class="fa-solid fa-film"></i>
-                                        <i th:if="${item.tipo == 'book'}" class="fa-solid fa-book"></i>
-                                        <i th:if="${item.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
-                                    </div>
-
-                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
-                                        <div class="icono_media">
-                                            <i class="fa-solid fa-star"></i>
-                                        </div>
-                                        <div class="numero_media">
-                                            <span id="media-rating" th:text="${item.rating}">0</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
-                                        <div class="icono_media">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </div>
-                                        <div class="numero_media">
-                                            <span th:text="${item.numVisto}">0</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
-                                        <div class="icono_media">
-                                            <i class="fa-solid fa-comment"></i>
-                                        </div>
-                                        <div class="numero_media">
-                                            <span th:text="${item.comments.size}">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div id="resultado-users" class="row d-none mb-2">
+        <div id="resultado-users" class="row mb-2">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="usuario : ${users}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                <form th:action="@{/user/__${user.id}__/perfilUsuario}" method="get">
+                <form th:action="@{/user/__${usuario.id}__}" method="get">
                     <input type="hidden" name="username" th:value="${usuario.username}">
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
@@ -134,17 +85,154 @@
                 </form>
             </div>
         </div>
-        <div id="resultado-libros" class="row mb-2 d-none">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
+
+        <div id="resultado-series" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoSeries}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
 
-                <form method="get">
-                    <!-- <button type="submit" class="btn btn-link text-decoration-none p-0 m-0"> -->
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+
+                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                    <input type="hidden" name="idMedia" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                            <div class="card-body">
+                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
+
+                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                    <div class="type_icon" th:title="${item.tipo}">
+                                        <i class="fa-solid fa-tv"></i>
+                                    </div>
+
+                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span id="media-rating" th:text="${item.rating}">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
+                                        <div class="icono_media">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.numVisto}">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-comment"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.comments.size}">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="resultado-peliculas" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoPeliculas}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+
+                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                    <input type="hidden" name="idMedia" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                            <div class="card-body">
+                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
+
+                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                    <div class="type_icon" th:title="${item.tipo}">
+                                        <i class="fa-solid fa-film"></i>
+                                    </div>
+
+                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span id="media-rating" th:text="${item.rating}">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
+                                        <div class="icono_media">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.numVisto}">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-comment"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.comments.size}">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="resultado-libros" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                    <input type="hidden" name="idMedia" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                     <div class="card">
                         <img class="card-img w-500 h-100" th:src="@{${item.coverImageUrl}}" alt="Cover">
                         <div class="card-body">
                             <h6><b><span th:text="${item.nombre}"></span></b></h6>
-                            <h6><span th:text="${item.tipo}"></span></h6>
+                            <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                <div class="type_icon" th:title="${item.tipo}">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+
+                                <div class="num_Rating d-flex gap-1" title="Valoración media">
+                                    <div class="icono_media">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div class="numero_media">
+                                        <span id="media-rating" th:text="${item.rating}">0</span>
+                                    </div>
+                                </div>
+
+                                <div class="num_Vistos d-flex gap-1" title="Vistos">
+                                    <div class="icono_media">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </div>
+                                    <div class="numero_media">
+                                        <span th:text="${item.numVisto}">0</span>
+                                    </div>
+                                </div>
+
+                                <div class="num_Comments d-flex gap-1" title="Comentarios">
+                                    <div class="icono_media">
+                                        <i class="fa-solid fa-comment"></i>
+                                    </div>
+                                    <div class="numero_media">
+                                        <span th:text="${item.comments.size}">0</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     </button>

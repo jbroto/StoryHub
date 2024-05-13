@@ -43,12 +43,18 @@ public class GoogleBookService {
         media.setTipo("book");
 
         JsonNode industryIdentifiersNode = resultNode.get("volumeInfo").get("industryIdentifiers");
-        System.out.println(industryIdentifiersNode+ " ES EL PUTISIMO");
+        System.out.println(industryIdentifiersNode);
         if (industryIdentifiersNode != null) {
             for (JsonNode identifier : industryIdentifiersNode) {
-                if (identifier.get("type").asText().equals("ISBN_10")) {
-                    media.setId(identifier.get("identifier").asLong());
+                String isbn = identifier.get("identifier").asText();
+                try {
+                    long id = Long.parseLong(isbn);
+                    // Si la conversión tiene éxito, asigna el valor a la propiedad id
+                    media.setId(id);
                     break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ESTE ISBN NO PUEDE SER DE TIPO LONG: " + isbn);
+                    continue;//continuamos buscando otro isbn
                 }
             }
         } else {
@@ -66,6 +72,13 @@ public class GoogleBookService {
             media.setCoverImageUrl(resultNode.get("volumeInfo").get("imageLinks").get("thumbnail").asText());
             System.out.println(media.getCoverImageUrl() + "EL ENLACE");
         }
+        media.setBackdropImageUrl("https://i.pinimg.com/originals/67/18/22/671822c2f63dd5f65d8fd15c9710420b.jpg");
+
+        media.setRating(0.0);
+        media.setNumFavs(0);
+        media.setNumVisto(0);
+        media.setNumListas(0);
+        media.setNumViendo(0);
 
         return media;
     }

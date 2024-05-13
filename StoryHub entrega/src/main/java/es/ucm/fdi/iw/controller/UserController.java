@@ -264,7 +264,8 @@ public class UserController {
 
 		TMDBService s = new TMDBService();
 		GoogleBookService s2 = new GoogleBookService();
-		String resultTMDB = s.searchTerm(paramBusqueda);
+		String resultTMDBSeries = s.searchTerm(paramBusqueda,"tv");
+		String resultTMDBMovies = s.searchTerm(paramBusqueda,"movie");
 		String resultBooks = s2.searchTerm(paramBusqueda);
 
 		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.aproxUsername", User.class)
@@ -278,44 +279,82 @@ public class UserController {
 			// lo parseamos tipo JSON
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			JsonNode rootNodeTMDB = objectMapper.readTree(resultTMDB);
+			JsonNode rootNodeTMDBSeries = objectMapper.readTree(resultTMDBSeries);
+			JsonNode rootNodeTMDBMovies = objectMapper.readTree(resultTMDBMovies);
 			JsonNode rootNodeBooks = objectMapper.readTree(resultBooks);
 
 			// Obtener la matriz "results"
-			JsonNode resultsNodeTMDB = rootNodeTMDB.get("results");
+			JsonNode resultsNodeTMDBSeries = rootNodeTMDBSeries.get("results");
+			JsonNode resultsNodeTMDBMovies = rootNodeTMDBMovies.get("results");
 			JsonNode resultsNodeBooks = rootNodeBooks.get("items");
 
-			ArrayList<Media> listaAudiovisual = new ArrayList<>();
+			ArrayList<Media> listaPeliculas = new ArrayList<>();
+			ArrayList<Media> listaSeries = new ArrayList<>();
 			ArrayList<Media> listaBooks = new ArrayList<>();
 
-			// Iterar sobre los elementos de la matriz "results"
-			for (JsonNode resultNode : resultsNodeTMDB) {
+			// Iterar sobre los elementos de la matriz "results" para buscar las series
+			for (JsonNode resultNode : resultsNodeTMDBSeries) {
 				long mediaId = resultNode.get("id").asLong();
-				String tipo = resultNode.get("media_type").asText();
-				log.info("Contenido con ID: " + mediaId + " y de TIPO: " + tipo);
+				log.info("Contenido con ID: " + mediaId + " y de TIPO TV" );
 
-				if (tipo.equalsIgnoreCase("tv") || tipo.equalsIgnoreCase("movie")) { //solo peliculas o series
-					// buscamos el contenido en la BD
-					Media m = entityManager.find(Media.class, mediaId);
-					if (m == null) {// si no esta lo añadimos
-						m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
-						entityManager.persist(m);
-					}
-					listaAudiovisual.add(m);
+				// buscamos el contenido en la BD
+				Media m = entityManager.find(Media.class, mediaId);
+				if (m == null) {// si no esta lo añadimos
+					m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
+					m.setTipo("tv");
+					entityManager.persist(m);
 				}
+				listaSeries.add(m);
 			}
+			log.info(listaSeries);
+
+			// Iterar sobre los elementos de la matriz "results" para buscar las peliculas
+			for (JsonNode resultNode : resultsNodeTMDBMovies) {
+				long mediaId = resultNode.get("id").asLong();
+				log.info("Contenido con ID: " + mediaId + " y de TIPO MOVIE");
+
+				// buscamos el contenido en la BD
+				Media m = entityManager.find(Media.class, mediaId);
+				if (m == null) {// si no esta lo añadimos
+					m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
+					m.setTipo("movie");
+					entityManager.persist(m);
+				}
+				listaPeliculas.add(m);
+			}
+			log.info(listaPeliculas);
 
 			for (JsonNode resultNode : resultsNodeBooks) {
-				Media m = s2.parseGoogleBook(resultNode);
+				long mediaId = 0;
+				JsonNode industryIdentifiersNode = resultNode.get("volumeInfo").get("industryIdentifiers");
+				if (industryIdentifiersNode != null) {
+					for (JsonNode identifier : industryIdentifiersNode) {
+						String isbn = identifier.get("identifier").asText();
+						try {
+							mediaId = Long.parseLong(isbn);
+							// Si la conversión tiene éxito, asigna el valor a la propiedad id
+							break;
+						} catch (NumberFormatException e) {
+							System.out.println("ESTE ISBN NO PUEDE SER DE TIPO LONG: " + isbn);
+							continue;//continuamos buscando otro isbn
+						}
+					}
+				}
+
+				Media m = entityManager.find(Media.class, mediaId);
+				if (m == null) {// si no esta lo añadimos
+					m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
+					m.setTipo("book");
+					entityManager.persist(m);
+				}			
 				listaBooks.add(m);
 			}
+			log.info(listaBooks);
 
-			log.info(listaAudiovisual);
 			model.addAttribute("user", target);
-			model.addAttribute("resultado", listaAudiovisual);
-			model.addAttribute("result", resultTMDB);
+			model.addAttribute("resultadoSeries", listaSeries);
+			model.addAttribute("resultadoPeliculas", listaPeliculas);
 			model.addAttribute("resultadoBooks", listaBooks);
-			model.addAttribute("resultBooks", resultBooks);
 			model.addAttribute("paramBusqueda", paramBusqueda);
 			return "busqueda";
 
@@ -644,7 +683,8 @@ public class UserController {
 
 		try {
 
-			if (m == null) { // si no tenemos el con o en la BD, lo sacamos de la API
+			if (m == null && (tipo.equalsIgnoreCase("tv")||tipo.equalsIgnoreCase("movie") )) { 
+				// si no tenemos el con o en la BD, lo sacamos de la API
 				// parseamos los datos de la API TMDB
 				TMDBService s = new TMDBService();
 				// Llamar al servicio para obtener los detalles del contenido

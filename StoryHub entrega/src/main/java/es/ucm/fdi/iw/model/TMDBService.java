@@ -13,15 +13,26 @@ public class TMDBService {
     private static final String API_KEY = "?api_key=cba3b5b1f6b343e9fc31c5b787b270bd";
     private static final String URL = "https://api.themoviedb.org/3";
     private static final String MULTI_SEARCH = "/search/multi";
+    private static final String MOVIE_SEARCH = "/search/movie";
+    private static final String SERIES_SEARCH = "/search/tv";
+
+
     private static final String LANGUAGE = "&language=es-ES";
 
     public TMDBService() {
     }
 
-    public String searchTerm(String term) {
+    public String searchTerm(String term,String tipo) {
 
         OkHttpClient client = new OkHttpClient();
-        String url = URL + MULTI_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
+        String url = URL + MULTI_SEARCH + API_KEY + "&query=" + term + LANGUAGE; //busqueda general
+
+        if(tipo.equalsIgnoreCase("tv")){//Busqueda de series
+            url = URL + SERIES_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
+        }else if(tipo.equalsIgnoreCase("movie")){ //Busqueda de peliculas
+            url = URL + MOVIE_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
+        }
+        
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -53,7 +64,7 @@ public class TMDBService {
     public Media parseTMDBtoMedia(JsonNode resultNode) {
         Media m = new Media();
 
-        System.out.println(resultNode + " el putisimo tmdb");
+        System.out.println("Nodo resultante: " + resultNode);
         m.setApi("TMDB");
         m.setId(resultNode.get("id").asLong());
         // Verificamos si el campo "title" esta
@@ -74,7 +85,7 @@ public class TMDBService {
         } else {
             // El campo poster_path es nulo, por lo tanto, establece una imagen de reemplazo
             m.setCoverImageUrl(
-                    "https://static.vecteezy.com/system/resources/thumbnails/007/126/739/small/question-mark-icon-free-vector.jpg");
+                    "https://i.pinimg.com/736x/3d/30/06/3d30061b6fb8477e90b1d5b87952c05a.jpg");
         }
 
         m.setRating(0.0);
@@ -90,7 +101,7 @@ public class TMDBService {
             m.setBackdropImageUrl("https://image.tmdb.org/t/p/original" + bgNode.asText());
             
         } else {
-            m.setBackdropImageUrl("img/portada.jpg");
+            m.setBackdropImageUrl("https://drexel.edu/~/media/Drexel/Core-Site-Group/Core/Images/admissions/visit-tours/virtual-background-downloads/blue-pattern.ashx");
         }
         m.setNumFavs(0);
         m.setNumVisto(0);

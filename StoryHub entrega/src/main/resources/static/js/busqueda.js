@@ -1,7 +1,7 @@
 $(document).ready(function(){
-    const grupo = $('#btn-grooup');
     const btnUser = $('#user-search');
-    const btnMedia = $('#media-search');
+    const btnSeries = $('#series-search');
+    const btnMovies = $('#movies-search');
     const btnBooks = $('#book-search');
 
     let user = false;
@@ -12,65 +12,58 @@ $(document).ready(function(){
     const texto = urlParams.get('paramBusqueda'); // Devuelve el valor de parametro1
 
     btnUser.on('click', function(){
-        if(media){
-            $('#resultado-audiovisual').fadeOut(200, function(){
-                $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        else if(book){
-            $('#resultado-libros').fadeOut(200, function(){
-                $('#resultado-users').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        comprobarBoton();
-        btnUser.removeClass("btn-outline-dark").addClass("btn-dark");
-        user = true;
-    })
+        // Ocultar resultados de series, películas y libros, y mostrar resultados de usuarios
+        $('#resultado-series').hide();
+        $('#resultado-peliculas').hide();
+        $('#resultado-libros').hide();
+        $('#resultado-users').show();
 
-    btnMedia.on('click', function(){
-        if(book){
-            $('#resultado-libros').fadeOut(200, function(){
-                $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        else if(user){
-            $('#resultado-users').fadeOut(200, function(){
-                $('#resultado-audiovisual').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        comprobarBoton();
-        btnMedia.removeClass("btn-outline-dark").addClass("btn-dark");
-        media = true;
-    })
+        // Actualizar clases de botones
+        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnUser.removeClass("btn-outline-dark").addClass("btn-dark");
+    });
+
+    btnSeries.on('click', function(){
+        // Ocultar resultados de películas, libros y usuarios, y mostrar resultados de series
+        $('#resultado-peliculas').hide();
+        $('#resultado-libros').hide();
+        $('#resultado-users').hide();
+        $('#resultado-series').show();
+
+        // Actualizar clases de botones
+        btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnSeries.removeClass("btn-outline-dark").addClass("btn-dark");
+    });
+
+    btnMovies.on('click', function(){
+        // Ocultar resultados de series, libros y usuarios, y mostrar resultados de películas
+        $('#resultado-series').hide();
+        $('#resultado-libros').hide();
+        $('#resultado-users').hide();
+        $('#resultado-peliculas').show();
+
+        // Actualizar clases de botones
+        btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-outline-dark").addClass("btn-dark");
+    });
 
     btnBooks.on('click', function(){
-        if(media){
-            $('#resultado-audiovisual').fadeOut(200, function(){
-                $('#resultado-libros').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        else if(user){
-            $('#resultado-users').fadeOut(200, function(){
-                $('#resultado-libros').hide().removeClass("d-none").fadeIn(200);
-            });
-        }
-        comprobarBoton();
-        btnBooks.removeClass("btn-outline-dark").addClass("btn-dark");
-        book = true;
-    })
+        // Ocultar resultados de series, películas y usuarios, y mostrar resultados de libros
+        $('#resultado-series').hide();
+        $('#resultado-peliculas').hide();
+        $('#resultado-users').hide();
+        $('#resultado-libros').show();
 
-    function comprobarBoton(){
-        if(user){
-            btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
-            user = false;
-        }
-        else if(media){
-            btnMedia.removeClass("btn-dark").addClass("btn-outline-dark");
-            media = false;
-        }
-        else if(book){
-            btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
-            book = false;
-        }
-    }
+        // Actualizar clases de botones
+        btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnBooks.removeClass("btn-outline-dark").addClass("btn-dark");
+    });
 });

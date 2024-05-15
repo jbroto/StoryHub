@@ -719,6 +719,21 @@ public class UserController {
 				}
 				entityManager.persist(m);
 			}
+			else if(m==null && tipo.equalsIgnoreCase("book")){
+				GoogleBookService b = new GoogleBookService();
+
+				m = b.getBookByISBN(idMedia);
+
+				entityManager.persist(m);
+
+
+
+
+
+
+
+
+			}
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 			// CADA VEZ QUE UN USUARIO ACCEDA A NUEVO CONTENIDO CREAMOS LA RELACION CON

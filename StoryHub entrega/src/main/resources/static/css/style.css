@@ -89,3 +89,7 @@ body{
 .nombre-comentario:hover, .comment-num-replies:hover, .comentario-texto:hover{
   color:#ddd;
 }
+
+.card-libro{
+  height: 400px;
+}

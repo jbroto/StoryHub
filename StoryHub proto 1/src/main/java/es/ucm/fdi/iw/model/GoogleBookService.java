@@ -33,6 +33,21 @@ public class GoogleBookService {
         }
     }
 
+    public String getTerm(String ibsn){
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + "isbn:" +ibsn + LANGUAGE + API_KEY;
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
+    }
+
     public Media parseGoogleBook(JsonNode resultNode) {
         Media media = new Media();
 

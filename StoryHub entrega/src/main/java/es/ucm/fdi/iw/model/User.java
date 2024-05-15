@@ -23,7 +23,7 @@ import java.util.List;
         @NamedQuery(name = "User.hasUsername", query = "SELECT COUNT(u) "
                 + "FROM User u "
                 + "WHERE u.username = :username"),
-        @NamedQuery(name="User.aproxUsername", query="SELECT u FROM User u WHERE u.username LIKE :username")
+        @NamedQuery(name = "User.aproxUsername", query = "SELECT u FROM User u WHERE u.username LIKE :username")
 })
 @Table(name = "IWUser")
 public class User implements Transferable<User.Transfer> {
@@ -48,7 +48,6 @@ public class User implements Transferable<User.Transfer> {
 
     private boolean enabled;
     private String roles; // split by ',' to separate roles
-    
 
     @OneToMany
     @JoinColumn(name = "sender_id")
@@ -67,13 +66,9 @@ public class User implements Transferable<User.Transfer> {
     private List<Noti> notis;
 
     @ManyToMany
-    @JoinTable(
-        name = "IWUSER_FOLLOWERS",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "follower_id")
-    )
+    @JoinTable(name = "IWUSER_FOLLOWERS", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private List<User> followers;
-    
+
     @ManyToMany(mappedBy = "followers")
     private List<User> following;
 
@@ -119,11 +114,15 @@ public class User implements Transferable<User.Transfer> {
         this.listas.add(lista);
     }
 
-    public void addNoti(Noti n){
+    public void addNoti(Noti n) {
         this.notis.add(n);
     }
 
     public List<Lista> getListas() {
         return this.listas;
+    }
+
+    public boolean getEnabled() {
+        return this.enabled;
     }
 }

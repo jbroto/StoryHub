@@ -40,6 +40,10 @@
               <button th:unless="${user.followers.contains(actual)}" class="btn btn-success boton-follow">
                 <i class="fa-solid fa-user-plus"></i> Seguir
               </button>
+              <!-- Botón de "Banear" solo para admin -->
+              <button th:if="${session.u.hasRole('ADMIN')}" class="btn btn-danger boton-ban">
+                <i class="fa-solid fa-user-minus"></i> Banear
+              </button>
             </div>
           </div>
         </div>

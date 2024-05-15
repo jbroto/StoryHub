@@ -31,6 +31,33 @@ $(document).ready(function () {
             });
     });
 
+    $('.boton-ban').on('click', function () {
+        let $button = $(this);
+        // Construir la URL de la acción
+        let actionUrl = '/admin/' + idUser + '/ban';
+
+        // Realizar la llamada AJAX utilizando la función go
+        go(actionUrl, 'POST')
+            .then(response => {
+                // Actualizar el botón y su apariencia
+                if (response) {
+                    if ($button.hasClass('boton-unfollow')) {
+                        $button.removeClass('btn-danger boton-unfollow').addClass('btn-success boton-follow');
+                        $button.html('<i class="fa-solid fa-user-plus"></i> Seguir');
+                    } else {
+                        $button.removeClass('btn-success boton-follow').addClass('btn-danger boton-unfollow');
+                        $button.html('<i class="fa-solid fa-user-minus"></i> Seguir');
+                    }
+                } else {
+                    // Manejar errores o mostrar un mensaje al usuario
+                    console.log("No se ha podido realizar la acción para el usuario con ID: " + idUser);
+                }
+            })
+            .catch(error => {
+                console.log("ERROR: No se ha podido realizar la acción para el usuario con ID: " + idUser);
+            });
+    });
+
 
     // Función para validar los campos antes de enviar el formulario
     function validateForm() {

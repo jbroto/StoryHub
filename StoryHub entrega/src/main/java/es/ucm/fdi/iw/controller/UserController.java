@@ -340,13 +340,17 @@ public class UserController {
 						}
 					}
 				}
-
+				/*
 				Media m = entityManager.find(Media.class, mediaId);
 				if (m == null) {// si no esta lo añadimos
 					m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
 					m.setTipo("book");
 					entityManager.persist(m);
-				}			
+				}	
+				 */
+						
+				Media m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
+
 				listaBooks.add(m);
 			}
 			log.info(listaBooks);

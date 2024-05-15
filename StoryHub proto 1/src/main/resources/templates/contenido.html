@@ -182,7 +182,7 @@
 
     <div class="container mb-2">
         <div class="contenido-comentarios">
-            <h2><i class="fa-regular fa-comments"></i> Comentarios</h2>
+            <h2><i class="fa-regular fa-comments"></i> <span class="comentarios-totales" th:text="${comentarios.size}"> 0</span> Comentarios</h2>
             <!--Boton para poner un comentario-->
             <h4>Añade un comentario</h4>
             <textarea type="text" id="commentText" placeholder="Escribe tu comentario aquí"></textarea><br>

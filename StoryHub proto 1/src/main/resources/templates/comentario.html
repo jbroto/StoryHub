@@ -50,7 +50,7 @@
 
     <div class="container mb-2 mt-4">
         <div class="contenido-comentarios">
-            <h2><i class="fa-regular fa-comments"></i> Respuestas</h2>
+            <h2><i class="fa-regular fa-comments"></i> <span class="comentarios-totales" th:text="${comentarios.size}"> 0</span> Respuestas</h2>
             <!--Boton para poner un comentario-->
             <h4>Responde al comentario de <span  th:text="${coment.author.username}">author</span></h4>
             <textarea type="text" id="commentText" placeholder="Escribe aquí tu respuesta"></textarea><br>

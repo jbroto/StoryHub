@@ -3,18 +3,28 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/lista.css}" href="css/lista.css" type="text/css" />
     <title>Inicio</title>
 </head>
 
 <body th:attr="data-userId=${user.id}, data-listaId=${lista.id}">
     <header th:replace="fragments/nav.html :: nav"></header>
     <div id="lista-contenido" class="container contenidoLista">
-        <div class="row d-flex mt-3">
-            <div class="col-md-6">
-                <h1 class="mb-0"><span th:text="${lista.name.toUpperCase()}">default</span></h1>
-                <p>Lista creada por: <span th:text="${lista.author.getUsername()}">default</span></p>
+        <div class="d-flex TituloNoBg justify-content-between align-items-center gap-2 mt-3">
+            <div class="d-flex gap-2 align-items-center">
+                <h1 >
+                    <i th:if="${lista.name == 'Terminado'}" class="fa-regular fa-eye"></i>
+                    <i th:if="${lista.name == 'Favoritos'}" class="fa-solid fa-heart"></i>
+                    <i th:if="${lista.name == 'Viendo'}" class="fa-sharp fa-solid fa-hourglass-half"></i>
+                    <i th:unless="${lista.name == 'Terminado' or lista.name == 'Favoritos' or lista.name == 'Viendo'}"
+                     class="fa-solid fa-list-ul"></i>
+                    <span th:text="${lista.name}">default</span></h1>
+                <div class="texto-lista">
+                    Lista creada por: 
+                </div>
+                <a th:href="@{/user/{id}/(id=${lista.author.id})}" th:text="${lista.author.getUsername()}">default</a>
             </div>
-            <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <div class="suscripcion">
                 <!-- Botón alineado a la derecha de la columna -->
                 <div th:unless="${lista.author.getUsername() eq user.username}">
                     <div id="btn-div" th:classappend="${suscrito} ? 'd-none' : ''">
@@ -31,7 +41,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row tipo-media-boton">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
                 <button class="btn btn-outline-dark" id="all-search"> <i class="fa-solid fa-icons"></i>
                     Todo (<span id="resultadoTodo">0</span>)</button>
@@ -50,21 +60,20 @@
             </div>
         </div>
 
-        <div id="media-display" class="row">
-            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${contenidos}">
+        <div id="media-display" class="grid-container">
+            <div th:class="'col-lg-3 col-md-4 mt-3 media-' + ${item.tipo}" th:each="item : ${contenidos}">
                 <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
                 <form th:id="${item.id}" th:action="@{/user/__${user.id}__/contenido}" method="get">
                     <input type="hidden" name="tipo" th:value="${item.tipo}" />
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                        <div th:class="'card media-' + ${item.tipo}">
-                            <img class="card-img w-500"
-                                th:src="${item.coverImageUrl}" alt="Cover"
+                        <div class="card">
+                            <img class="card-img w-500" th:src="${item.coverImageUrl}" alt="Cover"
                                 th:style="'height: 500px; object-fit: cover;'">
                             <div class="card-body">
                                 <h6 th:if="${item.tipo == 'episode'}"><b>
-                                    <span th:text="${'S'+item.father.orden + 'E'+ item.orden + ': ' + item.nombre}">
-                                    nombre</span></b></h6>
+                                        <span th:text="${'S'+item.father.orden + 'E'+ item.orden + ': ' + item.nombre}">
+                                            nombre</span></b></h6>
                                 <h6 th:if="${item.tipo != 'episode'}"><b><span th:text="${item.nombre}"></span></b></h6>
                                 <div class="card-media-data d-flex flex-row justify-content-center gap-3">
                                     <div class="type_icon">
@@ -112,6 +121,7 @@
     </div>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/lista.js}"></script>
     <script th:src="@{/js/suscripcion.js}"></script>
     <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
 </body>

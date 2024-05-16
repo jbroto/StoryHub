@@ -1,0 +1,62 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* autoajustable */
+    grid-gap: 20px;
+    /* Espacio entre los elementos */
+}
+
+.col-lg-3.col-md-4 {
+    width: 100%;
+    /* Ocupar todo el ancho de su columna en la cuadrícula */
+}
+
+.tipo-media-boton {
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.viendo {
+    /* Gradiente de fondo darkorchid */
+    background: radial-gradient(circle, rgba(153, 50, 204, 0.9), rgba(148, 0, 211, 1));
+    /* Color de texto */
+    color: white;
+    /* Grosor del borde */
+    /* Radio de redondeo de las esquinas */
+    border-radius: 10px;
+    /* Espacio interno */
+    padding: 10px;
+    /* Ajustar al contenido */
+    /* display: inline-block; */
+}
+
+.favoritos {
+    /* Gradiente de fondo naranja */
+    background: radial-gradient(circle, rgba(255, 165, 0, 0.9), rgba(255, 140, 0, 1));
+    /* Color de texto */
+    color: white;
+    /* Radio de redondeo de las esquinas */
+    border-radius: 10px;
+    /* Espacio interno */
+    padding: 10px;
+    /* Ajustar al contenido */
+    /* display: inline-block; */
+}
+
+.terminado {
+    /* Gradiente de fondo verde */
+    background: radial-gradient(circle, rgba(0, 224, 84, 0.9), rgba(0, 224, 84, 1));
+    /* Color de texto */
+    color: white;
+    /* Radio de redondeo de las esquinas */
+    border-radius: 10px;
+    /* Espacio interno */
+    padding: 10px;
+}
+
+.TituloNoBg {
+    color: #eee;
+}

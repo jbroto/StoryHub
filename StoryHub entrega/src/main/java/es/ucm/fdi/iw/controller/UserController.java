@@ -722,10 +722,20 @@ public class UserController {
 				ObjectMapper objectMapper = new ObjectMapper();
 				JsonNode resultNode = objectMapper.readTree(resultado);
 				log.info(resultNode);
-				List<Media> seasons = s.obtenerTemporadas(m, resultNode);
+				s.obtenerTemporadas(m, resultNode);
+				}
+			}
 
-				// Ahora tienes la lista de nombres de temporadas
-				model.addAttribute("temporadas", seasons);
+			if(m.getTipo().equalsIgnoreCase("season")){
+				if(m.getChildren().size() < 1){
+				TMDBService s = new TMDBService();
+				// Llamar al servicio para obtener los detalles del contenido
+				String resultado = s.obtenerCapitulos(m);
+				// lo parseamos tipo JSON
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode resultNode = objectMapper.readTree(resultado);
+				log.info(resultNode);
+				s.obtenerListaDeCapitulos(m, resultNode);
 				}
 			}
 

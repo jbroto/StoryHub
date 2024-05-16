@@ -99,7 +99,8 @@
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
-                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover"
+                            th:style="'height: 500px; object-fit: cover;'">
                             <div class="card-body">
                                 <h6><b><span th:text="${item.nombre}"></span></b></h6>
 
@@ -151,7 +152,8 @@
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                         <div class="card">
-                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                            <img class="card-img w-500" th:src="${item.coverImageUrl}" alt="Cover"
+                            th:style="'height: 500px; object-fit: cover;'">
                             <div class="card-body">
                                 <h6><b><span th:text="${item.nombre}"></span></b></h6>
 
@@ -201,7 +203,8 @@
                     <input type="hidden" name="idMedia" th:value="${item.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                     <div class="card">
-                        <img class="card-img card-libro w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                        <img class="card-img card-libro w-500" th:src="${item.coverImageUrl}" alt="Cover"
+                        th:style="'height: 500px; object-fit: cover;'">
                         <div class="card-body">
                             <h6><b><span th:text="${item.nombre}"></span></b></h6>
                             <div class="card-media-data d-flex flex-row justify-content-center gap-3">

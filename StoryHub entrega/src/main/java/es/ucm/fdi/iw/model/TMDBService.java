@@ -60,6 +60,30 @@ public class TMDBService {
             e.printStackTrace();
             return null;
         }
+    }     
+    
+    // https://api.themoviedb.org/3/tv/66732?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES&append_to_response=episode_groups
+    // ejemplo para obtener todos los capitulos de srtanger things que tiene id
+    // 66732
+
+    public String obtenerCapitulos(Media season) {
+        //detalles de una temporada: EJEMPLO con Stranger Things Temporada 1
+        //https://api.themoviedb.org/3/tv/66732/season/1?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES
+
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + "/tv/" + season.getFather().getId() + "/season/" + season.getOrden()+ API_KEY + LANGUAGE;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public Media parseTMDBtoMedia(JsonNode resultNode) {
@@ -147,7 +171,7 @@ public class TMDBService {
         if (seasonsNode != null && seasonsNode.isArray()) {
             // Iteramos sobre los elementos del nodo "seasons"
             for (JsonNode seasonNode : seasonsNode) {
-                // Crear una instancia de la clase Season y asignar los atributos
+                // Crear una instancia de la clase  Media (tipo season) y asignar los atributos
                 Media season = new Media();
                 season.setTipo("season");
                 season.setId(seasonNode.get("id").asLong());
@@ -173,25 +197,38 @@ public class TMDBService {
         return temporadas;
     }
 
-    public String obtenerCapitulos(long id) {
+    public List<Media> obtenerListaDeCapitulos(Media father, JsonNode resultNode) {
+        List<Media> capitulos = new ArrayList<Media>();
+        // Obtenemos el nodo JSON correspondiente al atributo "seasons"
+        JsonNode episodesNode = resultNode.get("episodes");
+        if (episodesNode != null && episodesNode.isArray()) {
+            // Iteramos sobre los elementos del nodo "seasons"
+            for (JsonNode episodeNode : episodesNode) {
+                // Crear una instancia de la clase Media (tipo episode) y asignar los atributos
+                Media episode = new Media();
+                episode.setTipo("episode");
+                episode.setId(episodeNode.get("id").asLong());
+                episode.setNombre(episodeNode.get("name").asText());
+                episode.setOrden(episodeNode.get("episode_number").asInt());
+                episode.setFecha(episodeNode.get("air_date").asText());
+                episode.setNumChild(0);
+                episode.setDescripcion(episodeNode.get("overview").asText());
+                episode.setCoverImageUrl(father.getCoverImageUrl());// tiene el mismo poster que el padre
+                episode.setApi("TMDB");
+                episode.setBackdropImageUrl("https://image.tmdb.org/t/p/original" + episodeNode.get("still_path").asText());
+                episode.setRating(0.0);
+                episode.setNumFavs(0);
+                episode.setNumVisto(0);
+                episode.setNumListas(0);
+                episode.setNumViendo(0);
+                father.addChild(episode);// aqui definimos el padre de la temporada
 
-        // https://api.themoviedb.org/3/tv/66732?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES&append_to_response=episode_groups
-        // ejemplo para obtener todos los capitulos de srtanger things que tiene id
-        // 66732
-
-        OkHttpClient client = new OkHttpClient();
-        String url = URL + "/tv/" + id + API_KEY + LANGUAGE + "&append_to_response=episode_groups";
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+                // Agregamos la temporada a la lista de temporadas
+                capitulos.add(episode);
+            }
         }
-
+        return capitulos;
     }
+
+  
 }

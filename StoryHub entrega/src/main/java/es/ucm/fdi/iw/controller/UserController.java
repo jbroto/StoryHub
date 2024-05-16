@@ -303,6 +303,7 @@ public class UserController {
 					m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
 					m.setTipo("tv");
 					entityManager.persist(m);
+				
 				}
 				listaSeries.add(m);
 			}
@@ -700,23 +701,6 @@ public class UserController {
 				m = s.parseTMDBtoMedia(resultNode);
 				m.setTipo(tipo);
 
-				// obtener el numero de temporadas. Para poder obtener mas info tipo el num de
-				// capitulos o la sinopsis deberiamos
-				// replantearnos crear otra class
-				if (m.getTipo().equals("tv")) {
-					JsonNode seasonsNode = resultNode.get("seasons");
-					List<String> seasonNames = new ArrayList<>();
-
-					if (seasonsNode != null && seasonsNode.isArray()) {
-						for (JsonNode seasonNode : seasonsNode) {
-							String name = seasonNode.get("name").asText();
-							seasonNames.add(name);
-						}
-					}
-
-					// Ahora tienes la lista de nombres de temporadas
-					model.addAttribute("temporadas", seasonNames);
-				}
 				entityManager.persist(m);
 			}
 			else if(m==null && tipo.equalsIgnoreCase("book")){
@@ -726,14 +710,25 @@ public class UserController {
 
 				entityManager.persist(m);
 
-
-
-
-
-
-
-
 			}
+
+
+			if(m.getTipo().equalsIgnoreCase("tv")){
+				if(m.getChildren().size() < 1){
+				TMDBService s = new TMDBService();
+				// Llamar al servicio para obtener los detalles del contenido
+				String resultado = s.obtenerContenido(tipo, idMedia);
+				// lo parseamos tipo JSON
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode resultNode = objectMapper.readTree(resultado);
+				log.info(resultNode);
+				List<Media> seasons = s.obtenerTemporadas(m, resultNode);
+
+				// Ahora tienes la lista de nombres de temporadas
+				model.addAttribute("temporadas", seasons);
+				}
+			}
+
 			MediaUserRelationId rel = new MediaUserRelationId(idMedia, copia.getId());
 			MediaUserRelation r = entityManager.find(MediaUserRelation.class, rel);
 			// CADA VEZ QUE UN USUARIO ACCEDA A NUEVO CONTENIDO CREAMOS LA RELACION CON

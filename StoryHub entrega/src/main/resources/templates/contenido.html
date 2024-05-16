@@ -28,11 +28,15 @@
                             <i th:if="${media.tipo == 'movie'}" class="fa-solid fa-film"></i>
                             <i th:if="${media.tipo == 'book'}" class="fa-solid fa-book"></i>
                             <i th:if="${media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
+                            <span th:text="${media.nombre}"> Título </span>
                         </div>
-                        <p th:text="${media.nombre}"></p>
+                    </div>
+                    <div class="estreno d-flex gap-2">
+                        <p>Fecha de estreno: </p>
+                        <span class="text-muted " th:text="${media.fecha}">Sin fecha</span>
 
                     </div>
-                    <p class="descripcion" th:text="${media.descripcion}">No hay descripcion</p>
+                    <p class="descripcion " th:text="${media.descripcion}">No hay descripcion</p>
                     <div class="Media_values d-flex flex-row justify-content-center gap-4">
                         <div class="num_Rating d-flex gap-2">
                             <div class="icono_media">

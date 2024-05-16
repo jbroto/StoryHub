@@ -5,6 +5,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -16,23 +18,22 @@ public class TMDBService {
     private static final String MOVIE_SEARCH = "/search/movie";
     private static final String SERIES_SEARCH = "/search/tv";
 
-
     private static final String LANGUAGE = "&language=es-ES";
 
     public TMDBService() {
     }
 
-    public String searchTerm(String term,String tipo) {
+    public String searchTerm(String term, String tipo) {
 
         OkHttpClient client = new OkHttpClient();
-        String url = URL + MULTI_SEARCH + API_KEY + "&query=" + term + LANGUAGE; //busqueda general
+        String url = URL + MULTI_SEARCH + API_KEY + "&query=" + term + LANGUAGE; // busqueda general
 
-        if(tipo.equalsIgnoreCase("tv")){//Busqueda de series
+        if (tipo.equalsIgnoreCase("tv")) {// Busqueda de series
             url = URL + SERIES_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
-        }else if(tipo.equalsIgnoreCase("movie")){ //Busqueda de peliculas
+        } else if (tipo.equalsIgnoreCase("movie")) { // Busqueda de peliculas
             url = URL + MOVIE_SEARCH + API_KEY + "&query=" + term + LANGUAGE;
         }
-        
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -99,16 +100,77 @@ public class TMDBService {
         JsonNode bgNode = resultNode.get("backdrop_path");
         if (bgNode != null && !bgNode.isNull()) {
             m.setBackdropImageUrl("https://image.tmdb.org/t/p/original" + bgNode.asText());
-            
+
         } else {
-            m.setBackdropImageUrl("https://drexel.edu/~/media/Drexel/Core-Site-Group/Core/Images/admissions/visit-tours/virtual-background-downloads/blue-pattern.ashx");
+            m.setBackdropImageUrl(
+                    "https://drexel.edu/~/media/Drexel/Core-Site-Group/Core/Images/admissions/visit-tours/virtual-background-downloads/blue-pattern.ashx");
         }
+
+        String fecha = "0000-00-00";
+
+        if (resultNode.has("release_date")) { // fecha de salida para peliculas
+            fecha = resultNode.get("release_date").asText();
+        } else if (resultNode.has("last_air_date")) { // ultimo capitulo emitido de una temporada
+            fecha = resultNode.get("last_air_date").asText();
+        } else if (resultNode.has("air_date")) { // capitulo emitido de una temporada
+            fecha = resultNode.get("air_date").asText();
+        } else if (resultNode.has("first_air_date")) { // capitulo emitido de una temporada
+            fecha = resultNode.get("first_air_date").asText();
+        }
+
+        m.setFecha(fecha);
+
+        int orden = 0;
+        if (resultNode.has("season_number")) {
+            orden = resultNode.get("season_number").asInt();
+        }
+        m.setOrden(orden);
+
+        int episodios = 0;
+        if (resultNode.has("number_of_episodes")) {
+            episodios = resultNode.get("number_of_episodes").asInt();
+        }
+        m.setNumChild(episodios);
+
         m.setNumFavs(0);
         m.setNumVisto(0);
         m.setNumListas(0);
         m.setNumViendo(0);
-        
+
         return m;
+    }
+
+    public List<Media> obtenerTemporadas(Media father, JsonNode resultNode) {
+        List<Media> temporadas = new ArrayList<Media>();
+        // Obtenemos el nodo JSON correspondiente al atributo "seasons"
+        JsonNode seasonsNode = resultNode.get("seasons");
+        if (seasonsNode != null && seasonsNode.isArray()) {
+            // Iteramos sobre los elementos del nodo "seasons"
+            for (JsonNode seasonNode : seasonsNode) {
+                // Crear una instancia de la clase Season y asignar los atributos
+                Media season = new Media();
+                season.setTipo("season");
+                season.setId(seasonNode.get("id").asLong());
+                season.setNombre(seasonNode.get("name").asText());
+                season.setOrden(seasonNode.get("season_number").asInt());
+                season.setFecha(seasonNode.get("air_date").asText());
+                season.setNumChild(seasonNode.get("episode_count").asInt());
+                season.setDescripcion(seasonNode.get("overview").asText());
+                season.setCoverImageUrl("https://image.tmdb.org/t/p/original" + seasonNode.get("poster_path").asText());
+                season.setBackdropImageUrl(father.getBackdropImageUrl());// tiene el mismo fondo que el padre
+                season.setApi("TMDB");
+                season.setRating(0.0);
+                season.setNumFavs(0);
+                season.setNumVisto(0);
+                season.setNumListas(0);
+                season.setNumViendo(0);
+                father.addChild(season);// aqui definimos el padre de la temporada
+
+                // Agregamos la temporada a la lista de temporadas
+                temporadas.add(season);
+            }
+        }
+        return temporadas;
     }
 
     public String obtenerCapitulos(long id) {

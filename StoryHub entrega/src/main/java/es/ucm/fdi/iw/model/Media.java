@@ -33,14 +33,22 @@ public class Media implements Transferable<Media.Transfer> {
 
     @Lob
     private String descripcion;// la notacion lob es para datos largos
-    @OneToOne
+    @ManyToOne
     private Media father;
+
+    @OneToMany(mappedBy = "father", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> children = new ArrayList<>(); // Lista de contenidos que usan la columna padre(temporadas, episodios)
 
     private Double rating;
     private int numFavs;
     private int numVisto;
     private int numViendo;
     private int numListas;
+    private String fecha;
+    //Atributos adicionales para Series : temporadas y capitulos
+    private int orden;// puede ser el numero de la temporada o el numero del capitulo
+    private int numChild; //contador auxiliar para: numero de capitulos, temporadas, ... 
+
 
     @ManyToMany(targetEntity = Lista.class, mappedBy = "medias")
     private List<Lista> listas = new ArrayList<>();
@@ -50,6 +58,12 @@ public class Media implements Transferable<Media.Transfer> {
 
     @OneToMany(mappedBy = "media")
     private List<MediaUserRelation> UserViendoMedia;
+
+    public void addChild(Media child) {
+        children.add(child);
+        child.setFather(this);
+    }
+
 
     @Getter
     @AllArgsConstructor

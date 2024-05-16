@@ -21,6 +21,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   /* Efecto de sombra */
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .mostrarListas {
@@ -67,12 +68,32 @@
   color:#40bcf4;
 }
 
+
 .viendo {
-  color: darkorchid;
+  /* Gradiente de fondo darkorchid */
+  background: radial-gradient(circle, rgba(153, 50, 204, 0.9), rgba(148, 0, 211, 1));
+  /* Color de texto */
+  color:white;
+  /* Grosor del borde */
+  /* Radio de redondeo de las esquinas */
+  border-radius: 10px;
+  /* Espacio interno */
+  padding: 10px;
+  /* Ajustar al contenido */
+  /* display: inline-block; */
 }
 
-.favoritos{
-  color: orange;
+.favoritos {
+  /* Gradiente de fondo naranja */
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.9), rgba(255, 140, 0, 1));
+  /* Color de texto */
+  color:white;
+  /* Radio de redondeo de las esquinas */
+  border-radius: 10px;
+  /* Espacio interno */
+  padding: 10px;
+  /* Ajustar al contenido */
+  /* display: inline-block; */
 }
 
 /* Icono de estrella amarillo */

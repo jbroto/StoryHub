@@ -88,7 +88,7 @@ INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (3, 66732);
 INSERT INTO Media (ID, API, COVER_IMAGE_URL, BACKDROP_IMAGE_URL, DESCRIPCION, NOMBRE, RATING, TIPO, FATHER_ID,NUM_FAVS, NUM_VISTO,NUM_LISTAS,NUM_VIENDO,FECHA,ORDEN,NUM_CHILD)
 VALUES (823464,'TMDB','https://image.tmdb.org/t/p/original/2YqZ6IyFk7menirwziJvfoVvSOh.jpg', 'https://image.tmdb.org/t/p/original/lLh39Th5plbrQgbQ4zyIULsd0Pp.jpg',
 'Una aventura cinematográfica completamente nueva, que enfrentará al todopoderoso Kong y al temible Godzilla contra una colosal amenaza desconocida escondida dentro de nuestro mundo. La nueva y épica película profundizará en las historias de estos titanes, sus orígenes y los misterios de Isla Calavera y más allá, mientras descubre la batalla mítica que ayudó a forjar a estos seres extraordinarios y los unió a la humanidad para siempre.'
-,'Godzilla y Kong: El nuevo imperio',0.0 , 'movie',null,4,4,0,0,'2024-03-27',0,0);
+,'Godzilla y Kong: El nuevo imperio',0.0 , 'movie',null,4,4,0,0,'2016-07-15',0,0);
 --Media user relation
 INSERT INTO Media_User_Relation(CALIFICACION, ENDED, FAVORITO, VIENDO, MEDIA_ID, USER_ID)
 VALUES(0, TRUE, TRUE, FALSE, 823464, 2);

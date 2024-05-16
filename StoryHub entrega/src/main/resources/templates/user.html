@@ -108,7 +108,7 @@
               Listas
             </a>
             <!--Boton para crear una nueva lista-->
-            <button th:if="${user.id == session.u.id}" type="button" class="btn btn-outline-primary mb-2 "
+            <button th:if="${user.id == session.u.id}" type="button" class="btn btn-outline-light mb-2 "
               data-bs-toggle="modal" data-bs-target="#nuevaListaModal">
               <i class="fa-solid fa-plus"></i> Añadir Lista
             </button>
@@ -285,6 +285,9 @@
         </div>
       </div>
     </div>
+
+    <h2 class="comentarios"><i class="fa-solid fa-comment"></i> Comentarios </h2>
+
 
 
   </div>

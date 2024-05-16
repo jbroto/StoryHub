@@ -14,7 +14,9 @@
 }
 
 .container.crearLista {
-  border: 2px solid #ccc;
+  color: #40bcf4;
+  background: radial-gradient(circle, rgba(64, 187, 244, 1), rgba(77, 155, 255, 1));
+
   /* Grosor del borde */
   border-radius: 10px;
   /* Radio de redondeo de las esquinas */
@@ -94,6 +96,31 @@
   padding: 10px;
   /* Ajustar al contenido */
   /* display: inline-block; */
+}
+
+.favoritos {
+  /* Gradiente de fondo naranja */
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.9), rgba(255, 140, 0, 1));
+  /* Color de texto */
+  color:white;
+  /* Radio de redondeo de las esquinas */
+  border-radius: 10px;
+  /* Espacio interno */
+  padding: 10px;
+  /* Ajustar al contenido */
+  /* display: inline-block; */
+}
+.comentarios{
+  margin-top: 20px;
+  background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
+  color:white;
+  /* Radio de redondeo de las esquinas */
+  border-radius: 10px;
+  /* Espacio interno */
+  padding: 10px;
+  /* Ajustar al contenido */
+  /* display: inline-block; */
+
 }
 
 /* Icono de estrella amarillo */

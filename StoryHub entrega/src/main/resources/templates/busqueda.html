@@ -16,6 +16,9 @@
         </div>-->
         <div class="row">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
+                <button class="btn btn-outline-dark" id="all-search"> <i class="fa-solid fa-icons"></i>
+                    Todo (<span id="resultadoTodo" th:text="${users.size() + resultadoSeries.size + resultadoPeliculas.size
+                    + resultadoBooks.size()}">0</span>)</button>
                 <button class="btn btn-outline-dark" id="user-search"> <i class="fa-solid fa-user"></i>
                     Usuarios (<span id="resultadosUser" th:text="${users.size()}">0</span>)</button>
                 <button class="btn btn-outline-dark btn-block" id="series-search">
@@ -31,7 +34,7 @@
             </div>
         </div>
 
-        <h2 class="mt-5">Resultados para: <span id="searchParam" th:text="${paramBusqueda}"></span> </h2>
+        <h2 class="mt-5 TituloNoBg">Resultados para: <span id="searchParam" th:text="${paramBusqueda}"></span> </h2>
 
         <div id="resultado-users" class="row mb-2">
             <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="usuario : ${users}">

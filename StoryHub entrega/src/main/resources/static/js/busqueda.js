@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    const btnAll = $('#all-search');
     const btnUser = $('#user-search');
     const btnSeries = $('#series-search');
     const btnMovies = $('#movies-search');
@@ -11,6 +12,22 @@ $(document).ready(function(){
     const urlParams = new URLSearchParams(window.location.search);
     const texto = urlParams.get('paramBusqueda'); // Devuelve el valor de parametro1
 
+    btnAll.removeClass("btn-outline-dark").addClass("btn-dark"); //siempre se selecciona todo al inicio
+
+    btnAll.on('click',function(){
+        $('#resultado-series').show();
+        $('#resultado-peliculas').show();
+        $('#resultado-libros').show();
+        $('#resultado-users').show();
+        // Actualizar clases de botones
+        btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnAll.removeClass("btn-outline-dark").addClass("btn-dark")
+    });
+
+
     btnUser.on('click', function(){
         // Ocultar resultados de series, películas y libros, y mostrar resultados de usuarios
         $('#resultado-series').hide();
@@ -19,9 +36,10 @@ $(document).ready(function(){
         $('#resultado-users').show();
 
         // Actualizar clases de botones
-        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
-        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnAll.removeClass("btn-dark").addClass("btn-outline-dark");
         btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
+        btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
         btnUser.removeClass("btn-outline-dark").addClass("btn-dark");
     });
 
@@ -33,6 +51,7 @@ $(document).ready(function(){
         $('#resultado-series').show();
 
         // Actualizar clases de botones
+        btnAll.removeClass("btn-dark").addClass("btn-outline-dark");
         btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
         btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");
         btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
@@ -47,6 +66,7 @@ $(document).ready(function(){
         $('#resultado-peliculas').show();
 
         // Actualizar clases de botones
+        btnAll.removeClass("btn-dark").addClass("btn-outline-dark");
         btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
         btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
         btnBooks.removeClass("btn-dark").addClass("btn-outline-dark");
@@ -61,6 +81,7 @@ $(document).ready(function(){
         $('#resultado-libros').show();
 
         // Actualizar clases de botones
+        btnAll.removeClass("btn-dark").addClass("btn-outline-dark");
         btnUser.removeClass("btn-dark").addClass("btn-outline-dark");
         btnSeries.removeClass("btn-dark").addClass("btn-outline-dark");
         btnMovies.removeClass("btn-dark").addClass("btn-outline-dark");

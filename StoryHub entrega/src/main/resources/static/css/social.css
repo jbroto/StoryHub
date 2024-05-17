@@ -1,10 +1,9 @@
-
-.name{
-    color:#333
+.name {
+    color: #333
 }
 
-.name:hover{
-    color:gray
+.name:hover {
+    color: gray
 }
 
 /* .followers,.following{
@@ -15,27 +14,27 @@
     color: purple;
 } */
 
-.listas{
-    color:#40bcf4;
+.listas {
+    color: #40bcf4;
 }
 
-.visto{
-    color:green;
+.visto {
+    color: #00e054;
 }
 
-.visto:hover{
-    color:darkgreen;
+.visto:hover {
+    color: #00c34b;
 }
 
-.favoritos{
-    color:orange;
+.favoritos {
+    color: orange;
 }
 
-.favoritos:hover{
-    color:darkorange;
+.favoritos:hover {
+    color: darkorange;
 }
 
-.person-table{
+.person-table {
     width: 100%;
 }
 
@@ -43,32 +42,37 @@
     text-align: center;
 }
 
-.table-title{
+.table-title {
     text-align: center;
 }
+
 /* Cambiar el color del checkbox cuando está seleccionado */
 .form-check-input:checked {
-    background-color: #198754; /* Cambia el color de fondo */
-    border-color: #146c43; /* Cambia el color del borde */
-    
-  }
+    background-color: #198754;
+    /* Cambia el color de fondo */
+    border-color: #146c43;
+    /* Cambia el color del borde */
+
+}
 
 /* Cambiar el color del hover del checkbox */
 .form-check-input:hover {
-    background-color: #1987545a; /* Cambia el color de fondo al pasar el mouse sobre el checkbox */
-    border-color: #146c43; /* Cambia el color del borde */  
+    background-color: #1987545a;
+    /* Cambia el color de fondo al pasar el mouse sobre el checkbox */
+    border-color: #146c43;
+    /* Cambia el color del borde */
 }
 
 /* Cambiar el estilo del borde difuminado cuando el checkbox está activo */
 .form-check-input:checked:focus {
-    outline: none !important; /* Elimina el borde difuminado */
-  }
+    outline: none !important;
+    /* Elimina el borde difuminado */
+}
 
-.sin-ver{
+.sin-ver {
     background-color: rgba(128, 128, 128, 0.192);
 }
 
-.noti{
+.noti {
     border: 1px solid #000;
 }
-  

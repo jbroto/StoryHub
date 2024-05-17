@@ -16,7 +16,8 @@ import lombok.AllArgsConstructor;
     @NamedQuery(name = "Lista.byName", query = "SELECT l FROM Lista l "
             + "WHERE l.name = :name "
             +"AND l.author.id = :author"),
-    @NamedQuery(name = "Lista.byAuthor", query = "SELECT l FROM Lista l WHERE l.author.id = :author AND isPublic = TRUE")
+    @NamedQuery(name = "Lista.byAuthor", query = "SELECT l FROM Lista l WHERE l.author.id = :author AND isPublic = TRUE"),
+    @NamedQuery(name = "Lista.countMediaByType", query = "SELECT COUNT(m) FROM Lista l JOIN l.medias m WHERE l.id = :listaId AND m.tipo = :tipo")
 })
 public class Lista implements Transferable<Lista.Transfer> {
 

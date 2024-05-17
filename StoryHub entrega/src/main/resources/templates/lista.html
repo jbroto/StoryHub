@@ -22,8 +22,9 @@
                 </h2>
                 <h3 class="texto-lista ">
                     creada por:
-                    <a th:href="@{/user/{id}/(id=${lista.author.id})}"
-                        th:text="${lista.author.getUsername()}">default</a>
+                    <a class="nombre-usuario" th:href="@{/user/{id}/(id=${lista.author.id})}"
+                    th:title="${'Perfil de ' + lista.author.username}"
+                        th:text="${lista.author.username}">default</a>
                 </h3>
             </div>
             <div class="suscripcion">
@@ -46,19 +47,19 @@
         <div class="row tipo-media-boton">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
                 <button class="btn btn-outline-dark" id="all-search"> <i class="fa-solid fa-icons"></i>
-                    Todo (<span id="resultadoTodo">0</span>)</button>
+                    Todo (<span id="resultadoTodo" th:text="${contenidos.size}" >0</span>)</button>
                 <button class="btn btn-outline-dark btn-block" id="series-search">
-                    <i class="fa-solid fa-tv"></i> Series (<span id="resultadosSeries">0</span>)
+                    <i class="fa-solid fa-tv"></i> Series (<span id="resultadosSeries" th:text="${numSeries}" >0</span>)
                 </button>
                 <button class="btn btn-outline-dark" id="season-search"> <i class="fa-solid fa-photo-film"></i>
-                    Temporadas (<span id="resultadoSeason">0</span>)</button>
+                    Temporadas (<span id="resultadoSeason" th:text="${numSeasons}">0</span>)</button>
                 <button class="btn btn-outline-dark" id="episode-search"> <i class="fa-solid fa-circle-play"></i>
-                    Capítulos (<span id="resultadoEpisode">0</span>)</button>
+                    Capítulos (<span id="resultadoEpisode" th:text="${numEpisodes}">0</span>)</button>
                 <button class="btn btn-outline-dark btn-block" id="movies-search">
-                    <i class="fa-solid fa-film"></i> Películas (<span id="resultadosPeliculas">0</span>)
+                    <i class="fa-solid fa-film"></i> Películas (<span id="resultadosPeliculas" th:text="${numMovies}">0</span>)
                 </button>
                 <button class="btn btn-outline-dark" id="book-search"> <i class="fa-solid fa-book"></i>
-                    Libros (<span id="resultadosBook">0</span>)</button>
+                    Libros (<span id="resultadosBook" th:text="${numLibros}">0</span>)</button>
             </div>
         </div>
 
@@ -78,7 +79,7 @@
                                             nombre</span></b></h6>
                                 <h6 th:if="${item.tipo != 'episode'}"><b><span th:text="${item.nombre}"></span></b></h6>
                                 <div class="card-media-data d-flex flex-row justify-content-center gap-3">
-                                    <div class="type_icon">
+                                    <div class="type_icon" th:title="${item.tipo}">
                                         <i th:if="${item.tipo == 'tv'}" class="fa-solid fa-tv"></i>
                                         <i th:if="${item.tipo == 'movie'}" class="fa-solid fa-film"></i>
                                         <i th:if="${item.tipo == 'book'}" class="fa-solid fa-book"></i>
@@ -87,7 +88,7 @@
                                         <i th:if="${item.tipo == 'episode'}" class="fa-solid fa-circle-play"></i>
                                     </div>
 
-                                    <div class="num_Rating d-flex gap-1">
+                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
                                         <div class="icono_media">
                                             <i class="fa-solid fa-star"></i>
                                         </div>
@@ -96,7 +97,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="num_Vistos d-flex gap-1">
+                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
                                         <div class="icono_media">
                                             <i class="fa-regular fa-eye"></i>
                                         </div>
@@ -105,7 +106,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="num_Comments d-flex gap-1">
+                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
                                         <div class="icono_media">
                                             <i class="fa-solid fa-comment"></i>
                                         </div>

@@ -18,7 +18,8 @@ import java.util.List;
         @NamedQuery(name = "Media.byRatimg", query = "SELECT m FROM Media m "
                 + "WHERE m.rating = :rating "),
         @NamedQuery(name = "Media.byname", query = "SELECT m FROM Media m "
-                + "WHERE m.nombre = :nombre ")
+                + "WHERE m.nombre = :nombre "),
+        @NamedQuery(name = "Media.countByType", query = "SELECT COUNT(m) FROM Media m WHERE m.tipo = :tipo")
 })
 public class Media implements Transferable<Media.Transfer> {
     @Id
@@ -37,7 +38,8 @@ public class Media implements Transferable<Media.Transfer> {
     private Media father;
 
     @OneToMany(mappedBy = "father", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Media> children = new ArrayList<>(); // Lista de contenidos que usan la columna padre(temporadas, episodios)
+    private List<Media> children = new ArrayList<>(); // Lista de contenidos que usan la columna padre(temporadas,
+                                                      // episodios)
 
     private Double rating;
     private int numFavs;
@@ -45,10 +47,9 @@ public class Media implements Transferable<Media.Transfer> {
     private int numViendo;
     private int numListas;
     private String fecha;
-    //Atributos adicionales para Series : temporadas y capitulos
+    // Atributos adicionales para Series : temporadas y capitulos
     private int orden;// puede ser el numero de la temporada o el numero del capitulo
-    private int numChild; //contador auxiliar para: numero de capitulos, temporadas, ... 
-
+    private int numChild; // contador auxiliar para: numero de capitulos, temporadas, ...
 
     @ManyToMany(targetEntity = Lista.class, mappedBy = "medias")
     private List<Lista> listas = new ArrayList<>();
@@ -63,7 +64,6 @@ public class Media implements Transferable<Media.Transfer> {
         children.add(child);
         child.setFather(this);
     }
-
 
     @Getter
     @AllArgsConstructor

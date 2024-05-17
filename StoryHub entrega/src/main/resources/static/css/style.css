@@ -88,13 +88,15 @@ body {
 }
 
 .nombre-comentario,
-.comment-num-replies {
+.comment-num-replies,
+.nombre-usuario {
   color: #fff;
 }
 
 .nombre-comentario:hover,
 .comment-num-replies:hover,
-.comentario-texto:hover {
+.comentario-texto:hover,
+.nombre-usuario:hover {
   color: #ddd;
 }
 
@@ -139,67 +141,67 @@ body {
 
 /* Estilos para el botón con ID favoritoBtn */
 #favoritoBtn.outline{
-  color: orange; 
-  background-color:transparent;
-  border-color:orange; 
+    color: orange; 
+    background-color:transparent;
+    border-color:orange; 
 }
 #favoritoBtn.outline:hover {
-  background-color: orange; 
-  color: white; 
+    background-color: orange; 
+    color: white; 
 }
 
 /* Estilos para el botón con ID favoritoBtn */
 #favoritoBtn.normal{
-  background-color: orange; 
-  color: white; 
+    background-color: orange; 
+    color: white; 
 }
 #favoritoBtn.normal:hover {
-  color: orange; 
-  background-color:transparent; 
-  border-color:orange; 
+    color: orange; 
+    background-color:transparent; 
+    border-color:orange; 
 }
 
 /* Estilos para el botón con ID viendoBtn */
 #viendoBtn.outline {
-  color: darkorchid; 
-  background-color:transparent;
-  border-color:darkorchid;
+    color: darkorchid; 
+    background-color:transparent;
+    border-color:darkorchid;
 }
 #viendoBtn.outline:hover {
-  background-color: darkorchid; /* Cambia el color de fondo al color de texto en hover */
-  color: white; 
+    background-color: darkorchid; /* Cambia el color de fondo al color de texto en hover */
+    color: white; 
 }
 
 #viendoBtn.normal {
-  background-color: darkorchid; 
-  color: white; 
+    background-color: darkorchid; 
+    color: white; 
 }
 #viendoBtn.normal:hover {
-  color: darkorchid; 
-  background-color:transparent;
-  border-color:darkorchid;
+    color: darkorchid; 
+    background-color:transparent;
+    border-color:darkorchid;
 }
 
 /* Estilos para el botón con ID terminadoBtn */
 #terminadoBtn.outline {
-  color: #00e054; 
-  background-color:transparent; 
-  border-color:#00e054; 
+    color: #00e054; 
+    background-color:transparent; 
+    border-color:#00e054; 
 }
 #terminadoBtn.outline:hover {
-  background-color: #00e054; 
-  color: white; 
+    background-color: #00e054; 
+    color: white; 
 }
 
 /* Estilos para el botón con ID terminadoBtn */
 #terminadoBtn.normal {
-  background-color: #00e054; 
-  color: white;
+    background-color: #00e054; 
+    color: white;
 }
 #terminadoBtn.normal:hover {
-  color: #00e054; 
-  background-color:transparent; 
-  border-color:#00e054; 
+    color: #00e054; 
+    background-color:transparent; 
+    border-color:#00e054; 
 }
 
 .color-tit{

@@ -164,12 +164,11 @@ public class UserController {
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
 
-		
 		TMDBService s = new TMDBService();
 		String trendingResult = s.obtenerContenidoEnTendencia();
 		ArrayList<Media> listaTrending = new ArrayList<>();
 
-		try{
+		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode root = objectMapper.readTree(trendingResult);
 			JsonNode resultRoot = root.get("results");
@@ -177,21 +176,19 @@ public class UserController {
 			for (JsonNode resultNode : resultRoot) {
 				long mediaId = resultNode.get("id").asLong();
 
-				try{			// buscamos el contenido en la BD
+				try { // buscamos el contenido en la BD
 					Media m = entityManager.find(Media.class, mediaId);
 					if (m == null) {// si no esta lo añadimos
 						m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
 						entityManager.persist(m);
 					}
 					listaTrending.add(m);
-				}
-				catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
-		}
-		catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		model.addAttribute("trendingResult", listaTrending);
@@ -254,7 +251,7 @@ public class UserController {
 		String trendingResult = s.obtenerContenidoEnTendencia();
 		ArrayList<Media> listaTrending = new ArrayList<>();
 
-		try{
+		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode root = objectMapper.readTree(trendingResult);
 			JsonNode resultRoot = root.get("results");
@@ -270,8 +267,7 @@ public class UserController {
 				}
 				listaTrending.add(m);
 			}
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		model.addAttribute("trendingResult", listaTrending);
@@ -321,8 +317,8 @@ public class UserController {
 
 		TMDBService s = new TMDBService();
 		GoogleBookService s2 = new GoogleBookService();
-		String resultTMDBSeries = s.searchTerm(paramBusqueda,"tv");
-		String resultTMDBMovies = s.searchTerm(paramBusqueda,"movie");
+		String resultTMDBSeries = s.searchTerm(paramBusqueda, "tv");
+		String resultTMDBMovies = s.searchTerm(paramBusqueda, "movie");
 		String resultBooks = s2.searchTerm(paramBusqueda);
 
 		ArrayList<User> users = (ArrayList<User>) entityManager.createNamedQuery("User.aproxUsername", User.class)
@@ -352,7 +348,7 @@ public class UserController {
 			// Iterar sobre los elementos de la matriz "results" para buscar las series
 			for (JsonNode resultNode : resultsNodeTMDBSeries) {
 				long mediaId = resultNode.get("id").asLong();
-				log.info("Contenido con ID: " + mediaId + " y de TIPO TV" );
+				log.info("Contenido con ID: " + mediaId + " y de TIPO TV");
 
 				// buscamos el contenido en la BD
 				Media m = entityManager.find(Media.class, mediaId);
@@ -360,7 +356,7 @@ public class UserController {
 					m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
 					m.setTipo("tv");
 					entityManager.persist(m);
-				
+
 				}
 				listaSeries.add(m);
 			}
@@ -394,19 +390,19 @@ public class UserController {
 							break;
 						} catch (NumberFormatException e) {
 							System.out.println("ESTE ISBN NO PUEDE SER DE TIPO LONG: " + isbn);
-							continue;//continuamos buscando otro isbn
+							continue;// continuamos buscando otro isbn
 						}
 					}
 				}
 				/*
-				Media m = entityManager.find(Media.class, mediaId);
-				if (m == null) {// si no esta lo añadimos
-					m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
-					m.setTipo("book");
-					entityManager.persist(m);
-				}	
+				 * Media m = entityManager.find(Media.class, mediaId);
+				 * if (m == null) {// si no esta lo añadimos
+				 * m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
+				 * m.setTipo("book");
+				 * entityManager.persist(m);
+				 * }
 				 */
-						
+
 				Media m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
 
 				listaBooks.add(m);
@@ -496,7 +492,7 @@ public class UserController {
 		}
 	}
 
-	//VER MI PERFIL -------------------------------------------------------
+	// VER MI PERFIL -------------------------------------------------------
 	@GetMapping("/miPerfil")
 	public String verMiPerfil(Model model, HttpSession session) {
 		User a = (User) session.getAttribute("u");
@@ -536,7 +532,6 @@ public class UserController {
 		model.addAttribute("terminado", terminadoMedias);
 		return "user";
 	}
-	
 
 	// CARGAR NOTIFICACIONES NO VISTAS---------------------------------------
 	@GetMapping("/cargarNotis")
@@ -787,7 +782,7 @@ public class UserController {
 
 		try {
 
-			if (m == null && (tipo.equalsIgnoreCase("tv")||tipo.equalsIgnoreCase("movie") )) { 
+			if (m == null && (tipo.equalsIgnoreCase("tv") || tipo.equalsIgnoreCase("movie"))) {
 				// si no tenemos el con o en la BD, lo sacamos de la API
 				// parseamos los datos de la API TMDB
 				TMDBService s = new TMDBService();
@@ -801,8 +796,7 @@ public class UserController {
 				m.setTipo(tipo);
 
 				entityManager.persist(m);
-			}
-			else if(m==null && tipo.equalsIgnoreCase("book")){
+			} else if (m == null && tipo.equalsIgnoreCase("book")) {
 				GoogleBookService b = new GoogleBookService();
 
 				m = b.getBookByISBN(idMedia);
@@ -811,30 +805,29 @@ public class UserController {
 
 			}
 
-
-			if(m.getTipo().equalsIgnoreCase("tv")){
-				if(m.getChildren().size() < 1){
-				TMDBService s = new TMDBService();
-				// Llamar al servicio para obtener los detalles del contenido
-				String resultado = s.obtenerContenido(tipo, idMedia);
-				// lo parseamos tipo JSON
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
-				log.info(resultNode);
-				s.obtenerTemporadas(m, resultNode);
+			if (m.getTipo().equalsIgnoreCase("tv")) {
+				if (m.getChildren().size() < 1) {
+					TMDBService s = new TMDBService();
+					// Llamar al servicio para obtener los detalles del contenido
+					String resultado = s.obtenerContenido(tipo, idMedia);
+					// lo parseamos tipo JSON
+					ObjectMapper objectMapper = new ObjectMapper();
+					JsonNode resultNode = objectMapper.readTree(resultado);
+					log.info(resultNode);
+					s.obtenerTemporadas(m, resultNode);
 				}
 			}
 
-			if(m.getTipo().equalsIgnoreCase("season")){
-				if(m.getChildren().size() < 1){
-				TMDBService s = new TMDBService();
-				// Llamar al servicio para obtener los detalles del contenido
-				String resultado = s.obtenerCapitulos(m);
-				// lo parseamos tipo JSON
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode resultNode = objectMapper.readTree(resultado);
-				log.info(resultNode);
-				s.obtenerListaDeCapitulos(m, resultNode);
+			if (m.getTipo().equalsIgnoreCase("season")) {
+				if (m.getChildren().size() < 1) {
+					TMDBService s = new TMDBService();
+					// Llamar al servicio para obtener los detalles del contenido
+					String resultado = s.obtenerCapitulos(m);
+					// lo parseamos tipo JSON
+					ObjectMapper objectMapper = new ObjectMapper();
+					JsonNode resultNode = objectMapper.readTree(resultado);
+					log.info(resultNode);
+					s.obtenerListaDeCapitulos(m, resultNode);
 				}
 			}
 
@@ -1050,10 +1043,27 @@ public class UserController {
 		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
 		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+		Long numMovies = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+	    .setParameter("listaId", l.getId()).setParameter("tipo", "movie").getSingleResult();
+		Long numSeries = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+		.setParameter("listaId", l.getId()).setParameter("tipo", "tv").getSingleResult();
+		Long numEpisodes  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+		.setParameter("listaId", l.getId()).setParameter("tipo", "episode").getSingleResult();
+		Long numSeasons  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+		.setParameter("listaId", l.getId()).setParameter("tipo", "season").getSingleResult();
+		Long numLibros  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+		.setParameter("listaId", l.getId()).setParameter("tipo", "book").getSingleResult();
+
 		model.addAttribute("user", u);
 		model.addAttribute("lista", l); // Agregar la lista al modelo
 		model.addAttribute("contenidos", medias);
 		model.addAttribute("suscrito", u.getSuscripciones().contains(l));
+		model.addAttribute("numMovies", numMovies);
+		model.addAttribute("numSeries", numSeries);
+		model.addAttribute("numEpisodes", numEpisodes);
+		model.addAttribute("numSeasons", numSeasons);
+		model.addAttribute("numLibros", numLibros);
+
 		log.info(u.getSuscripciones().contains(l));
 		return "lista";
 	}

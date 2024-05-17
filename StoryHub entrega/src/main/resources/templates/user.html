@@ -132,7 +132,7 @@
                 <button type="button" th:if="${item.name == 'Favoritos'}" class="btn outline" id="favoritoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
                 <button type="button" th:if="${item.name == 'Viendo'}" class="btn outline" id="viendoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
                 <button type="button" th:unless="${item.name == 'Terminado' or item.name == 'Favoritos' or item.name == 'Viendo'}"
-                class="btn btn-outline-light" th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                class="btn btn-outline-light" th:title="${item.name}"th:text="${item.name}">Nombre</button>
               </a>
             </div>
           </div>

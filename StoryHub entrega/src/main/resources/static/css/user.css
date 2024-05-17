@@ -62,8 +62,12 @@
   /* Puedes ajustar el valor según la separación deseada */
 }
 
-.visto{
-  color: green;
+.visto {
+  color: #00e054;
+}
+
+.visto:hover {
+  color: #00c34b;
 }
 
 .listas {

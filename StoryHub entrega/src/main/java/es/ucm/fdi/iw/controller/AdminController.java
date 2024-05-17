@@ -90,11 +90,12 @@ public class AdminController {
 				c.setText("Este comentario ha sido eliminado por infringir las normas");
 				c.setReport(false);
 				c.setDeleted(true);
-				
-				String text ="Se ha eliminado tu comentario con texto " + texto + " de " +c.getMedia().getTipo()+": " + c.getMedia().getNombre() + " por infringir las normas.";
+
+				String text = "Se ha eliminado tu comentario con texto " + texto + " de " + c.getMedia().getTipo()
+						+ ": " + c.getMedia().getNombre() + " por infringir las normas.";
 
 				Noti n = new Noti();
-				n.setEnlace("/user/"+c.getAuthor().getId()+"/comentario/"+c.getId());
+				n.setEnlace("/user/" + c.getAuthor().getId() + "/comentario/" + c.getId());
 				n.setObjetivo(c.getAuthor());
 				n.setText(text);
 				n.setVisto(false);
@@ -107,7 +108,7 @@ public class AdminController {
 				ObjectNode rootNode = mapper.createObjectNode();
 				rootNode.set("noti", mapper.valueToTree(n));
 				String json = mapper.writeValueAsString(rootNode);
-				messagingTemplate.convertAndSend("/user/"+c.getAuthor().getUsername()+"/queue/updates", json);
+				messagingTemplate.convertAndSend("/user/" + c.getAuthor().getUsername() + "/queue/updates", json);
 
 			}
 			return ResponseEntity.ok(true);
@@ -143,6 +144,38 @@ public class AdminController {
 		// TODO: process POST request
 
 		return entity;
+	}
+
+	@PostMapping("/{id}/ban")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<Boolean> ban(@PathVariable long id, Model model, HttpSession session) {
+		try {
+			User user = entityManager.find(User.class, id);
+			user.setEnabled(false);
+			entityManager.merge(user);
+			entityManager.flush();
+
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			return ResponseEntity.ok(false);
+		}
+	}
+
+	@PostMapping("/{id}/unban")
+	@ResponseBody
+	@Transactional
+	public ResponseEntity<Boolean> unban(@PathVariable long id, Model model, HttpSession session) {
+		try {
+			User user = entityManager.find(User.class, id);
+			user.setEnabled(true);
+			entityManager.merge(user);
+			entityManager.flush();
+
+			return ResponseEntity.ok(true);
+		} catch (Exception e) {
+			return ResponseEntity.ok(false);
+		}
 	}
 
 }

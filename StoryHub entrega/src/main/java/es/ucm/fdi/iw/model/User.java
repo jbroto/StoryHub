@@ -125,4 +125,8 @@ public class User implements Transferable<User.Transfer> {
     public boolean getEnabled() {
         return this.enabled;
     }
+
+    public void setEnabled(boolean e) {
+        this.enabled = e;
+    }
 }

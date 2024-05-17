@@ -34,27 +34,27 @@ $(document).ready(function () {
     $('.boton-ban').on('click', function () {
         let $button = $(this);
         // Construir la URL de la acción
-        let actionUrl = '/admin/' + idUser + '/ban';
+        let actionUrl = $button.hasClass('boton-unban') ? '/admin/' + idUser + '/unban' : '/admin/' + idUser + '/ban';
 
         // Realizar la llamada AJAX utilizando la función go
         go(actionUrl, 'POST')
             .then(response => {
                 // Actualizar el botón y su apariencia
                 if (response) {
-                    if ($button.hasClass('boton-unfollow')) {
-                        $button.removeClass('btn-danger boton-unfollow').addClass('btn-success boton-follow');
-                        $button.html('<i class="fa-solid fa-user-plus"></i> Seguir');
+                    if ($button.hasClass('boton-unban')) {
+                        $button.removeClass('btn-success boton-unban').addClass('btn-danger boton-ban');
+                        $button.html('<i class="fa-solid fa-user-minus"></i> Banear');
                     } else {
-                        $button.removeClass('btn-success boton-follow').addClass('btn-danger boton-unfollow');
-                        $button.html('<i class="fa-solid fa-user-minus"></i> Seguir');
+                        $button.removeClass('btn-danger boton-ban').addClass('btn-success boton-unban');
+                        $button.html('<i class="fa-solid fa-user-plus"></i> Desbanear');
                     }
                 } else {
                     // Manejar errores o mostrar un mensaje al usuario
-                    console.log("No se ha podido realizar la acción para el usuario con ID: " + idUser);
+                    console.log("No se ha podido banear al usuario con ID: " + idUser);
                 }
             })
             .catch(error => {
-                console.log("ERROR: No se ha podido realizar la acción para el usuario con ID: " + idUser);
+                console.log("ERROR: No se ha podido banear al usuario con ID: " + idUser);
             });
     });
 

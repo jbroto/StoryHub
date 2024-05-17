@@ -302,3 +302,28 @@ body{
 .deleted-comment {
     font-weight: bold;
 }
+
+
+/* Estilo general para los botones con la clase botonesBasicos */
+.botonesBasicos.outline {
+    color: #40bcf4; /* Color del texto por defecto */
+    background-color:transparent; 
+    border-color: #40bcf4; /* Borde de 2px sólido con el color especificado */
+}
+.botonesBasicos.outline:hover {
+    background-color: #40bcf4; /* Cambia el color de fondo al color de texto en hover */
+    color: white; /* Cambia el color del texto a blanco en hover */
+}
+
+/* Estilo general para los botones con la clase botonesBasicos */
+.botonesBasicos.normal {
+    background-color: #40bcf4; /* Cambia el color de fondo al color de texto en hover */
+    color: white; /* Cambia el color del texto a blanco en hover */
+}
+
+.botonesBasicos.normal:hover {
+    color: #40bcf4; /* Color del texto por defecto */
+    background-color:transparent; 
+    border-color: #40bcf4; /* Borde de 2px sólido con el color especificado */
+}
+

@@ -11,18 +11,20 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <div id="lista-contenido" class="container contenidoLista">
         <div class="d-flex TituloNoBg justify-content-between align-items-center gap-2 mt-3">
-            <div class="d-flex gap-2 align-items-center">
-                <h1 >
+            <div class="d-flex align-items-end">
+                <h2>
                     <i th:if="${lista.name == 'Terminado'}" class="fa-regular fa-eye"></i>
                     <i th:if="${lista.name == 'Favoritos'}" class="fa-solid fa-heart"></i>
                     <i th:if="${lista.name == 'Viendo'}" class="fa-sharp fa-solid fa-hourglass-half"></i>
                     <i th:unless="${lista.name == 'Terminado' or lista.name == 'Favoritos' or lista.name == 'Viendo'}"
-                     class="fa-solid fa-list-ul"></i>
-                    <span th:text="${lista.name}">default</span></h1>
-                <div class="texto-lista">
-                    Lista creada por: 
-                </div>
-                <a th:href="@{/user/{id}/(id=${lista.author.id})}" th:text="${lista.author.getUsername()}">default</a>
+                        class="fa-solid fa-list-ul"></i>
+                    <span th:text="${lista.name}">default</span>
+                </h2>
+                <h3 class="texto-lista ">
+                    creada por:
+                    <a th:href="@{/user/{id}/(id=${lista.author.id})}"
+                        th:text="${lista.author.getUsername()}">default</a>
+                </h3>
             </div>
             <div class="suscripcion">
                 <!-- Botón alineado a la derecha de la columna -->

@@ -6,7 +6,7 @@ $(document).ready(function(){
     const btnMovies = $('#movies-search');
     const btnBooks = $('#book-search');
 
-    const listaName = document.querySelector('.TituloNoBg h1 span').innerText.trim();
+    const listaName = document.querySelector('.TituloNoBg h2 span').innerText.trim();
     const tituloDiv = document.querySelector('.TituloNoBg');
 
     // Verificar el valor del nombre de la lista y cambiar la clase en consecuencia

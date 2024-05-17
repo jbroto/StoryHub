@@ -102,7 +102,7 @@
       <div class="row">
         <div class="col-md-6 mt-3">
           <div class="mostrarListas d-flex">
-            <a class="btn btn-success mb-2  " data-bs-toggle="collapse" href="#collapseNombreListas" role="button"
+            <a class="btn btn-light mb-2  " data-bs-toggle="collapse" href="#collapseNombreListas" role="button"
               aria-expanded="false" aria-controls="collapseNombreListas" title="Aquí están tus listas">
               <i class="fa-solid fa-list"></i>
               Listas
@@ -124,7 +124,11 @@
               <!-- hay que cambiar esto -->
               <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${actual.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
-                <button type="button" class="btn btn-warning" th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Terminado'}" class="btn outline" id="terminadoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Favoritos'}" class="btn outline" id="favoritoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Viendo'}" class="btn outline" id="viendoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button" th:unless="${item.name == 'Terminado' or item.name == 'Favoritos' or item.name == 'Viendo'}"
+                class="btn btn-outline-light" th:title="${item.name}" th:text="${item.name}">Nombre</button>
               </a>
             </div>
           </div>

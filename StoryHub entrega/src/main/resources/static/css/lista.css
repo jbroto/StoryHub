@@ -60,3 +60,10 @@
 .TituloNoBg {
     color: #eee;
 }
+
+.texto-lista{
+    color:#eee;
+
+    margin-left: 10px;
+    margin-right: 10px;
+}

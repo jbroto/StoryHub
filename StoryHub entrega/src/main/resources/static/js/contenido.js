@@ -36,7 +36,7 @@ $(document).ready(function () {
     function cambiarColoryPost(button, estado, url) {
         //quitamos la clase porque si no se queda seleccionado
         sendRequest(estado, url);
-        button.toggleClass('btn-success btn-danger');
+        button.toggleClass('normal outline');
     }
 
 
@@ -45,7 +45,7 @@ $(document).ready(function () {
         let estado, url;
 
         // Obtener el estado según la clase del botón
-        if ($(this).hasClass('btn-success')) {
+        if ($(this).hasClass('outline')) {
             estado = 'addTo';
         } else {
             estado = 'removeFrom';

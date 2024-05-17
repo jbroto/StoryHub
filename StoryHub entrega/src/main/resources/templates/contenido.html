@@ -180,15 +180,15 @@
                                     </div>
 
 
-                                    <button class="btn"
-                                        th:class="${relacion.favorito} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
+                                    <button
+                                        th:class="${relacion.favorito} ? 'btn botonesBasicos normal' : 'btn botonesBasicos outline'"
                                         id="favoritoBtn"><i class="fa-solid fa-heart"></i>Favoritos</button>
                                     <button class="btn"
-                                        th:class="${relacion.viendo} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
+                                        th:class="${relacion.viendo} ? 'btn botonesBasicos normal' : 'btn botonesBasicos outline'"
                                         id="viendoBtn"><i
                                             class="fa-sharp fa-solid fa-hourglass-half"></i>Viendo</button>
                                     <button class="btn"
-                                        th:class="${relacion.ended} ? 'btn botonesBasicos btn-danger' : 'btn botonesBasicos btn-success'"
+                                        th:class="${relacion.ended} ? 'btn botonesBasicos normal' : 'btn botonesBasicos outline'"
                                         id="terminadoBtn"><i class="fa-regular fa-eye"></i>Terminado</button>
 
                                     <div class="dropdown ">
@@ -208,7 +208,7 @@
                                                 <button
                                                     th:unless="${item.name == 'Favoritos'|| item.name == 'Viendo' || item.name == 'Terminado' }"
                                                     class="btn botonesBasicos"
-                                                    th:class="${item.medias.contains(media)} ? 'btn botonesBasicos  btn-danger' : 'btn botonesBasicos btn-success'"
+                                                    th:class="${item.medias.contains(media)} ? 'btn botonesBasicos normal' : 'btn botonesBasicos outline'"
                                                     th:text="${item.name}">
                                                 </button>
                                             </div>

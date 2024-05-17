@@ -63,7 +63,7 @@ public class RootController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        return "user";
+        return "inicio";
     }
 
     @GetMapping("/registro")

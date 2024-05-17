@@ -201,3 +201,12 @@ body {
   background-color:transparent; 
   border-color:#00e054; 
 }
+
+.color-tit{
+  color: white;
+}
+
+.color-back{
+  background-color:  rgba(42, 42, 42, 0.9);
+}
+

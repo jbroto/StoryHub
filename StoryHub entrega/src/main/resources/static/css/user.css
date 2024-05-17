@@ -14,8 +14,8 @@
 }
 
 .container.crearLista {
-  color: #40bcf4;
-  background: radial-gradient(circle, rgba(64, 187, 244, 1), rgba(77, 155, 255, 1));
+  color:bisque;
+  background: radial-gradient(circle,burlywood, bisque);
 
   /* Grosor del borde */
   border-radius: 10px;
@@ -67,7 +67,7 @@
 }
 
 .listas {
-  color:#40bcf4;
+  color:burlywood;
 }
 
 

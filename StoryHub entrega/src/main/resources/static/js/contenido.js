@@ -108,6 +108,7 @@ $(document).ready(function () {
                 let numComents = parseInt(comTotales.textContent);
                 comTotales.textContent = numComents + 1;
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
+                $('#commentText').val("")
                 messageDiv.insertAdjacentHTML("beforebegin", renderMsg(response));
             })
             .then(error => {

@@ -126,6 +126,7 @@ public class UserController {
 	 * Landing page for a user profile
 	 */
 	@GetMapping("{id}")
+	@Transactional
 	public String index(@PathVariable long id, Model model, HttpSession session) {
 		User target = entityManager.find(User.class, id);
 		// solucion provisional porque no funciona con thymleaf
@@ -163,7 +164,38 @@ public class UserController {
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
 
-		return "user";
+		
+		TMDBService s = new TMDBService();
+		String trendingResult = s.obtenerContenidoEnTendencia();
+		ArrayList<Media> listaTrending = new ArrayList<>();
+
+		try{
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode root = objectMapper.readTree(trendingResult);
+			JsonNode resultRoot = root.get("results");
+
+			for (JsonNode resultNode : resultRoot) {
+				long mediaId = resultNode.get("id").asLong();
+
+				try{			// buscamos el contenido en la BD
+					Media m = entityManager.find(Media.class, mediaId);
+					if (m == null) {// si no esta lo añadimos
+						m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
+						entityManager.persist(m);
+					}
+					listaTrending.add(m);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		model.addAttribute("trendingResult", listaTrending);
+		return "inicio";
 	}
 
 	/**
@@ -218,7 +250,32 @@ public class UserController {
 			session.setAttribute("u", target);
 		}
 
-		return "user";
+		TMDBService s = new TMDBService();
+		String trendingResult = s.obtenerContenidoEnTendencia();
+		ArrayList<Media> listaTrending = new ArrayList<>();
+
+		try{
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode root = objectMapper.readTree(trendingResult);
+			JsonNode resultRoot = root.get("results");
+
+			for (JsonNode resultNode : resultRoot) {
+				long mediaId = resultNode.get("id").asLong();
+
+				// buscamos el contenido en la BD
+				Media m = entityManager.find(Media.class, mediaId);
+				if (m == null) {// si no esta lo añadimos
+					m = s.parseTMDBtoMedia(resultNode); // parseamos los datos de la API TMDB
+					entityManager.persist(m);
+				}
+				listaTrending.add(m);
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		model.addAttribute("trendingResult", listaTrending);
+		return "inicio";
 	}
 
 	@GetMapping("/editarPerfil")
@@ -438,6 +495,48 @@ public class UserController {
 			return ResponseEntity.ok(false);
 		}
 	}
+
+	//VER MI PERFIL -------------------------------------------------------
+	@GetMapping("/miPerfil")
+	public String verMiPerfil(Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		Long id = a.getId();
+		User target = entityManager.find(User.class, a.getId());
+		User copia = (User) session.getAttribute("u");
+		User actual = entityManager.find(User.class, copia.getId());
+
+		Lista lista = new Lista(); // Crear una nueva instancia de Lista
+		// obtenemos la lista de Favoritos, viendo y terminado
+
+		List<Lista> listasUs = target.getListas();
+
+		// Obtenemos la lista de Favoritos
+		Lista favoritos = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "Favoritos").setParameter("author", id).getSingleResult();
+		// obtenemos un solo resultado(ya sabemos que solo hay una lista de fav)
+		List<Media> favMedias = favoritos.getMedias(); // creamos la lista de Medias contenidas en la lista
+
+		// Obtenemos la lista de estoy viendo
+		Lista viendo = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "Viendo").setParameter("author", id).getSingleResult();
+		List<Media> viendoMedias = viendo.getMedias(); // creamos la lista de Medias contenidas en la lista
+
+		// Obtenemos la lista de terminado
+		Lista terminado = entityManager.createNamedQuery("Lista.byName", Lista.class)
+				.setParameter("name", "Terminado").setParameter("author", id).getSingleResult();
+		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
+
+		// cambiar
+		model.addAttribute("user", target);
+		model.addAttribute("actual", actual);
+		model.addAttribute("Lista", lista); // Agregar la lista al modelo
+		model.addAttribute("Listas", listasUs);
+		model.addAttribute("favoritos", favMedias);
+		model.addAttribute("viendo", viendoMedias);
+		model.addAttribute("terminado", terminadoMedias);
+		return "user";
+	}
+	
 
 	// CARGAR NOTIFICACIONES NO VISTAS---------------------------------------
 	@GetMapping("/cargarNotis")

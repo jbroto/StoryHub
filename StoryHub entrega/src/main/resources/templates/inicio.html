@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <th:block th:replace="fragments/head :: header"></th:block>
+    <link rel="stylesheet" th:href="@{/css/busqueda.css}" href="css/busqueda.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css"/>
+
+    <title>Inicio</title>
+</head>
+<body th:attr="data-userId=${user.id}">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <div class="container-fluid color-back">
+        
+    <section class="container justify-content-center" id="mi-lista">
+        <h1 class="text-center mt-3 mb-3 color-tit"><i class="fa-solid fa-film"></i> Películas y Series más populares</h1>
+        <div id="trending" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${trendingResult}">
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                    <input type="hidden" name="tipo" th:value="${item.tipo}"/>
+                    <input type="hidden" name="idMedia" th:value="${item.id}"/>
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover"
+                                 th:style="'height: 500px; object-fit: cover;'">
+                            <div class="card-body">
+                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                    <div class="type_icon" th:title="${item.tipo}">
+                                        <i class="fa-solid fa-tv"></i>
+                                    </div>
+                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span id="media-rating" th:text="${item.rating}">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
+                                        <div class="icono_media">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.numVisto}">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-comment"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${item.comments.size}">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    </div>
+    <th:block th:replace="fragments/footer.html :: footer"></th:block>
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+</body>
+</html>

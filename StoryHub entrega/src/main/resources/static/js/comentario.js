@@ -28,6 +28,7 @@ $(document).ready(function () {
                 let comTotales = document.querySelector('.comentarios-totales');
                 let numComents = parseInt(comTotales.textContent);
                 comTotales.textContent = numComents + 1;
+                $('#commentText').val("")
                 // Opcionalmente, actualizar la interfaz de usuario basándote en la respuesta
                 messageDiv.insertAdjacentHTML("beforebegin", renderMsg(response));
             })

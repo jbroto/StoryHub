@@ -17,6 +17,10 @@ public class TMDBService {
     private static final String MULTI_SEARCH = "/search/multi";
     private static final String MOVIE_SEARCH = "/search/movie";
     private static final String SERIES_SEARCH = "/search/tv";
+    private static final String MOVIE_POPULAR = "/movie/popular";
+    private static final String SERIES_POPULAR = "/tv/popular";
+    private static final String TRENDING = "/trending";
+
 
     private static final String LANGUAGE = "&language=es-ES";
 
@@ -60,7 +64,55 @@ public class TMDBService {
             e.printStackTrace();
             return null;
         }
-    }     
+    }
+    
+    public String obtenerPeliculasPopulares() {
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + MOVIE_POPULAR + API_KEY + LANGUAGE;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String obtenerSeriesPopulares() {
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + SERIES_POPULAR + API_KEY + LANGUAGE;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String obtenerContenidoEnTendencia() {
+        OkHttpClient client = new OkHttpClient();
+        String url = URL + TRENDING + "/all/week"+ API_KEY + LANGUAGE;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     // https://api.themoviedb.org/3/tv/66732?api_key=cba3b5b1f6b343e9fc31c5b787b270bd&language=es-ES&append_to_response=episode_groups
     // ejemplo para obtener todos los capitulos de srtanger things que tiene id

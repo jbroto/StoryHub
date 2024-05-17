@@ -43,7 +43,7 @@ $(document).ready(function () {
                 if (response) {
                     if ($button.hasClass('boton-unban')) {
                         $button.removeClass('btn-success boton-unban').addClass('btn-danger boton-ban');
-                        $button.html('<i class="fa-solid fa-user-minus"></i> Banear');
+                        $button.html('<i class="fa-solid fa-user-slash"></i> Banear');
                     } else {
                         $button.removeClass('btn-danger boton-ban').addClass('btn-success boton-unban');
                         $button.html('<i class="fa-solid fa-user-plus"></i> Desbanear');

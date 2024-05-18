@@ -19,11 +19,12 @@ import java.util.List;
 @NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "User.byUsername", query = "SELECT u FROM User u "
-                + "WHERE u.username = :username AND u.enabled = TRUE"),
+                + "WHERE u.username = :username"),
         @NamedQuery(name = "User.hasUsername", query = "SELECT COUNT(u) "
                 + "FROM User u "
                 + "WHERE u.username = :username"),
-        @NamedQuery(name = "User.aproxUsername", query = "SELECT u FROM User u WHERE u.username LIKE :username")
+        @NamedQuery(name = "User.aproxUsername", query = "SELECT u FROM User u WHERE u.username LIKE :username"),
+        @NamedQuery(name = "User.usersBaneados", query = "SELECT u FROM User u WHERE u.enabled = FALSE")
 })
 @Table(name = "IWUser")
 public class User implements Transferable<User.Transfer> {

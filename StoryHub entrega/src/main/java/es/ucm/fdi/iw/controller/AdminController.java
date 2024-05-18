@@ -43,6 +43,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * Site administration.
@@ -177,5 +179,22 @@ public class AdminController {
 			return ResponseEntity.ok(false);
 		}
 	}
+
+	@GetMapping("/banned-users")
+	public String getBannedUsers(Model model, HttpSession session) {
+		User a = (User) session.getAttribute("u");
+		User u = entityManager.find(User.class, a.getId());
+
+		try{
+			ArrayList<User> banneados = (ArrayList<User>) entityManager.createNamedQuery("User.usersBaneados", User.class).getResultList();
+			model.addAttribute("baneados", banneados);
+			model.addAttribute("user", u);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return "bannedUsers";
+	}
+	
 
 }

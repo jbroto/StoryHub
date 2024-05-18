@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/social.css}" href="css/social.css" type="text/css" />
+    <title>Usuarios baneados</title>
+
+</head>
+
+<body th:data-iduser="${user.id}" class="d-flex flex-column">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <section class="container justify-content-center" id="">
+        <h2 class="text-center mt-3 mb-3"><i class="fa-solid fa-ban"></i> Usuarios banneados</h2>
+        <div class="text-center" th:if="${baneados.size() == 0}">
+          <p>No hay usuarios baneados. <i class="fa-regular fa-face-smile-beam"></i></p>
+        </div>
+        <!-- TABLA USUARIOS BANEADOS -->
+        <div class="row d-flex" th:if="${baneados.size() > 0}">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="usuario : ${baneados}">
+                <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                <form th:action="@{/user/__${usuario.id}__/perfilUsuario}" method="get">
+                    <input type="hidden" name="username" th:value="${usuario.username}">
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" img th:src="@{/user/__${usuario.id}__/pic}" alt="Avatar">
+                            <div class="card-body">
+                                <h6><b><span th:text="${usuario.username}"></span></b></h6>
+                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                    <p>Nombre: <span th:text="${usuario.firstName}"></span></p>
+                                    <p>Apellidos: <span th:text="${usuario.lastName}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+</body>
+
+</html>

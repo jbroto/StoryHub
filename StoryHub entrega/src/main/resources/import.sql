@@ -222,13 +222,13 @@ INSERT INTO Lista_Media(LISTA_ID, MEDIA_ID) VALUES (15, 748783);
 --COMENTARIOS--------------------------------------------------------------------
 
 INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID, DELETED)
-VALUES (1, CURRENT_DATE, FALSE, 'el prota es un tonto', 4, 66732, FALSE);
+VALUES (1, '2024-03-12', FALSE, 'el prota es un tonto', 4, 66732, FALSE);
 
 INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID, DELETED)
 VALUES (2, CURRENT_DATE, TRUE, 'vendo opel corsa', 5, 66732, FALSE);
 
 INSERT INTO Comment (ID, DATE_SENT, REPORT, TEXT, AUTHOR_ID, MEDIA_ID, DELETED, FATHER_ID)
-VALUES (3, CURRENT_DATE, FALSE, 'vendo opel corsa', 2,66732, FALSE, 1);
+VALUES (3, '2024-03-12', FALSE, 'vendo opel corsa', 2,66732, FALSE, 1);
 
 
 -- start id numbering from a value that is larger than any assigned above

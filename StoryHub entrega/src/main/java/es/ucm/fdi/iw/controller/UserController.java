@@ -155,6 +155,7 @@ public class UserController {
 				.setParameter("name", "Terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+		
 		// cambiar
 		model.addAttribute("user", target);
 		model.addAttribute("actual", actual);
@@ -163,6 +164,7 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
+		
 
 		TMDBService s = new TMDBService();
 		String trendingResult = s.obtenerContenidoEnTendencia();
@@ -522,6 +524,9 @@ public class UserController {
 				.setParameter("name", "Terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+		List<Comment> coments = entityManager.createNamedQuery("Comentario.byIdUser", Comment.class)
+					.setParameter("idUser", copia.getId()).getResultList();
+
 		// cambiar
 		model.addAttribute("user", target);
 		model.addAttribute("actual", actual);
@@ -530,6 +535,7 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
+		model.addAttribute("comentarios", coments);
 		return "user";
 	}
 

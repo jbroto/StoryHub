@@ -45,7 +45,8 @@
                 <i class="fa-solid fa-user-slash"></i></i> Banear
               </button>
               <!-- Botón de "Desbanear" solo para admin -->
-              <button th:if="${session.u.hasRole('ADMIN') and !user.enabled}" class="btn btn-success boton-unban boton-ban">
+              <button th:if="${session.u.hasRole('ADMIN') and !user.enabled}"
+                class="btn btn-success boton-unban boton-ban">
                 <i class="fa-solid fa-user-plus"></i> Desbanear
               </button>
             </div>
@@ -128,11 +129,15 @@
               <!-- hay que cambiar esto -->
               <a th:href="@{/user/{id}/{list}/__${user.username}__(id=${actual.id}, list=${item.name})}">
                 <!-- Redireccion al contenido de la lista seleccionada -->
-                <button type="button" th:if="${item.name == 'Terminado'}" class="btn outline" id="terminadoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
-                <button type="button" th:if="${item.name == 'Favoritos'}" class="btn outline" id="favoritoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
-                <button type="button" th:if="${item.name == 'Viendo'}" class="btn outline" id="viendoBtn" th:title="${item.name}" th:text="${item.name}">Nombre</button>
-                <button type="button" th:unless="${item.name == 'Terminado' or item.name == 'Favoritos' or item.name == 'Viendo'}"
-                class="btn btn-outline-light" th:title="${item.name}"th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Terminado'}" class="btn outline" id="terminadoBtn"
+                  th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Favoritos'}" class="btn outline" id="favoritoBtn"
+                  th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button" th:if="${item.name == 'Viendo'}" class="btn outline" id="viendoBtn"
+                  th:title="${item.name}" th:text="${item.name}">Nombre</button>
+                <button type="button"
+                  th:unless="${item.name == 'Terminado' or item.name == 'Favoritos' or item.name == 'Viendo'}"
+                  class="btn btn-outline-light" th:title="${item.name}" th:text="${item.name}">Nombre</button>
               </a>
             </div>
           </div>
@@ -188,8 +193,8 @@
               <input type="hidden" name="idMedia" th:value="${media.id}" />
               <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                 <div class="card">
-                  <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
-                    alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                  <img class="" th:src="@{${media.coverImageUrl}}" alt="portada"
+                    th:style="'height: 300px; object-fit: cover;'" />
                   <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                   <div class="card-body text-center">
                     <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
@@ -248,8 +253,8 @@
               <input type="hidden" name="idMedia" th:value="${media.id}" />
               <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                 <div class="card">
-                  <img class="" th:src="@{${media.coverImageUrl}}"
-                    alt="portada" th:style="'height: 300px; object-fit: cover;'" />
+                  <img class="" th:src="@{${media.coverImageUrl}}" alt="portada"
+                    th:style="'height: 300px; object-fit: cover;'" />
                   <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                   <div class="card-body text-center">
                     <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
@@ -295,7 +300,54 @@
     </div>
 
     <h2 class="comentarios"><i class="fa-solid fa-comment"></i> Comentarios </h2>
+    <div class="scrollable-container">
+      <div class="row">
+        <div th:if="${#lists.isEmpty(comentarios)}">
+          <h2>Actualmente no has puesto ningún comentario</h2>
+        </div>
+        <div class="mt-3 d-flex flex-row justify-content-start">
 
+          <div th:each="comentario : ${comentarios}" th:unless="${#lists.isEmpty(comentarios)}" class="m-3">
+            <div class="card">
+              <div class="card-body cabecera-comentario d-flex align-items-center">
+                <a class="cabecera-comentario d-flex align-items-center gap-2"
+                  th:href="@{/user/{id}/(id=${comentario.author.id})}">
+                  <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3" width="40"
+                    height="40">
+                  <h4 class="card-title nombre-comentario ml-2" th:text="${comentario.author.username}">Nombre</h4>
+                </a>
+                <a class="cabecera-comentario d-flex align-items-center"
+                  th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                  <span class="text-muted small m-2" th:text="${comentario.dateSent}">Fecha</span>
+                  <div class="comment-num-replies d-flex gap-1">
+                    <div class="icono_comment">
+                      <i class="fa-regular fa-comment"></i>
+                    </div>
+                    <div class="numero_comment">
+                      <span th:text="${comentario.replies.size}">0</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="card-body">
+                <a th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
+                  <span class="card-text comentario-texto" th:text="${comentario.text}"
+                    th:classappend="${comentario.deleted} ? 'deleted-comment' : ''">
+                    Texto
+                  </span>
+                  <span th:text="' : ' + ${comentario.media.nombre}"></span>
+                </a>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  </div>
 
 
   </div>

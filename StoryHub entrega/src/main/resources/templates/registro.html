@@ -11,12 +11,12 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
-        <div class="container">
+        <div class="container mb-5">
             <!-- Mostrar mensaje de error -->
             <p th:if="${error}" class="error-message" th:text="${error}">Error al registrar el usuario. Por favor,
                 inténtalo de nuevo.</p>
             <form class="form-signin" th:object="${User}" method="post" th:action="@{/registro}">
-                <h2 class="form-signin-heading">Regístrate</h2>
+                <h2 class="form-signin-heading eslogan text-center">Regístrate</h2>
                 <p th:if="${#request.getQueryString() == 'error'}" class="error">
                     Error en el registro. Por favor, revisa los campos.
                 </p>
@@ -44,7 +44,7 @@
                         required="required" th:field="*{password}">
                     <div class="input-group-append">
                         <button type="button" id="mostrarPassword"
-                            class="btn btn-outline-secondary toggle-password-btn">Mostrar</button>
+                            class="btn btn-outline-light toggle-password-btn" style="margin-left: 1em;">Mostrar</button>
                     </div>
                 </div>
                 <div id="password-error"></div>
@@ -55,10 +55,14 @@
                         placeholder="Confirmar Contraseña" required="required">
                 <div id="confirmPassword-error"></div>
                 </p>
-
-                <button id="registerButton" class="btn btn-lg btn-primary btn-block" type="submit"
+                <div class="text-center">
+                    <button id="registerButton" class="btn btn-lg boton-login btn-block" type="submit"
                     disabled>Registrarse</button>
+                </div>
             </form>
+            <div class="text-center mt-3">
+                <a style="color: whitesmoke; cursor: pointer;" th:href="@{/login}">¿Ya tienes una cuenta? Inicia sesión aquí.</a>
+            </div>
         </div>
 
     </main>

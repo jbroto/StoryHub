@@ -12,10 +12,10 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <p th:if="${registroExitoso}" class="registro-message" th:text="${registroExitoso}">Registro llevado a cabo
+            <p th:if="${registroExitoso}" class="eslogan registro-message" th:text="${registroExitoso}">Registro llevado a cabo
                 con exito. Por favor, inicie sesión.</p>
             <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
+                <h2 class="form-signin-heading eslogan text-center">Por favor, inicie sesión</h2>
                 <p th:if="${#request.getQueryString() == 'error'}" class="error">
                     Error en nombre de usuario o contraseña
                 </p>
@@ -31,15 +31,20 @@
                         placeholder="Contraseña" required="required">
                     <div class="input-group-append">
                         <button type="button" id="mostrarLoginPassword"
-                            class="btn btn-outline-secondary toggle-password-btn">Mostrar</button>
+                            class="btn btn-outline-light toggle-password-btn" style="margin-left: 1em;">Mostrar</button>
                     </div>
                 </div>
                 </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
-                    <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+                <div class="text-center mt-3">
+                    <button class="btn btn-lg boton-login" type="submit">
+                        <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+                </div>
+
             </form>
             <!-- Texto para animar al usuario a registrarse -->
-            <a style="color: blue; cursor: pointer;" th:href="@{/registro}">¿No tienes una cuenta? Regístrate aquí.</a>
+            <div class="text-center mt-3">
+                <a style="color: whitesmoke; cursor: pointer;" th:href="@{/registro}">¿No tienes una cuenta? Regístrate aquí.</a>
+            </div>
         </div>
 
 

@@ -22,9 +22,13 @@ body{
     align-items: center; /* Centrar verticalmente */
 }
 
+input{
+    background-color: rgba(245, 245, 245, 0.693);
+}
+
 .container {
     margin-top: 50px;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+    background-color:#3333338f; /* Fondo semi-transparente */
     padding: 20px;
     border-radius: 10px;
     max-width: 400px;

@@ -248,7 +248,7 @@
               <input type="hidden" name="idMedia" th:value="${media.id}" />
               <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                 <div class="card">
-                  <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${media.coverImageUrl}}"
+                  <img class="" th:src="@{${media.coverImageUrl}}"
                     alt="portada" th:style="'height: 300px; object-fit: cover;'" />
                   <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                   <div class="card-body text-center">

@@ -34,7 +34,7 @@
 
                             <span th:text="${media.nombre}"> Título </span>
                         </div>
-                    </div>            
+                    </div>
                     <div th:if="${media.father != null}">
                         <div th:if="${media.father.tipo == 'tv'}" class="d-flex gap-2">
                             <p><i class="fa-solid fa-tv"></i> Serie:
@@ -43,7 +43,8 @@
                         </div>
                         <div th:if="${media.father.tipo == 'season'}" class="d-flex gap-4">
                             <p><i class="fa-solid fa-tv"></i> Serie:
-                                <span class="text-muted" th:text="${media.father.father.nombre} "> Padre del padre </span>
+                                <span class="text-muted" th:text="${media.father.father.nombre} "> Padre del padre
+                                </span>
                             </p>
                         </div>
                         <div th:if="${media.father.tipo == 'season'}" class="d-flex gap-4">
@@ -54,9 +55,9 @@
                                 <span class="text-muted" th:text="${media.orden} "> 0 </span>
                             </p>
                         </div>
-                    </div>   
+                    </div>
                     <div class="estreno d-flex gap-4  justify-content-start">
-         
+
                         <div th:if="${media.tipo == 'tv'}">
                             <div class="d-flex gap-2">
                                 <p><i class="fa-solid fa-photo-film"></i> Temporadas:
@@ -235,7 +236,8 @@
     <!-- TEMPORADAS -->
     <div th:if="${media.tipo == 'tv' && media.children.size >= 1 }">
         <div class="container temporadas-container mb-2">
-            <h2 class="TituloNoBg"><i class="fa-solid fa-photo-film"></i> Temporadas (<span th:text="${media.children.size}">0</span>)</h2>
+            <h2 class="TituloNoBg"><i class="fa-solid fa-photo-film"></i> Temporadas (<span
+                    th:text="${media.children.size}">0</span>)</h2>
             <div class="scrollable-container">
                 <div class="row">
                     <!-- Iterar sobre los medios y mostrarlos -->
@@ -291,10 +293,11 @@
         </div>
     </div>
 
-     <!-- Capítulos -->
-     <div th:if="${media.tipo == 'season' && media.children.size >= 1 }">
+    <!-- Capítulos -->
+    <div th:if="${media.tipo == 'season' && media.children.size >= 1 }">
         <div class="container capitulos-container mb-2">
-            <h2 class="TituloNoBg"><i class="fa-solid fa-circle-play"></i> Capítulos (<span th:text="${media.children.size}">0</span>)</h2>
+            <h2 class="TituloNoBg"><i class="fa-solid fa-circle-play"></i> Capítulos (<span
+                    th:text="${media.children.size}">0</span>)</h2>
             <div class="scrollable-container">
                 <div class="row">
                     <!-- Iterar sobre los medios y mostrarlos -->
@@ -306,8 +309,7 @@
                                 <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
                                     <div class="card">
                                         <img class="" th:src="${item.backdropImageUrl}" alt="portada"
-                                            th:style="'height: 150px; object-fit: cover;'" 
-                                            />
+                                            th:style="'height: 150px; object-fit: cover;'" />
                                         <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
                                         <div class="card-body text-center">
                                             <h6 class="card-title" th:text="${ item.orden + '. ' + item.nombre}">
@@ -370,17 +372,21 @@
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4 d-flex">
                     <div class="card-body  cabecera-comentario d-flex align-items-center">
-                        <a class="cabecera-comentario d-flex align-items-center gap-2"
-                            th:href="@{/user/{id}/(id=${comentario.author.id})}">
-                            <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
-                                width="40" height="40">
+                        <form th:action="@{/user/__${comentario.author.id}__/perfilUsuario}" method="get"
+                            class="cabecera-comentario d-flex align-items-center gap-2">
+                            <input type="hidden" name="username" th:value="${comentario.author.username}">
+                            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
 
-                            <span class="text-muted small mb-1">Escrito por</span>
+                                <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
+                                    class="rounded-circle mr-3" width="40" height="40">
 
-                            <h4 class="card-title nombre-comentario" th:text="${comentario.author.username}">Nombre
-                            </h4>
+                                <span class="text-muted small mb-1">Escrito por</span>
 
-                        </a>
+                                <h4 class="card-title nombre-comentario" th:text="${comentario.author.username}">Nombre
+                                </h4>
+                            </button>
+
+                        </form>
                         <a class="cabecera-comentario d-flex align-items-center"
                             th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
 

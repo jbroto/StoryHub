@@ -741,6 +741,11 @@ public class UserController {
 		User copia = (User) session.getAttribute("u");
 		User u = entityManager.find(User.class, copia.getId());
 
+		//el usuario con la sesion iniciada es el mismo que al que se desea redirigir
+		if(u.getId()==target.getId()){
+			return "redirect:/user/miPerfil";
+		}
+
 		Lista lista = new Lista(); // Crear una nueva instancia de Lista
 
 		ArrayList<Lista> ls = (ArrayList<Lista>) entityManager.createNamedQuery("Lista.byAuthor", Lista.class)
@@ -762,6 +767,10 @@ public class UserController {
 				.setParameter("name", "Terminado").setParameter("author", target.getId()).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
+
+		List<Comment> coments = entityManager.createNamedQuery("Comentario.byIdUser", Comment.class)
+					.setParameter("idUser", target.getId()).getResultList();
+
 		model.addAttribute("actual", u);
 		model.addAttribute("user", target);
 		model.addAttribute("Lista", lista); // Agregar la lista al modelo
@@ -769,6 +778,7 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
+		model.addAttribute("comentarios", coments);
 		return "user";
 	}
 

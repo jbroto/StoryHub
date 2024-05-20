@@ -15,61 +15,65 @@
     <section class="container comentario-section">
         <div class="row">
             <div class="col-md-6 mt-3 d-flex flex-row justify-content-start conjuntoPosters">
-                  <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+                <form th:action="@{/user/__${user.id}__/contenido}" method="get">
                     <input type="hidden" name="tipo" th:value="${coment.media.tipo}" />
                     <input type="hidden" name="idMedia" th:value="${coment.media.id}" />
                     <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
-                      <div class="card">
-                        <img class="" th:src="@{'https://image.tmdb.org/t/p/original/' + ${coment.media.coverImageUrl}}"
-                          alt="portada" th:style="'height: 300px; object-fit: cover;'" />
-                        <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
-                        <div class="card-body text-center">
-                          <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
-                          <div class="card-media-data d-flex flex-row justify-content-center gap-3">
-                            <div class="type_icon" th:title="${coment.media.tipo}">
-                              <i th:if="${coment.media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
-                              <i th:if="${coment.media.tipo == 'movie'}" class="fa-solid fa-film"></i>
-                              <i th:if="${coment.media.tipo == 'book'}" class="fa-solid fa-book"></i>
-                              <i th:if="${coment.media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
+                        <div class="card">
+                            <img class="" th:src="@{${coment.media.coverImageUrl}}" alt="portada"
+                                th:style="'height: 300px; object-fit: cover;'" />
+                            <!-- el uso de th:style es porque la imagen con thymleaf no puede procesarse en el archivo css -->
+                            <div class="card-body text-center">
+                                <!-- <h6 class="card-title" th:text="${media.nombre}">Nombre del contenido</h6> -->
+                                <div class="card-media-data d-flex flex-row justify-content-center gap-3">
+                                    <div class="type_icon" th:title="${coment.media.tipo}">
+                                        <i th:if="${coment.media.tipo == 'tv'}" class="fa-solid fa-tv"></i>
+                                        <i th:if="${coment.media.tipo == 'movie'}" class="fa-solid fa-film"></i>
+                                        <i th:if="${coment.media.tipo == 'book'}" class="fa-solid fa-book"></i>
+                                        <i th:if="${coment.media.tipo == 'music'}" class="fa-solid fa-compact-disc"></i>
+                                    </div>
+                                    <div class="num_Rating d-flex gap-1" title="Valoración media">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span id="media-rating" th:text="${coment.media.rating}">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="num_Vistos d-flex gap-1" title="Vistos">
+                                        <div class="icono_media">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${coment.media.numVisto}">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="num_Comments d-flex gap-1" title="Comentarios">
+                                        <div class="icono_media">
+                                            <i class="fa-solid fa-comment"></i>
+                                        </div>
+                                        <div class="numero_media">
+                                            <span th:text="${coment.media.comments.size}">0</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="num_Rating d-flex gap-1" title="Valoración media">
-                              <div class="icono_media">
-                                <i class="fa-solid fa-star"></i>
-                              </div>
-                              <div class="numero_media">
-                                <span id="media-rating" th:text="${coment.media.rating}">0</span>
-                              </div>
-                            </div>
-                            <div class="num_Vistos d-flex gap-1" title="Vistos">
-                              <div class="icono_media">
-                                <i class="fa-regular fa-eye"></i>
-                              </div>
-                              <div class="numero_media">
-                                <span th:text="${coment.media.numVisto}">0</span>
-                              </div>
-                            </div>
-                            <div class="num_Comments d-flex gap-1" title="Comentarios">
-                              <div class="icono_media">
-                                <i class="fa-solid fa-comment"></i>
-                              </div>
-                              <div class="numero_media">
-                                <span th:text="${coment.media.comments.size}">0</span>
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                      </div>
                     </button>
-                  </form>
-              </div>
+                </form>
+            </div>
             <div class="col-sm-5 col-md-6 col-12 pb-4">
                 <div class="comentario-box">
                     <div class="comentario-body cabecera-comentario d-flex align-items-center">
-                        <a class="cabecera-comentario d-flex " th:href="@{/user/{id}/(id=${coment.author.id})}">
-                            <img th:src="@{/user/__${coment.author.id}__/pic}" alt="" class="rounded-circle mr-3"
-                                width="40" height="40">
-                            <h4 class="nombre-comentario" th:text="${coment.author.username}">Nombre</h4>
-                        </a>
+                        <form th:action="@{/user/__${coment.author.id}__/perfilUsuario}" method="get"
+                            class="cabecera-comentario d-flex ">
+                            <input type="hidden" name="username" th:value="${coment.author.username}">
+                            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                                <img th:src="@{/user/__${coment.author.id}__/pic}" alt="" class="rounded-circle mr-3"
+                                    width="40" height="40">
+                                <h4 class="nombre-comentario" th:text="${coment.author.username}">Nombre</h4>
+                            </button>
+                        </form>
                         <span class="text-muted small" th:text="${coment.dateSent}">Fecha</span>
                     </div>
                     <div class="comentario-body">
@@ -87,12 +91,13 @@
 
     <div class="container mb-2 mt-4">
         <div class="contenido-comentarios">
-            <h2><i class="fa-regular fa-comments"></i> <span class="comentarios-totales" th:text="${coment.replies.size}"> 0</span> Respuestas</h2>
+            <h2><i class="fa-regular fa-comments"></i> <span class="comentarios-totales"
+                    th:text="${coment.replies.size}"> 0</span> Respuestas</h2>
             <!--Boton para poner un comentario-->
             <h4>Responde al comentario de
-                <a class="comentario-texto" th:href="@{/user/{id}/(id=${coment.author.id})}">
-                    <span th:text="${coment.author.username}">author</span>
-                </a>
+
+                <span th:text="${coment.author.username}">author</span>
+
             </h4>
             <textarea type="text" id="commentText" placeholder="Escribe aquí tu respuesta"></textarea><br>
             <button id="submitBtn"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
@@ -101,17 +106,21 @@
             <div th:each="comentario : ${comentarios}" class="comment">
                 <div class="card mt-4">
                     <div class="card-body  cabecera-comentario d-flex align-items-center">
-                        <a class="cabecera-comentario d-flex align-items-center gap-2"
-                            th:href="@{/user/{id}/(id=${comentario.author.id})}">
-                            <img th:src="@{/user/__${comentario.author.id}__/pic}" alt="" class="rounded-circle mr-3"
-                                width="40" height="40">
+                        <form th:action="@{/user/__${comentario.author.id}__/perfilUsuario}" method="get"
+                            class="cabecera-comentario d-flex align-items-center gap-2">
+                            <input type="hidden" name="username" th:value="${comentario.author.username}">
+                            <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
 
-                            <span class="text-muted small mb-1">Escrito por</span>
+                                <img th:src="@{/user/__${comentario.author.id}__/pic}" alt=""
+                                    class="rounded-circle mr-3" width="40" height="40">
 
-                            <h4 class="card-title nombre-comentario" th:text="${comentario.author.username}">Nombre
-                            </h4>
+                                <span class="text-muted small mb-1">Escrito por</span>
 
-                        </a>
+                                <h4 class="card-title nombre-comentario" th:text="${comentario.author.username}">Nombre
+                                </h4>
+                            </button>
+
+                        </form>
                         <a class="cabecera-comentario d-flex align-items-center"
                             th:href="@{/user/{id}/comentario/{idComent}(id=${user.id}, idComent=${comentario.id})}">
 

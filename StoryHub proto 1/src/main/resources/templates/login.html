@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/registro.css}" href="css/registro.css" type="text/css" />
+    <title>IW: Login</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="background-image">
+            <div class="container">
+            <p th:if="${registroExitoso}" class="registro-message" th:text="${registroExitoso}">Registro llevado a cabo con exito. Por favor, inicie sesión.</p>
+            <form class="form-signin" method="post" th:action="@{/login}">
+                <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
+                <p th:if="${#request.getQueryString() == 'error'}" class="error">
+                    Error en nombre de usuario o contraseña
+                </p>
+                <p>
+                    <label for="username" class="visually-hidden">Username</label>
+                    <input type="text" id="loginUsername" name="username" class="form-control" placeholder="Nombre de Usuario" required="required">
+                </p>
+                <p>
+                    <label for="password" class="visually-hidden">Password</label>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" name="password" class="form-control" placeholder="Contraseña" required="required">
+                        <div class="input-group-append">
+                            <button type="button" id="mostrarLoginPassword" class="btn btn-outline-secondary toggle-password-btn">Mostrar</button>
+                        </div>
+                    </div>
+                </p>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+            </form>
+              <!-- Texto para animar al usuario a registrarse -->
+              <a style="color: blue; cursor: pointer;" th:href="@{/registro}">¿No tienes una cuenta? Regístrate aquí.</a>
+            </div>
+        </div>
+
+        
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/login.js}"></script>
+</body>
+
+</html>

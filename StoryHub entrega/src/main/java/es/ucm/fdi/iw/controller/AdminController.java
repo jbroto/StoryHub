@@ -158,16 +158,6 @@ public class AdminController {
 			entityManager.merge(user);
 			entityManager.flush();
 
-
-			ObjectMapper mapper = new ObjectMapper();
-			ObjectNode rootNode = mapper.createObjectNode();
-			rootNode.put("type", "logout");
-			String json = mapper.writeValueAsString(rootNode);
-
-			messagingTemplate.convertAndSend("/user/" + user.getUsername() + "/queue/updates", json);
-
-
-			
 			return ResponseEntity.ok(true);
 		} catch (Exception e) {
 			return ResponseEntity.ok(false);

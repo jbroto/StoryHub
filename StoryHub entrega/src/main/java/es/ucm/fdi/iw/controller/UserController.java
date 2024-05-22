@@ -329,6 +329,9 @@ public class UserController {
 
 		model.addAttribute("users", users);
 		log.info("ESTOY ENTRANDO AQUÍ" + target.getId());
+		ArrayList<Media> listaPeliculas = new ArrayList<>();
+		ArrayList<Media> listaSeries = new ArrayList<>();
+		ArrayList<Media> listaBooks = new ArrayList<>();
 
 		try {
 			// lo parseamos tipo JSON
@@ -342,10 +345,6 @@ public class UserController {
 			JsonNode resultsNodeTMDBSeries = rootNodeTMDBSeries.get("results");
 			JsonNode resultsNodeTMDBMovies = rootNodeTMDBMovies.get("results");
 			JsonNode resultsNodeBooks = rootNodeBooks.get("items");
-
-			ArrayList<Media> listaPeliculas = new ArrayList<>();
-			ArrayList<Media> listaSeries = new ArrayList<>();
-			ArrayList<Media> listaBooks = new ArrayList<>();
 
 			// Iterar sobre los elementos de la matriz "results" para buscar las series
 			for (JsonNode resultNode : resultsNodeTMDBSeries) {
@@ -422,6 +421,9 @@ public class UserController {
 			e.printStackTrace();
 		}
 		model.addAttribute("paramBusqueda", paramBusqueda);
+		model.addAttribute("resultadoSeries", listaSeries);
+		model.addAttribute("resultadoPeliculas", listaPeliculas);
+		model.addAttribute("resultadoBooks", listaBooks);
 		model.addAttribute("user", target);
 
 		return "busqueda";

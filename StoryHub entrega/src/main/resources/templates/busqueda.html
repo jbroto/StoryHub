@@ -17,17 +17,17 @@
         <div class="row">
             <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
                 <button class="btn btn-outline-dark" id="all-search"> <i class="fa-solid fa-icons"></i>
-                    Todo (<span id="resultadoTodo" th:text="${users.size() + resultadoSeries.size + resultadoPeliculas.size
+                    Todo (<span id="resultadoTodo" th:text="${users.size() + resultadoSeries.size() + resultadoPeliculas.size()
                     + resultadoBooks.size()}">0</span>)</button>
                 <button class="btn btn-outline-dark" id="user-search"> <i class="fa-solid fa-user"></i>
                     Usuarios (<span id="resultadosUser" th:text="${users.size()}">0</span>)</button>
                 <button class="btn btn-outline-dark btn-block" id="series-search">
                     <i class="fa-solid fa-tv"></i> Series (<span id="resultadosSeries"
-                        th:text="${resultadoSeries.size}">0</span>)
+                        th:text="${resultadoSeries.size()}">0</span>)
                 </button>
                 <button class="btn btn-outline-dark btn-block" id="movies-search">
                     <i class="fa-solid fa-film"></i> Películas (<span id="resultadosPeliculas"
-                        th:text="${resultadoPeliculas.size}">0</span>)
+                        th:text="${resultadoPeliculas.size()}">0</span>)
                 </button>
                 <button class="btn btn-outline-dark" id="book-search"> <i class="fa-solid fa-book"></i>
                     Libros (<span id="resultadosBook" th:text="${resultadoBooks.size()}">0</span>)</button>
@@ -53,7 +53,7 @@
                                             <i class="fa-solid fa-user-group"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${usuario.followers.size}">0</span>
+                                            <span th:text="${usuario.followers.size()}">0</span>
                                         </div>
                                     </div>
 
@@ -62,7 +62,7 @@
                                             <i class="fa-solid fa-list-ul"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${usuario.listas.size}">0</span>
+                                            <span th:text="${usuario.listas.size()}">0</span>
                                         </div>
                                     </div>
                                     <div class="num_Favoritos d-flex gap-1" title="Favoritos">
@@ -70,7 +70,7 @@
                                             <i class="fa-solid fa-heart"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${usuario.listas[0].medias.size}">0</span>
+                                            <span th:text="${usuario.listas[0].medias.size()}">0</span>
                                         </div>
                                     </div>
                                     <div class="num_Comments d-flex gap-1" title="Comentarios">
@@ -78,7 +78,7 @@
                                             <i class="fa-solid fa-comment"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${usuario.comentarios.size}">0</span>
+                                            <span th:text="${usuario.comentarios.size()}">0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
                                             <i class="fa-solid fa-comment"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${item.comments.size}">0</span>
+                                            <span th:text="${item.comments.size()}">0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@
                                             <i class="fa-solid fa-comment"></i>
                                         </div>
                                         <div class="numero_media">
-                                            <span th:text="${item.comments.size}">0</span>
+                                            <span th:text="${item.comments.size()}">0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                         <i class="fa-solid fa-comment"></i>
                                     </div>
                                     <div class="numero_media">
-                                        <span th:text="${item.comments.size}">0</span>
+                                        <span th:text="${item.comments.size()}">0</span>
                                     </div>
                                 </div>
                             </div>

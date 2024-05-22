@@ -140,10 +140,6 @@ body{
     /* Añade un relleno para separar el contenido del borde */
 }
 
-.acciones button {
-    margin-right: 10px;
-}
-
 .dropdown-menu{
     padding-bottom: 15px;
 }

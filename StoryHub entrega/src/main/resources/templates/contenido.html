@@ -72,7 +72,7 @@
                                 </p>
                             </div>
                         </div>
-                        <p><i class="fa-regular fa-calendar"></i> Fecha de estreno:
+                        <p th:if="${media.tipo != 'book'}" ><i class="fa-regular fa-calendar"></i> Fecha de estreno:
                             <span class="text-muted " th:text="${media.fecha}">Sin fecha</span>
                         </p>
 

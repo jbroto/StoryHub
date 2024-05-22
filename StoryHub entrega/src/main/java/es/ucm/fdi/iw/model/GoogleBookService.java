@@ -74,7 +74,6 @@ public class GoogleBookService {
         media.setTipo("book");
 
         JsonNode industryIdentifiersNode = resultNode.get("volumeInfo").get("industryIdentifiers");
-        media.setFecha(resultNode.get("volumeInfo").get("publishedDate").asText());
         System.out.println(industryIdentifiersNode);
         if (industryIdentifiersNode != null) {
             for (JsonNode identifier : industryIdentifiersNode) {

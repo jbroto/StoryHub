@@ -1,0 +1,56 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.contenidoPerfil {
+  max-width: 600px;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: auto; /* Añadido para centrar horizontalmente */
+  margin-top: 10vh; /* Ajusta según tus preferencias para centrar verticalmente */
+}
+
+.card {
+  border: none;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #343a40;
+  color: white;
+}
+.navbar {
+  background-color: transparent;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.navbar:hover {
+  background-color: rgba(58, 48, 67, 0.2);
+}
+
+.navbar-brand,
+.navbar-nav a {
+  color: rgb(126, 124, 124);
+  position: center;
+}
+
+
+.navbar-toggler {
+  border: none;
+}
+

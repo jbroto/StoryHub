@@ -1,0 +1,296 @@
+.contenido-section {
+    position: relative;
+    padding: 50px 0;
+    /* Eliminar el margen predeterminado */
+
+}
+
+body{
+    display:block;
+    flex-direction: row;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+.contenido-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width:100%;
+    /* Ancho del 100% del viewport */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.7;
+    /* Ajusta la opacidad según sea necesario */
+    z-index: -1;
+    /* Colocar el fondo detrás del contenido */
+
+}
+
+.poster {
+    /* Ajusta este valor según sea necesario */
+    margin-right: auto;
+    /* Alinea el poster a la derecha */
+    max-width: 100%;
+    /* Asegura que el poster no se extienda más allá del contenedor */
+    
+}
+
+.poster-img {
+    max-width: 80%;
+    border-radius: 10px;
+    /*border: 2px solid #ccc;*/
+}
+
+.titulo {
+    /* font-family: "Arial", sans-serif; */
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.descripcion {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Icono de estrella amarillo */
+.num_Rating .icono_media {
+    color: #ffe234;
+}
+
+/* Icono de viendo en morado */
+.num_Viendo .icono_media {
+    color:darkorchid;
+}
+
+/* Icono de visto en verde */
+.num_Vistos .icono_media {
+    color: #00e054;
+}
+
+/* Icono de listas en azul */
+.num_Listas .icono_media {
+    color:#40bcf4;
+}
+
+/* Icono de favoritos en naranja */
+.num_Favoritos .icono_media {
+    color: orange;
+}
+
+.contenido-info {
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
+    /* Color de fondo oscuro */
+    color: #fff;
+    /* Color de texto blanco para contrastar */
+    border: 2px solid #ccc;
+    /* Grosor del borde */
+    border-radius: 10px;
+    /* Radio de redondeo de las esquinas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Efecto de sombra */
+
+    padding: 20px;
+    /* Añade un relleno para separar el contenido del borde */
+}
+
+.acciones {
+    margin-top: 20px;
+
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
+    /* Color de fondo oscuro */
+    color: #fff;
+    /* Color de texto blanco para contrastar */
+    border: 2px solid #ccc;
+    /* Grosor del borde */
+    border-radius: 10px;
+    /* Radio de redondeo de las esquinas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Efecto de sombra */
+
+    padding: 20px;
+    /* Añade un relleno para separar el contenido del borde */
+}
+
+.contenido-comentarios {
+    background: radial-gradient(circle, rgba(42, 42, 42, 0.9), rgba(44, 44, 44, 1));
+    /* Color de fondo oscuro */
+    color: #fff;
+    /* Color de texto blanco para contrastar */
+    border: 2px solid #ccc;
+    /* Grosor del borde */
+    border-radius: 10px;
+    /* Radio de redondeo de las esquinas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Efecto de sombra */
+    
+    padding: 20px;
+    /* Añade un relleno para separar el contenido del borde */
+}
+
+.acciones button {
+    margin-right: 10px;
+}
+
+.dropdown-menu{
+    padding-bottom: 15px;
+}
+
+.dropdown-menu .btn {
+    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+.comentario-texto {
+    word-wrap: break-word;
+}
+
+.cabecera-comentario {
+    gap: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.text-rating .text {
+    font-size: 30px; /* Ajusta el tamaño del texto */
+    color:#ffc700;
+}
+
+.text-rating .number {
+    margin-left: 10px;
+    font-size: 30px; /* Ajusta el tamaño del número */
+    color:#ffc700;
+}
+
+/*styling star rating*/
+.rating{
+	border: none;
+	float: left;
+}
+
+.rating > input{
+	display: none;
+}
+
+/* Estilo para la estrella de quitar valoración */
+.rating > input[value="0"] + label:before {
+    content: '\f057'; /* Usamos 'X' para representar la opción de quitar valoración */
+    margin: 7px;
+    font-size: 1.5rem;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.rating > label:before{
+	content: '\f005';
+	font-family: FontAwesome;
+	margin: 5px;
+	font-size: 1.5rem;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.rating > .half:before{
+	content: '\f089';
+	position: absolute;
+	cursor: pointer;
+}
+
+
+.rating > label{
+	color: #ddd;
+	float: right;
+	cursor: pointer;
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover, 
+.rating:not(:checked) > label:hover ~ label{
+	color:  #ffc700;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label{
+	color: #c59b08
+    ;
+}
+
+
+/* .rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+
+.rate:not(:checked)>input {
+    position: absolute;
+    top: -9999px;
+}
+
+.rate:not(:checked)>label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 50px;
+    color: #ccc;
+}
+
+.rate:not(:checked)>label:before {
+    content: '★ ';
+}
+
+.rate>input:checked~label {
+    color: #ffc700;
+}
+
+.rate:not(:checked)>label:hover,
+.rate:not(:checked)>label:hover~label {
+    color: #deb217;
+}
+
+.rate>input:checked+label:hover,
+.rate>input:checked+label:hover~label,
+.rate>input:checked~label:hover,
+.rate>input:checked~label:hover~label,
+.rate>label:hover~input:checked~label {
+    color: #c59b08;
+} */
+
+#commentText {
+    width: 600px;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    resize: vertical;
+}
+
+#submitBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submitBtn:hover {
+    background-color: #45a049;
+}
+
+.deleted-comment {
+    font-weight: bold;
+}

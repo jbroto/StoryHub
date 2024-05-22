@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/busqueda.css}" href="css/busqueda.css" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="css/style.css" type="text/css" />
+    <title>Búsqueda</title>
+</head>
+
+<body th:attr="data-userId=${user.id}" >
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <section class="container justify-content-center" id="mi-lista">
+        <!--<div class="container barraBusqueda mt-3">
+            <input type="text" placeholder="Buscar">
+        </div>-->
+        <div class="row">
+            <div class="justify-content-center align-items-center mt-3 btn-group" id="btn-group">
+                <button class="btn btn-outline-dark" id="user-search">Usuarios (resultados: <span id="resultadosUser" th:text="${users.size()}">0</span>)</button>
+                <button class="btn btn-dark" id="media-search">Audiovisual (resultados: <span id="resultadosAudiovisual" th:text="${resultado.size()}">0</span>)</button>
+                <button class="btn btn-outline-dark" id="book-search">Libros (resultados: <span id="resultadosBook" th:text="${resultadoBooks.size()}">0</span>)</button>
+            </div>
+        </div>
+       
+        <h2 class="mt-5">Resultados para: <span id="searchParam" th:text="${paramBusqueda}"></span> </h2>
+        <div id="resultado-audiovisual" class="row mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultado}">
+            <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                 <form th:action="@{/user/__${user.id}__/contenido}" method="get">
+
+                    <input type="hidden" name="tipo" th:value="${item.tipo}" />
+                    <input type="hidden" name="idMedia" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                            <div class="card-body">
+                                <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                                <h6><span th:text="${item.tipo}"></span></h6>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="resultado-users" class="row d-none mb-2">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="usuario : ${users}">
+            <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                 <form th:action="@{/user/__${user.id}__/perfilUsuario}" method="get">
+                    <input type="hidden" name="username" th:value="${usuario.username}">
+                    <button type="submit" class="btn btn-link text-decoration-none p-0 m-0">
+                        <div class="card">
+                            <img class="card-img w-500" img th:src="@{/user/__${usuario.id}__/pic}" alt="Avatar">
+                            <div class="card-body">
+                                <h6><b><span th:text="${usuario.username}"></span></b></h6>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="resultado-libros" class="row mb-2 d-none">
+            <div class="col-lg-3 col-md-4 mt-3 d-flex" th:each="item : ${resultadoBooks}">
+            <!--enviamos los datos en forma de formulario porque directamente no me deja :( -->
+
+                 <form method="get">
+                   <!-- <button type="submit" class="btn btn-link text-decoration-none p-0 m-0"> -->
+                    <div class="card">
+                        <img class="card-img w-500 h-100" th:src="@{${item.coverImageUrl}}" alt="Cover">
+                        <div class="card-body">
+                            <h6><b><span th:text="${item.nombre}"></span></b></h6>
+                            <h6><span th:text="${item.tipo}"></span></h6>
+                        </div>
+                    </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <th:block th:replace="fragments/footer.html :: footer" />  
+    <script th:src="@{/js/busqueda.js}"></script>
+    <script th:src="@{/js/addNotification.js}" src="js/addNotification.js"></script>
+</body>
+
+</html>

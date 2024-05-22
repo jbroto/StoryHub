@@ -155,7 +155,6 @@ public class UserController {
 				.setParameter("name", "Terminado").setParameter("author", id).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-		
 		// cambiar
 		model.addAttribute("user", target);
 		model.addAttribute("actual", actual);
@@ -164,7 +163,6 @@ public class UserController {
 		model.addAttribute("favoritos", favMedias);
 		model.addAttribute("viendo", viendoMedias);
 		model.addAttribute("terminado", terminadoMedias);
-		
 
 		TMDBService s = new TMDBService();
 		String trendingResult = s.obtenerContenidoEnTendencia();
@@ -395,18 +393,18 @@ public class UserController {
 						}
 					}
 				}
-				/*
-				 * Media m = entityManager.find(Media.class, mediaId);
-				 * if (m == null) {// si no esta lo añadimos
-				 * m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
-				 * m.setTipo("book");
-				 * entityManager.persist(m);
-				 * }
-				 */
 
-				Media m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
+				if (mediaId != 0) {
 
-				listaBooks.add(m);
+					Media m = entityManager.find(Media.class, mediaId);
+					if (m == null) {// si no esta lo añadimos
+						m = s2.parseGoogleBook(resultNode); // parseamos los datos de la API TMDB
+						m.setTipo("book");
+						entityManager.persist(m);
+					}
+
+					listaBooks.add(m);
+				}
 			}
 			log.info(listaBooks);
 
@@ -527,7 +525,7 @@ public class UserController {
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		List<Comment> coments = entityManager.createNamedQuery("Comentario.byIdUser", Comment.class)
-					.setParameter("idUser", copia.getId()).getResultList();
+				.setParameter("idUser", copia.getId()).getResultList();
 
 		// cambiar
 		model.addAttribute("user", target);
@@ -743,8 +741,8 @@ public class UserController {
 		User copia = (User) session.getAttribute("u");
 		User u = entityManager.find(User.class, copia.getId());
 
-		//el usuario con la sesion iniciada es el mismo que al que se desea redirigir
-		if(u.getId()==target.getId()){
+		// el usuario con la sesion iniciada es el mismo que al que se desea redirigir
+		if (u.getId() == target.getId()) {
 			return "redirect:/user/miPerfil";
 		}
 
@@ -769,9 +767,8 @@ public class UserController {
 				.setParameter("name", "Terminado").setParameter("author", target.getId()).getSingleResult();
 		List<Media> terminadoMedias = terminado.getMedias(); // creamos la lista de Medias contenidas en la lista
 
-
 		List<Comment> coments = entityManager.createNamedQuery("Comentario.byIdUser", Comment.class)
-					.setParameter("idUser", target.getId()).getResultList();
+				.setParameter("idUser", target.getId()).getResultList();
 
 		model.addAttribute("actual", u);
 		model.addAttribute("user", target);
@@ -1062,15 +1059,15 @@ public class UserController {
 		List<Media> medias = l.getMedias(); // creamos la lista de Medias contenidas en la lista
 
 		Long numMovies = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
-	    .setParameter("listaId", l.getId()).setParameter("tipo", "movie").getSingleResult();
+				.setParameter("listaId", l.getId()).setParameter("tipo", "movie").getSingleResult();
 		Long numSeries = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
-		.setParameter("listaId", l.getId()).setParameter("tipo", "tv").getSingleResult();
-		Long numEpisodes  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
-		.setParameter("listaId", l.getId()).setParameter("tipo", "episode").getSingleResult();
-		Long numSeasons  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
-		.setParameter("listaId", l.getId()).setParameter("tipo", "season").getSingleResult();
-		Long numLibros  = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
-		.setParameter("listaId", l.getId()).setParameter("tipo", "book").getSingleResult();
+				.setParameter("listaId", l.getId()).setParameter("tipo", "tv").getSingleResult();
+		Long numEpisodes = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+				.setParameter("listaId", l.getId()).setParameter("tipo", "episode").getSingleResult();
+		Long numSeasons = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+				.setParameter("listaId", l.getId()).setParameter("tipo", "season").getSingleResult();
+		Long numLibros = entityManager.createNamedQuery("Lista.countMediaByType", Long.class)
+				.setParameter("listaId", l.getId()).setParameter("tipo", "book").getSingleResult();
 
 		model.addAttribute("user", u);
 		model.addAttribute("lista", l); // Agregar la lista al modelo
